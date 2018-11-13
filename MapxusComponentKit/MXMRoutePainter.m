@@ -33,6 +33,7 @@
 {
     // 绘制前清除
     [self cleanRoute];
+    [self.lineBound removeAllObjects];
     // 取出方案组中的第一个方案
     MXMRoute *route = result.routes.firstObject;
     // 将取出方案的二维数组整理成一维数组
@@ -173,6 +174,7 @@
     
     // 首次分层
     [self.map selectBuilding:fristBuildingId floor:fristFloor shouldZoomTo:NO];
+    [self changeOnBuilding:fristBuildingId floor:fristFloor];
     // 搜索完首次缩放
     NSArray *boundsArr = self.lineBound[fristKey];
     int count = 0;
@@ -189,13 +191,6 @@
         }
     }
     [self.mapView setVisibleCoordinates:fristRouteCoordinates count:count edgePadding:UIEdgeInsetsMake(50, 50, 50, 50) animated:YES];
-//    NSArray *boundsArr = self.lineBound[fristKey];
-//    MGLPolylineFeature *fristLine = boundsArr.firstObject;
-//    MGLCoordinateBounds bounds = fristLine.overlayBounds;
-//    for (MGLPolylineFeature *feature in boundsArr) {
-//        bounds = MGLCoordinateBoundsUnion(bounds, feature.overlayBounds);
-//    }
-//    [self.mapView setVisibleCoordinateBounds:bounds edgePadding:UIEdgeInsetsMake(50, 50, 50, 50) animated:YES];
 }
 
 - (void)cleanRoute
@@ -230,14 +225,7 @@
     
     NSString *key = [NSString stringWithFormat:@"%@-%@", buildingId, floor];
     NSArray *boundsArr = self.lineBound[key];
-//    if (boundsArr) {
-//        MGLPolylineFeature *fristLine = boundsArr.firstObject;
-//        MGLCoordinateBounds bounds = fristLine.overlayBounds;
-//        for (MGLPolylineFeature *feature in boundsArr) {
-//            bounds = MGLCoordinateBoundsUnion(bounds, feature.overlayBounds);
-//        }
-//        [self.mapView setVisibleCoordinateBounds:bounds edgePadding:UIEdgeInsetsMake(50, 50, 50, 50) animated:YES];
-//    }
+
     int count = 0;
     for (MGLPolylineFeature *feature in boundsArr) {
         count += feature.pointCount;
@@ -263,7 +251,7 @@
         NSArray *sub = ((NSCompoundPredicate *)originalPredicate).subpredicates;
         for (NSCompoundPredicate *s in sub) {
             NSString *str = s.predicateFormat;
-            if (![str containsString:@"floor =="] && ![str containsString:@"building =="] && ![str containsString:@"route-type =="]) {
+            if (![str containsString:@"floor =="] && ![str containsString:@"building =="] && ![str containsString:@"routeType =="]) {
                 [mu addObject:s];
             }
         }
@@ -314,15 +302,6 @@
         return YES;
     }
     return NO;
-}
-
-NS_INLINE MGLCoordinateBounds MGLCoordinateBoundsUnion(MGLCoordinateBounds bounds1, MGLCoordinateBounds bounds2) {
-    MGLCoordinateBounds unionBounds;
-    unionBounds.sw.latitude = MIN(bounds1.sw.latitude, bounds2.sw.latitude);
-    unionBounds.sw.longitude = MIN(bounds1.sw.longitude, bounds2.sw.longitude);
-    unionBounds.ne.latitude = MAX(bounds1.ne.latitude, bounds2.ne.latitude);
-    unionBounds.ne.longitude = MAX(bounds1.ne.longitude, bounds2.ne.longitude);
-    return unionBounds;
 }
 
 @end
