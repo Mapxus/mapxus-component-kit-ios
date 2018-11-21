@@ -6,6 +6,20 @@
 	objectVersion = 50;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		D646764221A543D300018634 /* MapxusComponentKit-Universal */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = D646764321A543D400018634 /* Build configuration list for PBXAggregateTarget "MapxusComponentKit-Universal" */;
+			buildPhases = (
+				D646764621A543E100018634 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "MapxusComponentKit-Universal";
+			productName = "MapxusComponentKit-Universal";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		06AA5D851B4BF2E9EA437335 /* Pods_MapxusComponentKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56BDB151588D1F8F97A83C62 /* Pods_MapxusComponentKitTests.framework */; };
 		1C653E7AB7DC4D7C35A653B0 /* Pods_MapxusComponentKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF59E1589CB5DE3C5E6C7ABE /* Pods_MapxusComponentKit.framework */; };
@@ -31,6 +45,7 @@
 		56BDB151588D1F8F97A83C62 /* Pods_MapxusComponentKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MapxusComponentKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FA13853B7BED4B44B8103B7 /* Pods-MapxusComponentKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapxusComponentKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MapxusComponentKitTests/Pods-MapxusComponentKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		CF8A610D74AFD9191989515A /* Pods-MapxusComponentKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapxusComponentKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MapxusComponentKitTests/Pods-MapxusComponentKitTests.debug.xcconfig"; sourceTree = "<group>"; };
+		D646764121A5437F00018634 /* IOS-Universal-Framework_aggregate.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "IOS-Universal-Framework_aggregate.sh"; sourceTree = "<group>"; };
 		D6F8C0BA21858CA700E3AFC4 /* MapxusComponentKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MapxusComponentKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6F8C0BD21858CA700E3AFC4 /* MapxusComponentKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapxusComponentKit.h; sourceTree = "<group>"; };
 		D6F8C0BE21858CA700E3AFC4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -87,6 +102,7 @@
 		D6F8C0B021858CA700E3AFC4 = {
 			isa = PBXGroup;
 			children = (
+				D646764121A5437F00018634 /* IOS-Universal-Framework_aggregate.sh */,
 				D6F8C0BC21858CA700E3AFC4 /* MapxusComponentKit */,
 				D6F8C0C721858CA700E3AFC4 /* MapxusComponentKitTests */,
 				D6F8C0BB21858CA700E3AFC4 /* Products */,
@@ -187,6 +203,9 @@
 				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = "MAPHIVE TECHNOLOGY LIMITED.";
 				TargetAttributes = {
+					D646764221A543D300018634 = {
+						CreatedOnToolsVersion = 10.1;
+					};
 					D6F8C0B921858CA700E3AFC4 = {
 						CreatedOnToolsVersion = 10.0;
 					};
@@ -209,6 +228,7 @@
 			targets = (
 				D6F8C0B921858CA700E3AFC4 /* MapxusComponentKit */,
 				D6F8C0C221858CA700E3AFC4 /* MapxusComponentKitTests */,
+				D646764221A543D300018634 /* MapxusComponentKit-Universal */,
 			);
 		};
 /* End PBXProject section */
@@ -293,6 +313,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		D646764621A543E100018634 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "bash \"${PROJECT_DIR}/IOS-Universal-Framework_aggregate.sh\"\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -323,6 +360,24 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		D646764421A543D400018634 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = ZNBZ7BZAKZ;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D646764521A543D400018634 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = ZNBZ7BZAKZ;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		D6F8C0CC21858CA700E3AFC4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -445,6 +500,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F9A7351E6F3D1692B3EE22C4 /* Pods-MapxusComponentKit.debug.xcconfig */;
 			buildSettings = {
+				BITCODE_GENERATION_MODE = marker;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -471,6 +527,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 065CAE2C64EC9DC52886EA40 /* Pods-MapxusComponentKit.release.xcconfig */;
 			buildSettings = {
+				BITCODE_GENERATION_MODE = bitcode;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -532,6 +589,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		D646764321A543D400018634 /* Build configuration list for PBXAggregateTarget "MapxusComponentKit-Universal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D646764421A543D400018634 /* Debug */,
+				D646764521A543D400018634 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		D6F8C0B421858CA700E3AFC4 /* Build configuration list for PBXProject "MapxusComponentKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
