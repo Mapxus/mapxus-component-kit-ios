@@ -15,6 +15,6 @@ Pod::Spec.new do |s|
   s.requires_arc = true
   s.module_name  = "MapxusComponentKit"
   s.vendored_frameworks = "MapxusComponentKit/MapxusComponentKit.framework"
-  s.dependency "MapxusMapSDK", "> 2.7.0"
+  s.dependency "MapxusMapSDK", ">= 2.7.0"
 
 end
