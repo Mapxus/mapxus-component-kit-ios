@@ -2,10 +2,10 @@
 Pod::Spec.new do |s|
 
   s.name         = "MapxusComponentKit"
-  s.version      = "0.2.0"
+  s.version      = "0.2.1"
   s.summary      = "Indoor map UI component"
   s.description  = <<-DESC
-  Standardized indoor map UI component.
+                   Standardized indoor map UI component.
                    DESC
   s.homepage     = "http://www.mapxus.com"
   s.license      = { :type => "MIT", :file => "LICENSE" }
