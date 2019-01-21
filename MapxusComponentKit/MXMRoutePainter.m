@@ -22,6 +22,7 @@
 {
     self = [super init];
     if (self) {
+        self.routeScaleFit = YES;
         self.mapView = mapView;
         self.map = map;
     }
@@ -69,8 +70,8 @@
     {
         MXMGeoPoint *lastPoint = pointList.lastObject;
         CLLocationCoordinate2D routeCoordinates[2];
-        routeCoordinates[0] = CLLocationCoordinate2DMake(request.toLat, request.toLon);
-        routeCoordinates[1] = CLLocationCoordinate2DMake(lastPoint.latitude, lastPoint.longitude);
+        routeCoordinates[0] = CLLocationCoordinate2DMake(lastPoint.latitude, lastPoint.longitude);
+        routeCoordinates[1] = CLLocationCoordinate2DMake(request.toLat, request.toLon);
         
         NSString *key;
         if (![self isEmptyString:request.toBuilding]) {
@@ -289,22 +290,25 @@
     // 首次分层
     [self.map selectBuilding:fristBuildingId floor:fristFloor shouldZoomTo:NO];
     [self changeOnBuilding:fristBuildingId floor:fristFloor];
-    // 搜索完首次缩放
-    NSArray *boundsArr = self.lineBound[fristKey];
-    int count = 0;
-    for (MGLPolylineFeature *feature in boundsArr) {
-        count += feature.pointCount;
-    }
-
-    CLLocationCoordinate2D fristRouteCoordinates[count];
-    int t = 0;
-    for (MGLPolylineFeature *feature in boundsArr) {
-        for (int i=0; i<feature.pointCount; i++) {
-            fristRouteCoordinates[t] = feature.coordinates[i];
-            t++;
+    
+    if (self.routeScaleFit) {
+        // 搜索完首次缩放
+        NSArray *boundsArr = self.lineBound[fristKey];
+        int count = 0;
+        for (MGLPolylineFeature *feature in boundsArr) {
+            count += feature.pointCount;
         }
+        
+        CLLocationCoordinate2D fristRouteCoordinates[count];
+        int t = 0;
+        for (MGLPolylineFeature *feature in boundsArr) {
+            for (int i=0; i<feature.pointCount; i++) {
+                fristRouteCoordinates[t] = feature.coordinates[i];
+                t++;
+            }
+        }
+        [self.mapView setVisibleCoordinates:fristRouteCoordinates count:count edgePadding:UIEdgeInsetsMake(50, 50, 50, 50) animated:YES];
     }
-    [self.mapView setVisibleCoordinates:fristRouteCoordinates count:count edgePadding:UIEdgeInsetsMake(50, 50, 50, 50) animated:YES];
 }
 
 - (void)cleanRoute
@@ -345,23 +349,24 @@
     MGLVectorStyleLayer *connectorLayer = (MGLVectorStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-connector-layer"];
     connectorLayer.predicate = [self createPredicateWith:connectorLayer.predicate floor:floor building:buildingId];
     
-    
-    NSArray *boundsArr = self.lineBound[key];
-
-    int count = 0;
-    for (MGLPolylineFeature *feature in boundsArr) {
-        count += feature.pointCount;
-    }
-
-    CLLocationCoordinate2D routeCoordinates[count];
-    int t = 0;
-    for (MGLPolylineFeature *feature in boundsArr) {
-        for (int i=0; i<feature.pointCount; i++) {
-            routeCoordinates[t] = feature.coordinates[i];
-            t++;
+    if (self.routeScaleFit) {
+        NSArray *boundsArr = self.lineBound[key];
+        
+        int count = 0;
+        for (MGLPolylineFeature *feature in boundsArr) {
+            count += feature.pointCount;
         }
+        
+        CLLocationCoordinate2D routeCoordinates[count];
+        int t = 0;
+        for (MGLPolylineFeature *feature in boundsArr) {
+            for (int i=0; i<feature.pointCount; i++) {
+                routeCoordinates[t] = feature.coordinates[i];
+                t++;
+            }
+        }
+        [self.mapView setVisibleCoordinates:routeCoordinates count:count edgePadding:UIEdgeInsetsMake(50, 50, 50, 50) animated:YES];
     }
-    [self.mapView setVisibleCoordinates:routeCoordinates count:count edgePadding:UIEdgeInsetsMake(50, 50, 50, 50) animated:YES];
 }
 
 - (NSCompoundPredicate *)createPredicateWith:(id)predicate floor:(NSString *)floorName building:(NSString *)buildingId
