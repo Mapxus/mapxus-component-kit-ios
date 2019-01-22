@@ -17,6 +17,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface MXMRoutePainter : NSObject
 
+
+/**
+ 是否启用缩放地图至适应路线功能，默认为YES
+ */
+@property (nonatomic, assign) BOOL routeScaleFit;
+
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
 

@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "MapxusComponentKit"
-  s.version      = "0.2.1"
+  s.version      = "0.2.2"
   s.summary      = "Indoor map UI component"
   s.description  = <<-DESC
                    Standardized indoor map UI component.
