@@ -6,7 +6,7 @@ target 'MapxusComponentKit' do
   use_frameworks!
 
   # Pods for MapxusComponentKit
-  pod 'MapxusMapSDK'#, :path => '../mapxus-map-sdk-ios'
+  pod 'MapxusMapSDK', :path => '../mapxus-map-sdk-ios'
 
   target 'MapxusComponentKitTests' do
     inherit! :search_paths

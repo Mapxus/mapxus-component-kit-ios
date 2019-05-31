@@ -23,6 +23,11 @@
 /* Begin PBXBuildFile section */
 		06AA5D851B4BF2E9EA437335 /* Pods_MapxusComponentKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56BDB151588D1F8F97A83C62 /* Pods_MapxusComponentKitTests.framework */; };
 		1C653E7AB7DC4D7C35A653B0 /* Pods_MapxusComponentKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF59E1589CB5DE3C5E6C7ABE /* Pods_MapxusComponentKit.framework */; };
+		D678DA982288EEBB00F8B4C8 /* MXMParagraph.h in Headers */ = {isa = PBXBuildFile; fileRef = D678DA962288EEBB00F8B4C8 /* MXMParagraph.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D678DA992288EEBB00F8B4C8 /* MXMParagraph.m in Sources */ = {isa = PBXBuildFile; fileRef = D678DA972288EEBB00F8B4C8 /* MXMParagraph.m */; };
+		D68019A5229FBFA900E2E27B /* images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D68019A4229FBFA900E2E27B /* images.xcassets */; };
+		D6DB9302229A386D0030DB46 /* MXMPainterPathDto.h in Headers */ = {isa = PBXBuildFile; fileRef = D6DB9300229A386D0030DB46 /* MXMPainterPathDto.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D6DB9303229A386D0030DB46 /* MXMPainterPathDto.m in Sources */ = {isa = PBXBuildFile; fileRef = D6DB9301229A386D0030DB46 /* MXMPainterPathDto.m */; };
 		D6F8C0C421858CA700E3AFC4 /* MapxusComponentKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6F8C0BA21858CA700E3AFC4 /* MapxusComponentKit.framework */; };
 		D6F8C0C921858CA700E3AFC4 /* MapxusComponentKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D6F8C0C821858CA700E3AFC4 /* MapxusComponentKitTests.m */; };
 		D6F8C0CB21858CA700E3AFC4 /* MapxusComponentKit.h in Headers */ = {isa = PBXBuildFile; fileRef = D6F8C0BD21858CA700E3AFC4 /* MapxusComponentKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -46,6 +51,11 @@
 		6FA13853B7BED4B44B8103B7 /* Pods-MapxusComponentKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapxusComponentKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MapxusComponentKitTests/Pods-MapxusComponentKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		CF8A610D74AFD9191989515A /* Pods-MapxusComponentKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapxusComponentKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MapxusComponentKitTests/Pods-MapxusComponentKitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D646764121A5437F00018634 /* IOS-Universal-Framework_aggregate.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "IOS-Universal-Framework_aggregate.sh"; sourceTree = "<group>"; };
+		D678DA962288EEBB00F8B4C8 /* MXMParagraph.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MXMParagraph.h; sourceTree = "<group>"; };
+		D678DA972288EEBB00F8B4C8 /* MXMParagraph.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MXMParagraph.m; sourceTree = "<group>"; };
+		D68019A4229FBFA900E2E27B /* images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = images.xcassets; sourceTree = "<group>"; };
+		D6DB9300229A386D0030DB46 /* MXMPainterPathDto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MXMPainterPathDto.h; sourceTree = "<group>"; };
+		D6DB9301229A386D0030DB46 /* MXMPainterPathDto.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MXMPainterPathDto.m; sourceTree = "<group>"; };
 		D6F8C0BA21858CA700E3AFC4 /* MapxusComponentKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MapxusComponentKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6F8C0BD21858CA700E3AFC4 /* MapxusComponentKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapxusComponentKit.h; sourceTree = "<group>"; };
 		D6F8C0BE21858CA700E3AFC4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -127,6 +137,11 @@
 				D6F8C0D421858D3F00E3AFC4 /* MXMRoutePainter.h */,
 				D6F8C0D521858D3F00E3AFC4 /* MXMRoutePainter.m */,
 				D6F8C0BE21858CA700E3AFC4 /* Info.plist */,
+				D678DA962288EEBB00F8B4C8 /* MXMParagraph.h */,
+				D678DA972288EEBB00F8B4C8 /* MXMParagraph.m */,
+				D6DB9300229A386D0030DB46 /* MXMPainterPathDto.h */,
+				D6DB9301229A386D0030DB46 /* MXMPainterPathDto.m */,
+				D68019A4229FBFA900E2E27B /* images.xcassets */,
 			);
 			path = MapxusComponentKit;
 			sourceTree = "<group>";
@@ -149,6 +164,8 @@
 			files = (
 				D6F8C0CB21858CA700E3AFC4 /* MapxusComponentKit.h in Headers */,
 				D6F8C0D621858D3F00E3AFC4 /* MXMRoutePainter.h in Headers */,
+				D6DB9302229A386D0030DB46 /* MXMPainterPathDto.h in Headers */,
+				D678DA982288EEBB00F8B4C8 /* MXMParagraph.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -182,7 +199,6 @@
 				D6F8C0BF21858CA700E3AFC4 /* Sources */,
 				D6F8C0C021858CA700E3AFC4 /* Frameworks */,
 				D6F8C0C121858CA700E3AFC4 /* Resources */,
-				49C74E0076AF93D55F115431 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -238,6 +254,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D68019A5229FBFA900E2E27B /* images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,32 +284,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		49C74E0076AF93D55F115431 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-MapxusComponentKitTests/Pods-MapxusComponentKitTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
-				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework",
-				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework.dSYM",
-				"${PODS_ROOT}/MapxusMapSDK/MapxusMapSDK/MapxusMapSDK.framework",
-				"${BUILT_PRODUCTS_DIR}/YYModel/YYModel.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mapbox.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/Mapbox.framework.dSYM",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapxusMapSDK.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYModel.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MapxusComponentKitTests/Pods-MapxusComponentKitTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		5B944846D2BB9B8DF3BC4783 /* [CP] Check Pods Manifest.lock */ = {
@@ -334,6 +325,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D6F8C0D721858D3F00E3AFC4 /* MXMRoutePainter.m in Sources */,
+				D6DB9303229A386D0030DB46 /* MXMPainterPathDto.m in Sources */,
+				D678DA992288EEBB00F8B4C8 /* MXMParagraph.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
