@@ -7,6 +7,7 @@
 //
 
 #import "MXMPainterPathDto.h"
+#import "NSString+Compare.h"
 
 @interface MXMPainterPathDto ()
 
@@ -41,7 +42,7 @@
     for (MXMInstruction *ins in path.instructions) {
         NSString *lastKey = self.mutableKeys.lastObject?:@"";
         NSString *currentKey;
-        if ([self isEmptyString:ins.buildingId] || [self isEmptyString:ins.floor]) {
+        if ([NSString isEmpty:ins.buildingId] || [NSString isEmpty:ins.floor]) {
             if (![lastKey hasPrefix:@"outdoor"]) {
                 i++;
             }
@@ -73,13 +74,13 @@
         if (ins.sign == MXMDownstairs || ins.sign == MXMUpstairs) {
 
             if ([ins.type isEqualToString:@"elevator_customer"] && ins.sign == MXMUpstairs) {
-                paph.endPointType = ElevatorGoodUp;
+                paph.endPointType = ElevatorUp;
             } else if ([ins.type isEqualToString:@"elevator_customer"] && ins.sign == MXMDownstairs) {
-                paph.endPointType = ElevatorGoodDown;
+                paph.endPointType = ElevatorDown;
             } else if ([ins.type isEqualToString:@"elevator_good"] && ins.sign == MXMUpstairs) {
-                paph.endPointType = ElevatorGoodUp;
+                paph.endPointType = ElevatorUp;
             } else if ([ins.type isEqualToString:@"elevator_good"] && ins.sign == MXMDownstairs) {
-                paph.endPointType = ElevatorGoodDown;
+                paph.endPointType = ElevatorDown;
             } else if ([ins.type isEqualToString:@"escalator"] && ins.sign == MXMUpstairs) {
                 paph.endPointType = EscalatorUp;
             } else if ([ins.type isEqualToString:@"escalator"] && ins.sign == MXMDownstairs) {
@@ -110,18 +111,7 @@
     [self.mutableParagraphs removeAllObjects];
 }
 
-- (BOOL)isEmptyString:(NSString *)string {
-    if (string == nil || string == NULL) {
-        return YES;
-    }
-    if ([string isKindOfClass:[NSNull class]]) {
-        return YES;
-    }
-    if ([[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length] == 0) {
-        return YES;
-    }
-    return NO;
-}
+#pragma mark - access method
 
 - (NSMutableArray *)mutableKeys
 {

@@ -28,6 +28,12 @@
 		D68019A5229FBFA900E2E27B /* images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D68019A4229FBFA900E2E27B /* images.xcassets */; };
 		D6DB9302229A386D0030DB46 /* MXMPainterPathDto.h in Headers */ = {isa = PBXBuildFile; fileRef = D6DB9300229A386D0030DB46 /* MXMPainterPathDto.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D6DB9303229A386D0030DB46 /* MXMPainterPathDto.m in Sources */ = {isa = PBXBuildFile; fileRef = D6DB9301229A386D0030DB46 /* MXMPainterPathDto.m */; };
+		D6E6DC8422B341AE00DB624E /* MXMHttpManager.h in Headers */ = {isa = PBXBuildFile; fileRef = D6E6DC7E22B341AE00DB624E /* MXMHttpManager.h */; };
+		D6E6DC8522B341AE00DB624E /* JXJsonFunctionDefine.h in Headers */ = {isa = PBXBuildFile; fileRef = D6E6DC7F22B341AE00DB624E /* JXJsonFunctionDefine.h */; };
+		D6E6DC8622B341AE00DB624E /* MXMLoggerService.h in Headers */ = {isa = PBXBuildFile; fileRef = D6E6DC8022B341AE00DB624E /* MXMLoggerService.h */; };
+		D6E6DC8722B341AE00DB624E /* NSString+Compare.h in Headers */ = {isa = PBXBuildFile; fileRef = D6E6DC8122B341AE00DB624E /* NSString+Compare.h */; };
+		D6E6DC8822B341AE00DB624E /* MXMMapServices+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = D6E6DC8222B341AE00DB624E /* MXMMapServices+Private.h */; };
+		D6E6DC8922B341AE00DB624E /* MXMConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = D6E6DC8322B341AE00DB624E /* MXMConstants.h */; };
 		D6F8C0C421858CA700E3AFC4 /* MapxusComponentKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6F8C0BA21858CA700E3AFC4 /* MapxusComponentKit.framework */; };
 		D6F8C0C921858CA700E3AFC4 /* MapxusComponentKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D6F8C0C821858CA700E3AFC4 /* MapxusComponentKitTests.m */; };
 		D6F8C0CB21858CA700E3AFC4 /* MapxusComponentKit.h in Headers */ = {isa = PBXBuildFile; fileRef = D6F8C0BD21858CA700E3AFC4 /* MapxusComponentKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -56,6 +62,12 @@
 		D68019A4229FBFA900E2E27B /* images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = images.xcassets; sourceTree = "<group>"; };
 		D6DB9300229A386D0030DB46 /* MXMPainterPathDto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MXMPainterPathDto.h; sourceTree = "<group>"; };
 		D6DB9301229A386D0030DB46 /* MXMPainterPathDto.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MXMPainterPathDto.m; sourceTree = "<group>"; };
+		D6E6DC7E22B341AE00DB624E /* MXMHttpManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXMHttpManager.h; sourceTree = "<group>"; };
+		D6E6DC7F22B341AE00DB624E /* JXJsonFunctionDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JXJsonFunctionDefine.h; sourceTree = "<group>"; };
+		D6E6DC8022B341AE00DB624E /* MXMLoggerService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXMLoggerService.h; sourceTree = "<group>"; };
+		D6E6DC8122B341AE00DB624E /* NSString+Compare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Compare.h"; sourceTree = "<group>"; };
+		D6E6DC8222B341AE00DB624E /* MXMMapServices+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MXMMapServices+Private.h"; sourceTree = "<group>"; };
+		D6E6DC8322B341AE00DB624E /* MXMConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXMConstants.h; sourceTree = "<group>"; };
 		D6F8C0BA21858CA700E3AFC4 /* MapxusComponentKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MapxusComponentKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6F8C0BD21858CA700E3AFC4 /* MapxusComponentKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapxusComponentKit.h; sourceTree = "<group>"; };
 		D6F8C0BE21858CA700E3AFC4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -109,6 +121,19 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		D6E6DC7D22B341AE00DB624E /* FoundationKit */ = {
+			isa = PBXGroup;
+			children = (
+				D6E6DC7E22B341AE00DB624E /* MXMHttpManager.h */,
+				D6E6DC7F22B341AE00DB624E /* JXJsonFunctionDefine.h */,
+				D6E6DC8022B341AE00DB624E /* MXMLoggerService.h */,
+				D6E6DC8122B341AE00DB624E /* NSString+Compare.h */,
+				D6E6DC8222B341AE00DB624E /* MXMMapServices+Private.h */,
+				D6E6DC8322B341AE00DB624E /* MXMConstants.h */,
+			);
+			path = FoundationKit;
+			sourceTree = "<group>";
+		};
 		D6F8C0B021858CA700E3AFC4 = {
 			isa = PBXGroup;
 			children = (
@@ -133,14 +158,15 @@
 		D6F8C0BC21858CA700E3AFC4 /* MapxusComponentKit */ = {
 			isa = PBXGroup;
 			children = (
+				D6E6DC7D22B341AE00DB624E /* FoundationKit */,
 				D6F8C0BD21858CA700E3AFC4 /* MapxusComponentKit.h */,
 				D6F8C0D421858D3F00E3AFC4 /* MXMRoutePainter.h */,
 				D6F8C0D521858D3F00E3AFC4 /* MXMRoutePainter.m */,
-				D6F8C0BE21858CA700E3AFC4 /* Info.plist */,
 				D678DA962288EEBB00F8B4C8 /* MXMParagraph.h */,
 				D678DA972288EEBB00F8B4C8 /* MXMParagraph.m */,
 				D6DB9300229A386D0030DB46 /* MXMPainterPathDto.h */,
 				D6DB9301229A386D0030DB46 /* MXMPainterPathDto.m */,
+				D6F8C0BE21858CA700E3AFC4 /* Info.plist */,
 				D68019A4229FBFA900E2E27B /* images.xcassets */,
 			);
 			path = MapxusComponentKit;
@@ -162,8 +188,14 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D6E6DC8822B341AE00DB624E /* MXMMapServices+Private.h in Headers */,
 				D6F8C0CB21858CA700E3AFC4 /* MapxusComponentKit.h in Headers */,
 				D6F8C0D621858D3F00E3AFC4 /* MXMRoutePainter.h in Headers */,
+				D6E6DC8722B341AE00DB624E /* NSString+Compare.h in Headers */,
+				D6E6DC8622B341AE00DB624E /* MXMLoggerService.h in Headers */,
+				D6E6DC8422B341AE00DB624E /* MXMHttpManager.h in Headers */,
+				D6E6DC8522B341AE00DB624E /* JXJsonFunctionDefine.h in Headers */,
+				D6E6DC8922B341AE00DB624E /* MXMConstants.h in Headers */,
 				D6DB9302229A386D0030DB46 /* MXMPainterPathDto.h in Headers */,
 				D678DA982288EEBB00F8B4C8 /* MXMParagraph.h in Headers */,
 			);
