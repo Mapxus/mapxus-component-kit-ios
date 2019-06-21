@@ -6,33 +6,94 @@
 //  Copyright © 2018年 MAPHIVE TECHNOLOGY LIMITED. All rights reserved.
 //
 
+#import <Mapbox/Mapbox.h>
 #import <Foundation/Foundation.h>
 #import <MapxusMapSDK/MapxusMapSDK.h>
-#import <Mapbox/Mapbox.h>
+
+#import "MXMPainterPathDto.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
+
 /**
- 路线规划绘制类，对结果进行分层与渲染
+ * 规划路线绘制工具，提供规划路线渲染功能
  */
 @interface MXMRoutePainter : NSObject
 
-
-/**
- 是否启用缩放地图至适应路线功能，默认为YES
- */
+/// 关闭/开启缩放地图至适应段落功能，默认为NO
 @property (nonatomic, assign) BOOL routeScaleFit;
 
+/// 缩放时的预留边距，默认值为UIEdgeInsetsMake(10, 10, 10, 10)
+@property (nonatomic, assign) UIEdgeInsets FittedEdgeInsets;
+
+/// 室内线段颜色
+@property (nonatomic, strong) UIColor *indoorLineColor;
+
+/// 室外线段颜色
+@property (nonatomic, strong) UIColor *outdoorLineColor;
+
+/// 虚线段颜色
+@property (nonatomic, strong) UIColor *dashLineColor;
+
+/// 线路方向指示图标间隔
+@property (nonatomic, strong) NSNumber *arrowSymbolSpacing;
+
+/// 线路方向指示图标
+@property (nonatomic, strong) UIImage *arrowIcon;
+
+/// 起点图标
+@property (nonatomic, strong) UIImage *startIcon;
+
+/// 终点图标
+@property (nonatomic, strong) UIImage *endIcon;
+
+/// 电梯上行图标
+@property (nonatomic, strong) UIImage *elevatorUpIcon;
+
+/// 电梯下行图标
+@property (nonatomic, strong) UIImage *elevatorDownIcon;
+
+/// 扶梯上行图标
+@property (nonatomic, strong) UIImage *escalatorUpIcon;
+
+/// 扶梯下行图标
+@property (nonatomic, strong) UIImage *escalatorDownIcon;
+
+/// 斜坡上行图标
+@property (nonatomic, strong) UIImage *rampUpIcon;
+
+/// 斜坡下行图标
+@property (nonatomic, strong) UIImage *rampDownIcon;
+
+/// 楼梯上行图标
+@property (nonatomic, strong) UIImage *stairsUpIcon;
+
+/// 楼梯下行图标
+@property (nonatomic, strong) UIImage *stairsDownIcon;
+
+/// 门口图标
+@property (nonatomic, strong) UIImage *buildingGateIcon;
+
+/// 选中绘制的数据源
+@property (nonatomic, strong, nullable) MXMPainterPathDto *dto;
+
+/// 禁用下面两个初始化
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
 
 /**
- 初始化路线规划绘制类
-
+ 初始化路线规划绘制工具
  @param mapView 用于展示路线的mapView
- @return 路线规划绘制类
+ @return 初始化后的对象
  */
-- (instancetype)initWithMapView:(MGLMapView *)mapView map:(MapxusMap *)map;
+- (instancetype)initWithMapView:(MGLMapView *)mapView;
+
+/**
+ 绘制规划路线，可在`MXMSearchDelegate` - onRouteSearchDone:response:方法里获取规划结果
+ @param result 路线规划结果
+ */
+- (void)paintRouteUsingResult:(MXMRouteSearchResponse *)result;
 
 /**
  清除mapView上已绘制的路线
@@ -40,20 +101,18 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)cleanRoute;
 
 /**
- 切换对应建筑与楼层上的路线，可在`MapxusMapDelegate` - mapView:didChangeFloor:atBuilding:方法里调用切换
-
+ 切换对应建筑与楼层上的段落，可在`MapxusMapDelegate` - mapView:didChangeFloor:atBuilding:方法里调用
  @param buildingId 建筑ID
  @param floor 楼层名字
  */
 - (void)changeOnBuilding:(NSString *)buildingId floor:(NSString *)floor;
 
 /**
- 绘制规划路线，可在`MXMSearchDelegate` - onRouteSearchDone:response:方法里调用
-
- @param request 路线规划请求对象
- @param result 路线规划结果
+ 通过key缩放切换到到对应段落
+ @param key dto里的key
  */
-- (void)paintRouteUsingRequest:(MXMRouteSearchRequest *)request Result:(MXMRouteSearchResponse *)result;
+- (void)changeWithKey:(NSString *)key;
+
 
 @end
 
