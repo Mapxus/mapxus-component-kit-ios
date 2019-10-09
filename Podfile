@@ -6,6 +6,7 @@ target 'MapxusComponentKit' do
   use_frameworks!
 
   # Pods for MapxusComponentKit
+  pod 'MapxusBaseSDK', :path => '../mapxus-base-sdk-ios'
   pod 'MapxusMapSDK', :path => '../mapxus-map-sdk-ios'
 
   target 'MapxusComponentKitTests' do

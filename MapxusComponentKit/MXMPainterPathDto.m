@@ -36,20 +36,33 @@
     
     NSArray *pointList = path.points.coordinates;
 
-    int i = 0;
     MXMParagraph *paph;
     
     for (MXMInstruction *ins in path.instructions) {
+        // 上一 instruction 的 key
         NSString *lastKey = self.mutableKeys.lastObject?:@"";
+        // 当前 instruction 的预设 key
         NSString *currentKey;
         if ([NSString isEmpty:ins.buildingId] || [NSString isEmpty:ins.floor]) {
-            if (![lastKey hasPrefix:@"outdoor"]) {
-                i++;
-            }
-            currentKey = [NSString stringWithFormat:@"outdoor%d", i];
+            currentKey = @"outdoor";
         } else {
             currentKey = [NSString stringWithFormat:@"%@-%@", ins.buildingId, ins.floor];
         }
+        
+        if ([lastKey hasPrefix:currentKey]) { // 当前 instruction 与上一 instruction 的 key 一致，currentKey 沿用上一 instruction 的 key
+            currentKey = lastKey;
+        } else { // 当前 instruction 与上一 instruction 的 key 不一致，创建新 key
+            int i = 0;
+            for (NSString *key in self.mutableKeys) {
+                if ([key hasPrefix:currentKey]) {
+                    i++;
+                }
+            }
+            if (i != 0) {
+                currentKey = [currentKey stringByAppendingFormat:@" %d", i];
+            }
+        }
+        
         // 建筑或楼层有变化
         if (![lastKey isEqualToString:currentKey]) {
             MXMParagraph *lastPaph = [self.mutableParagraphs objectForKey:lastKey];
@@ -67,7 +80,6 @@
             
             [self.mutableParagraphs setObject:paph forKey:paph.key];
             [self.mutableKeys addObject:currentKey];
-            lastKey = currentKey;
         }
 
         

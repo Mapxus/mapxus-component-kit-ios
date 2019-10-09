@@ -36,8 +36,6 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
     self = [super init];
     if (self) {
         self.mapView = mapView;
-        self.routeScaleFit = NO;
-        self.FittedEdgeInsets = UIEdgeInsetsMake(10, 10, 10, 10);
         self.indoorLineColor = [UIColor colorWithRed:0.29 green:0.69 blue:0.83 alpha:1];
         self.outdoorLineColor = [UIColor colorWithRed:0.42 green:0.82 blue:0.61 alpha:1];
         self.dashLineColor = [UIColor colorWithRed:0.56 green:0.56 blue:0.56 alpha:1];
@@ -109,7 +107,7 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
             if ([NSString isEmpty:startP.buildingId]) {
                 dic[@"key"] = @"outdoor";
             } else {
-                dic[@"key"] = firstKey;
+                dic[@"key"] = [NSString stringWithFormat:@"%@-%@", firstPaph.buildingId, firstPaph.floor];
             }
             MGLPolylineFeature *feature = [MGLPolylineFeature polylineWithCoordinates:routeCoordinates count:2];
             feature.attributes = dic;
@@ -134,7 +132,7 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
             if ([NSString isEmpty:endP.buildingId]) {
                 dic[@"key"] = @"outdoor";
             } else {
-                dic[@"key"] = lastKey;
+                dic[@"key"] = [NSString stringWithFormat:@"%@-%@", lastPaph.buildingId, lastPaph.floor];
             }
             MGLPolylineFeature *feature = [MGLPolylineFeature polylineWithCoordinates:routeCoordinates count:2];
             feature.attributes = dic;
@@ -163,7 +161,6 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
     NSMutableDictionary *startAttributes = [NSMutableDictionary dictionary];
     if (startP.buildingId) {
         startAttributes[@"key"] = [NSString stringWithFormat:@"%@-%@", startP.buildingId, startP.floor];
-        startAttributes[@"building"] = startP.buildingId;
     } else {
         startAttributes[@"key"] = @"outdoor";
     }
@@ -176,7 +173,6 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
     NSMutableDictionary *endAttributes = [NSMutableDictionary dictionary];
     if (endP.buildingId) {
         endAttributes[@"key"] = [NSString stringWithFormat:@"%@-%@", endP.buildingId, endP.floor];
-        endAttributes[@"building"] = endP.buildingId;
     } else {
         endAttributes[@"key"] = @"outdoor";
     }
@@ -197,7 +193,7 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
             if (paph.buildingId) {
                 attributes[@"key"] = [NSString stringWithFormat:@"%@-%@", paph.buildingId, paph.floor];
             } else {
-            attributes[@"key"] = @"outdoor";
+                attributes[@"key"] = @"outdoor";
             }
             attributes[@"iconName"] = startIconName;
             MGLPointFeature *pointFeature = [[MGLPointFeature alloc] init];
@@ -336,40 +332,65 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
     source3 ? [self.mapView.style removeSource:source3] : nil;
 }
 
-- (void)changeOnBuilding:(NSString *)buildingId floor:(NSString *)floor
+- (void)changeOnBuilding:(nullable NSString *)buildingId floor:(nullable NSString *)floor
 {
-    NSString *key = [NSString stringWithFormat:@"%@-%@", buildingId, floor];
-    [self changeWithKey:key];
-}
-
-- (void)changeWithKey:(NSString *)key
-{
-    MXMParagraph *paph = [self.dto.paragraphs objectForKey:key];
-    // 线条变色
-    MGLLineStyleLayer *lineLayer = (MGLLineStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-line-layer"];
-    lineLayer.lineOpacity = [NSExpression expressionWithFormat:@"MGL_MATCH(key, %@, %@, %@, %@, %@)", key, @(1), @"outdoor", @(1), @(0.4)];
-    // 虚线段变色
-    MGLLineStyleLayer *addLineLayer = (MGLLineStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-addLine-layer"];
-    addLineLayer.lineOpacity = [NSExpression expressionWithFormat:@"MGL_MATCH(key, %@, %@, %@, %@, %@)", key, @(1), @"outdoor", @(1), @(0.4)];
-    // 方向图标变色
-    MGLSymbolStyleLayer *arrowLayer = (MGLSymbolStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-arrow-layer"];
-    arrowLayer.iconOpacity = [NSExpression expressionWithFormat:@"MGL_MATCH(key, %@, %@, %@, %@, %@)", key, @(1), @"outdoor", @(1), @(0.4)];
-    // 转折点变色及隐藏
-    MGLSymbolStyleLayer *connectorLayer = (MGLSymbolStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-connector-layer"];
-    connectorLayer.iconOpacity = [NSExpression expressionWithFormat:@"MGL_MATCH(key, %@, %@, %@, %@, %@)", key, @(1), @"outdoor", @(1), @(0.4)];
-    connectorLayer.predicate = [self createPredicateWith:key];
-    // 规模适配
-    NSInteger count = paph.points.count;
-    if (self.routeScaleFit && (count > 0)) {
-        CLLocationCoordinate2D routeCoordinates[count];
-        int t = 0;
-        for (MXMGeoPoint *p in paph.points) {
-            routeCoordinates[t] = CLLocationCoordinate2DMake(p.latitude, p.longitude);
-            t++;
-        }
-        [self.mapView setVisibleCoordinates:routeCoordinates count:count edgePadding:self.FittedEdgeInsets animated:YES];
+    NSString *key;
+    if ([NSString isEmpty:buildingId] || [NSString isEmpty:floor]) {
+        key = @"outdoor";
+        // 线条变色
+        MGLLineStyleLayer *lineLayer = (MGLLineStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-line-layer"];
+        lineLayer.lineOpacity = [NSExpression expressionWithFormat:@"MGL_MATCH(key, %@, %@, %@)", @"outdoor", @(1), @(0.4)];
+        // 虚线段变色
+        MGLLineStyleLayer *addLineLayer = (MGLLineStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-addLine-layer"];
+        addLineLayer.lineOpacity = [NSExpression expressionWithFormat:@"MGL_MATCH(key, %@, %@, %@)", @"outdoor", @(1), @(0.4)];
+        // 方向图标变色
+        MGLSymbolStyleLayer *arrowLayer = (MGLSymbolStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-arrow-layer"];
+        arrowLayer.iconOpacity = [NSExpression expressionWithFormat:@"MGL_MATCH(key, %@, %@, %@)", @"outdoor", @(1), @(0.4)];
+        // 转折点变色及隐藏
+        MGLSymbolStyleLayer *connectorLayer = (MGLSymbolStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-connector-layer"];
+        connectorLayer.iconOpacity = [NSExpression expressionWithFormat:@"MGL_MATCH(key, %@, %@, %@)", @"outdoor", @(1), @(0.4)];
+        connectorLayer.predicate = [self createPredicateWith:key];
+    } else {
+        key = [NSString stringWithFormat:@"%@-%@", buildingId, floor];
+        // 线条变色
+        MGLLineStyleLayer *lineLayer = (MGLLineStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-line-layer"];
+        lineLayer.lineOpacity = [NSExpression expressionWithFormat:@"MGL_MATCH(key, %@, %@, %@, %@, %@)", key, @(1), @"outdoor", @(1), @(0.4)];
+        // 虚线段变色
+        MGLLineStyleLayer *addLineLayer = (MGLLineStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-addLine-layer"];
+        addLineLayer.lineOpacity = [NSExpression expressionWithFormat:@"MGL_MATCH(key, %@, %@, %@, %@, %@)", key, @(1), @"outdoor", @(1), @(0.4)];
+        // 方向图标变色
+        MGLSymbolStyleLayer *arrowLayer = (MGLSymbolStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-arrow-layer"];
+        arrowLayer.iconOpacity = [NSExpression expressionWithFormat:@"MGL_MATCH(key, %@, %@, %@, %@, %@)", key, @(1), @"outdoor", @(1), @(0.4)];
+        // 转折点变色及隐藏
+        MGLSymbolStyleLayer *connectorLayer = (MGLSymbolStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-connector-layer"];
+        connectorLayer.iconOpacity = [NSExpression expressionWithFormat:@"MGL_MATCH(key, %@, %@, %@, %@, %@)", key, @(1), @"outdoor", @(1), @(0.4)];
+        connectorLayer.predicate = [self createPredicateWith:key];
     }
 }
+
+
+- (void)focusOnKeys:(NSArray<NSString*> *)keys edgePadding:(UIEdgeInsets)insets
+{
+    NSMutableArray *points = [NSMutableArray array];
+    for (NSString *key in keys) {
+        MXMParagraph *paph = [self.dto.paragraphs objectForKey:key];
+        if (paph.points) {
+            [points addObjectsFromArray:paph.points];
+        }
+    }
+    
+    NSInteger count = points.count;
+    if (count > 0) {
+        CLLocationCoordinate2D routeCoordinates[count];
+        int i = 0;
+        for (MXMGeoPoint *p in points) {
+            routeCoordinates[i] = CLLocationCoordinate2DMake(p.latitude, p.longitude);
+            i++;
+        }
+        [self.mapView setVisibleCoordinates:routeCoordinates count:count edgePadding:insets animated:YES];
+    }
+}
+
 
 - (NSCompoundPredicate *)createPredicateWith:(NSString *)key
 {
