@@ -27,10 +27,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) MXMIndoorPoint *endPoint;
 
 /**
- 按规划顺序排列的key，其中室外段落如果有室内段落隔开，以 outdoor1、outdoor2... 来区分标识，
+ 按规划顺序排列的key，其中室外段落如果有室内段落隔开，以 outdoor 1、outdoor 2或buildingId-floor 1... 来区分标识，
  室内段落 key 以 buildingId-floor 拼接而成。
  */
-@property (nonatomic, strong, readonly) NSArray *keys;
+@property (nonatomic, strong, readonly) NSArray<NSString*> *keys;
 
 /// 各段落的详细信息
 @property (nonatomic, strong, readonly) NSDictionary<NSString *, MXMParagraph *> *paragraphs;

@@ -16,7 +16,8 @@ FOUNDATION_EXPORT const unsigned char MapxusComponentKitVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <MapxusComponentKit/PublicHeader.h>
 
-#import "MXMRoutePainter.h"
-#import "MXMPainterPathDto.h"
 #import "MXMParagraph.h"
+#import "MXMPainterPathDto.h"
+#import "MXMRoutePainter.h"
+#import "MXMVisualFlagPainter.h"
 

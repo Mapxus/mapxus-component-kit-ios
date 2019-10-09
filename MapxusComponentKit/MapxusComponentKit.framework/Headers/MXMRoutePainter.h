@@ -21,12 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface MXMRoutePainter : NSObject
 
-/// 关闭/开启缩放地图至适应段落功能，默认为NO
-@property (nonatomic, assign) BOOL routeScaleFit;
-
-/// 缩放时的预留边距，默认值为UIEdgeInsetsMake(10, 10, 10, 10)
-@property (nonatomic, assign) UIEdgeInsets FittedEdgeInsets;
-
 /// 室内线段颜色
 @property (nonatomic, strong) UIColor *indoorLineColor;
 
@@ -101,17 +95,18 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)cleanRoute;
 
 /**
- 切换对应建筑与楼层上的段落，可在`MapxusMapDelegate` - mapView:didChangeFloor:atBuilding:方法里调用
+ 切换对应建筑与楼层上的段落透明度，可在`MapxusMapDelegate` - mapView:didChangeFloor:atBuilding:方法里调用
  @param buildingId 建筑ID
  @param floor 楼层名字
  */
-- (void)changeOnBuilding:(NSString *)buildingId floor:(NSString *)floor;
+- (void)changeOnBuilding:(nullable NSString *)buildingId floor:(nullable NSString *)floor;
 
 /**
- 通过key缩放切换到到对应段落
- @param key dto里的key
+ 缩放聚焦到给定的段落
+ @param keys 给定聚焦段落
+ @param insets 缩放边距
  */
-- (void)changeWithKey:(NSString *)key;
+- (void)focusOnKeys:(NSArray<NSString*> *)keys edgePadding:(UIEdgeInsets)insets;
 
 
 @end
