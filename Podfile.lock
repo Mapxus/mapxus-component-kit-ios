@@ -15,12 +15,12 @@ PODS:
   - AFNetworking/UIKit (3.2.1):
     - AFNetworking/NSURLSession
   - Mapbox-iOS-SDK (5.4.0)
-  - MapxusBaseSDK (3.7.0):
+  - MapxusBaseSDK (3.7.1):
     - AFNetworking (~> 3.2.1)
     - YYModel (~> 1.0.4)
-  - MapxusMapSDK (3.7.0):
+  - MapxusMapSDK (3.7.1):
     - Mapbox-iOS-SDK (~> 5.4.0)
-    - MapxusBaseSDK (= 3.7.0)
+    - MapxusBaseSDK (= 3.7.1)
   - YYModel (1.0.4)
 
 DEPENDENCIES:
@@ -28,7 +28,7 @@ DEPENDENCIES:
   - MapxusMapSDK (from `../mapxus-map-sdk-ios`)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - AFNetworking
     - Mapbox-iOS-SDK
     - YYModel
@@ -42,10 +42,10 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
   Mapbox-iOS-SDK: 2b58f752d94e57e95b8e54f3b52569199f6efdba
-  MapxusBaseSDK: 251991e5145acb4b8397ca4ae63a34306661d216
-  MapxusMapSDK: cf80927258ae65a590aa59a47e403a1264593508
+  MapxusBaseSDK: 7b199686b0488e03897d5555e7992569d27c288d
+  MapxusMapSDK: 27fb3b1deb4311a6e0adff5111b3cc3e0432c74e
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
 PODFILE CHECKSUM: dc1f7016a043125ad3dbb27d13da9eecde2917dc
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.8.3

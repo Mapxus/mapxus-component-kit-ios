@@ -106,12 +106,25 @@
             } else if ([ins.type isEqualToString:@"stairs"] && ins.sign == MXMDownstairs) {
                 paph.endPointType = StairsDown;
             }
-            
+            if (!paph.points.count) {
+                NSUInteger fIndex = [ins.interval.firstObject unsignedIntegerValue];
+                MXMGeoPoint *fp = pointList[fIndex];
+                [paph.points addObject:fp];
+            }
         } else {
             // 整合线段
             NSUInteger fIndex = [ins.interval.firstObject unsignedIntegerValue];
             NSUInteger lIndex = [ins.interval.lastObject unsignedIntegerValue];
-            NSArray *subArr = [pointList subarrayWithRange:NSMakeRange(fIndex, lIndex-fIndex+1)];
+#warning 应该规避数组越限，但通过接口上报情况
+            NSRange range;
+            if (lIndex >= pointList.count && fIndex >= pointList.count) {
+                range = NSMakeRange(pointList.count-1, 1);
+            } else if (lIndex >= pointList.count && fIndex < pointList.count) {
+                range = NSMakeRange(fIndex, pointList.count-fIndex);
+            } else {
+                range = NSMakeRange(fIndex, lIndex-fIndex+1);
+            }
+            NSArray *subArr = [pointList subarrayWithRange:range];
             [paph.points addObjectsFromArray:subArr];
         }
     }
