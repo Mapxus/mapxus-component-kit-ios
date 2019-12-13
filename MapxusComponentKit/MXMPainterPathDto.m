@@ -85,13 +85,9 @@
         
         if (ins.sign == MXMDownstairs || ins.sign == MXMUpstairs) {
 
-            if ([ins.type isEqualToString:@"elevator_customer"] && ins.sign == MXMUpstairs) {
+            if ([ins.type containsString:@"elevator"] && ins.sign == MXMUpstairs) {
                 paph.endPointType = ElevatorUp;
-            } else if ([ins.type isEqualToString:@"elevator_customer"] && ins.sign == MXMDownstairs) {
-                paph.endPointType = ElevatorDown;
-            } else if ([ins.type isEqualToString:@"elevator_good"] && ins.sign == MXMUpstairs) {
-                paph.endPointType = ElevatorUp;
-            } else if ([ins.type isEqualToString:@"elevator_good"] && ins.sign == MXMDownstairs) {
+            } else if ([ins.type containsString:@"elevator"] && ins.sign == MXMDownstairs) {
                 paph.endPointType = ElevatorDown;
             } else if ([ins.type isEqualToString:@"escalator"] && ins.sign == MXMUpstairs) {
                 paph.endPointType = EscalatorUp;
