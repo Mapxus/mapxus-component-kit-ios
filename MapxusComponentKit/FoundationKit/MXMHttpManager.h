@@ -6,7 +6,7 @@
 //  Copyright © 2018年 MAPHIVE TECHNOLOGY LIMITED. All rights reserved.
 //
 
-#import <AFNetworking/AFNetworking.h>
+#import <AFNetworking/AFHTTPSessionManager.h>
 
 @interface MXMHttpManager : AFHTTPSessionManager
 
