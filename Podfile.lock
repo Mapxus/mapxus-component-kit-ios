@@ -6,18 +6,18 @@ PODS:
   - AFNetworking/Reachability (3.2.1)
   - AFNetworking/Security (3.2.1)
   - AFNetworking/Serialization (3.2.1)
-  - Mapbox-iOS-SDK (5.8.0):
+  - Mapbox-iOS-SDK (5.9.0):
     - MapboxMobileEvents (= 0.10.2)
   - MapboxMobileEvents (0.10.2)
-  - MapxusBaseSDK (3.11.1):
+  - MapxusBaseSDK (3.11.2):
     - AFNetworking/NSURLSession (~> 3.2)
     - AFNetworking/Reachability (~> 3.2)
     - AFNetworking/Security (~> 3.2)
     - AFNetworking/Serialization (~> 3.2)
     - YYModel (~> 1.0.4)
-  - MapxusMapSDK (3.11.1):
-    - Mapbox-iOS-SDK (~> 5.8.0)
-    - MapxusBaseSDK (= 3.11.1)
+  - MapxusMapSDK (3.11.2):
+    - Mapbox-iOS-SDK (~> 5.9.0)
+    - MapxusBaseSDK (= 3.11.2)
   - YYModel (1.0.4)
 
 DEPENDENCIES:
@@ -39,10 +39,10 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
-  Mapbox-iOS-SDK: 02590a60fe300810c55432219a0caaa1338fbafb
+  Mapbox-iOS-SDK: a5915700ec84bc1a7f8b3e746d474789e35b7956
   MapboxMobileEvents: 2bc0ca2eedb627b73cf403258dce2b2fa98074a6
-  MapxusBaseSDK: 92d8f96136f37911ab3bfa32ad5b0d0009fff8bd
-  MapxusMapSDK: 8bc36b853772721b9429a6e655efb8b5c8ca1211
+  MapxusBaseSDK: cee9b7f366a4941d7d44e79b484c80337a0f749f
+  MapxusMapSDK: 2f7453a9b5944df1eb763a62dc2af2bd7fec486b
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
 PODFILE CHECKSUM: b670ef1440449f41920257e26fc5ffff577dc5cc
