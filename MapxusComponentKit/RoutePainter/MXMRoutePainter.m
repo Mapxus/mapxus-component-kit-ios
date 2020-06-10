@@ -41,6 +41,8 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
         self.dashLineColor = [UIColor colorWithRed:0.56 green:0.56 blue:0.56 alpha:1];
         self.arrowSymbolSpacing = @30;
         [self addDefaultImage];
+        self.isAddEndDash = YES;
+        self.isAddStartDash = YES;
     }
     return self;
 }
@@ -79,65 +81,72 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
     [self.mapView.style setImage:self.buildingGateIcon forName:buildingGateIconString];
 }
 
-- (void)paintRouteUsingResult:(MXMRouteSearchResponse *)result
+- (void)paintRouteUsingResult:(MXMRouteSearchResponse *)result {
+    [self paintRouteUsingPath:result.paths.firstObject wayPoints:result.wayPointList];
+}
+
+- (void)paintRouteUsingPath:(MXMPath *)path wayPoints:(NSArray<MXMIndoorPoint *> *)list
 {
     [self putIconInMapView];
     // 1.clears data before drawing
     [self cleanRoute];
     // 2.Take the first path in the path group
-    MXMPath *firstPath = result.paths.firstObject;
-    MXMIndoorPoint *startP = result.wayPointList.firstObject;
-    MXMIndoorPoint *endP = result.wayPointList.lastObject;
-    self.dto = [[MXMPainterPathDto alloc] initWithPath:firstPath startPoint:startP endPoint:endP];
+    MXMIndoorPoint *startP = list.firstObject;
+    MXMIndoorPoint *endP = list.lastObject;
+    self.dto = [[MXMPainterPathDto alloc] initWithPath:path startPoint:startP endPoint:endP];
     
     // 3.Supplementary starting line
     NSMutableArray *addLineFeatures = [NSMutableArray array];
     {
-        NSString *firstKey = self.dto.keys.firstObject;
-        if (firstKey) {
-            MXMParagraph *firstPaph = self.dto.paragraphs[firstKey];
-            NSArray *pointList = firstPaph.points;
-            MXMGeoPoint *fristPoint = pointList.firstObject;
-            
-            CLLocationCoordinate2D routeCoordinates[2];
-            routeCoordinates[0] = CLLocationCoordinate2DMake(startP.latitude, startP.longitude);
-            routeCoordinates[1] = CLLocationCoordinate2DMake(fristPoint.latitude, fristPoint.longitude);
-            
-            NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-            if ([NSString isEmpty:startP.buildingId]) {
-                dic[@"key"] = @"outdoor";
-            } else {
-                dic[@"key"] = [NSString stringWithFormat:@"%@-%@", firstPaph.buildingId, firstPaph.floor];
+        if (self.isAddStartDash) {
+            NSString *firstKey = self.dto.keys.firstObject;
+            if (firstKey) {
+                MXMParagraph *firstPaph = self.dto.paragraphs[firstKey];
+                NSArray *pointList = firstPaph.points;
+                MXMGeoPoint *fristPoint = pointList.firstObject;
+                
+                CLLocationCoordinate2D routeCoordinates[2];
+                routeCoordinates[0] = CLLocationCoordinate2DMake(startP.latitude, startP.longitude);
+                routeCoordinates[1] = CLLocationCoordinate2DMake(fristPoint.latitude, fristPoint.longitude);
+                
+                NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+                if ([NSString isEmpty:startP.buildingId]) {
+                    dic[@"key"] = @"outdoor";
+                } else {
+                    dic[@"key"] = [NSString stringWithFormat:@"%@-%@", firstPaph.buildingId, firstPaph.floor];
+                }
+                MGLPolylineFeature *feature = [MGLPolylineFeature polylineWithCoordinates:routeCoordinates count:2];
+                feature.attributes = dic;
+                
+                [addLineFeatures addObject:feature];
             }
-            MGLPolylineFeature *feature = [MGLPolylineFeature polylineWithCoordinates:routeCoordinates count:2];
-            feature.attributes = dic;
-            
-            [addLineFeatures addObject:feature];
         }
     }
 
     // 4.Supplementary finish line
     {
-        NSString *lastKey = self.dto.keys.lastObject;
-        if (lastKey) {
-            MXMParagraph *lastPaph = self.dto.paragraphs[lastKey];
-            NSArray *pointList = lastPaph.points;
-            MXMGeoPoint *lastPoint = pointList.lastObject;
-            
-            CLLocationCoordinate2D routeCoordinates[2];
-            routeCoordinates[0] = CLLocationCoordinate2DMake(endP.latitude, endP.longitude);
-            routeCoordinates[1] = CLLocationCoordinate2DMake(lastPoint.latitude, lastPoint.longitude);
-            
-            NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-            if ([NSString isEmpty:endP.buildingId]) {
-                dic[@"key"] = @"outdoor";
-            } else {
-                dic[@"key"] = [NSString stringWithFormat:@"%@-%@", lastPaph.buildingId, lastPaph.floor];
+        if (self.isAddEndDash) {
+            NSString *lastKey = self.dto.keys.lastObject;
+            if (lastKey) {
+                MXMParagraph *lastPaph = self.dto.paragraphs[lastKey];
+                NSArray *pointList = lastPaph.points;
+                MXMGeoPoint *lastPoint = pointList.lastObject;
+                
+                CLLocationCoordinate2D routeCoordinates[2];
+                routeCoordinates[0] = CLLocationCoordinate2DMake(endP.latitude, endP.longitude);
+                routeCoordinates[1] = CLLocationCoordinate2DMake(lastPoint.latitude, lastPoint.longitude);
+                
+                NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+                if ([NSString isEmpty:endP.buildingId]) {
+                    dic[@"key"] = @"outdoor";
+                } else {
+                    dic[@"key"] = [NSString stringWithFormat:@"%@-%@", lastPaph.buildingId, lastPaph.floor];
+                }
+                MGLPolylineFeature *feature = [MGLPolylineFeature polylineWithCoordinates:routeCoordinates count:2];
+                feature.attributes = dic;
+                
+                [addLineFeatures addObject:feature];
             }
-            MGLPolylineFeature *feature = [MGLPolylineFeature polylineWithCoordinates:routeCoordinates count:2];
-            feature.attributes = dic;
-            
-            [addLineFeatures addObject:feature];
         }
     }
 

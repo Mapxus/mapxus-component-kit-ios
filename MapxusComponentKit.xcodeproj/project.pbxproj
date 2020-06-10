@@ -26,6 +26,24 @@
 		D678DA982288EEBB00F8B4C8 /* MXMParagraph.h in Headers */ = {isa = PBXBuildFile; fileRef = D678DA962288EEBB00F8B4C8 /* MXMParagraph.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D678DA992288EEBB00F8B4C8 /* MXMParagraph.m in Sources */ = {isa = PBXBuildFile; fileRef = D678DA972288EEBB00F8B4C8 /* MXMParagraph.m */; };
 		D68019A5229FBFA900E2E27B /* images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D68019A4229FBFA900E2E27B /* images.xcassets */; };
+		D6978C032489F90600A15F66 /* CLFloor+Factory.m in Sources */ = {isa = PBXBuildFile; fileRef = D6978BFF2489F90600A15F66 /* CLFloor+Factory.m */; };
+		D6978C042489F90600A15F66 /* CLLocation+ChangeFloor.h in Headers */ = {isa = PBXBuildFile; fileRef = D6978C002489F90600A15F66 /* CLLocation+ChangeFloor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D6978C052489F90600A15F66 /* CLFloor+Factory.h in Headers */ = {isa = PBXBuildFile; fileRef = D6978C012489F90600A15F66 /* CLFloor+Factory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D6978C062489F90600A15F66 /* CLLocation+ChangeFloor.m in Sources */ = {isa = PBXBuildFile; fileRef = D6978C022489F90600A15F66 /* CLLocation+ChangeFloor.m */; };
+		D6978C0D248A288B00A15F66 /* GeoFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = D6978C0B248A288B00A15F66 /* GeoFunctions.h */; };
+		D6978C0E248A288B00A15F66 /* GeoFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = D6978C0C248A288B00A15F66 /* GeoFunctions.m */; };
+		D6978C11248A29D300A15F66 /* MXMLineSegment.h in Headers */ = {isa = PBXBuildFile; fileRef = D6978C0F248A29D300A15F66 /* MXMLineSegment.h */; };
+		D6978C12248A29D300A15F66 /* MXMLineSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = D6978C10248A29D300A15F66 /* MXMLineSegment.m */; };
+		D6978C21248A325100A15F66 /* MXMRouteProjection.h in Headers */ = {isa = PBXBuildFile; fileRef = D6978C1F248A325100A15F66 /* MXMRouteProjection.h */; };
+		D6978C22248A325100A15F66 /* MXMRouteProjection.m in Sources */ = {isa = PBXBuildFile; fileRef = D6978C20248A325100A15F66 /* MXMRouteProjection.m */; };
+		D6978C25248A328D00A15F66 /* MXMRouteShortener.h in Headers */ = {isa = PBXBuildFile; fileRef = D6978C23248A328D00A15F66 /* MXMRouteShortener.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D6978C26248A328D00A15F66 /* MXMRouteShortener.m in Sources */ = {isa = PBXBuildFile; fileRef = D6978C24248A328D00A15F66 /* MXMRouteShortener.m */; };
+		D6978C29248DD29100A15F66 /* MXMNavigationPathDTO.h in Headers */ = {isa = PBXBuildFile; fileRef = D6978C27248DD29100A15F66 /* MXMNavigationPathDTO.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D6978C2A248DD29100A15F66 /* MXMNavigationPathDTO.m in Sources */ = {isa = PBXBuildFile; fileRef = D6978C28248DD29100A15F66 /* MXMNavigationPathDTO.m */; };
+		D6978C3B248E2C6F00A15F66 /* LocalBuildingProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = D6978C39248E2C6F00A15F66 /* LocalBuildingProxy.h */; };
+		D6978C3C248E2C6F00A15F66 /* LocalBuildingProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = D6978C3A248E2C6F00A15F66 /* LocalBuildingProxy.m */; };
+		D6978C41248F8D1700A15F66 /* MXMRouteAdsorber.h in Headers */ = {isa = PBXBuildFile; fileRef = D6978C3F248F8D1700A15F66 /* MXMRouteAdsorber.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D6978C42248F8D1700A15F66 /* MXMRouteAdsorber.m in Sources */ = {isa = PBXBuildFile; fileRef = D6978C40248F8D1700A15F66 /* MXMRouteAdsorber.m */; };
 		D6987117232A3B9600D34F1A /* MXMVisualFlagPainter.h in Headers */ = {isa = PBXBuildFile; fileRef = D6987115232A3B9500D34F1A /* MXMVisualFlagPainter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D6987118232A3B9600D34F1A /* MXMVisualFlagPainter.m in Sources */ = {isa = PBXBuildFile; fileRef = D6987116232A3B9500D34F1A /* MXMVisualFlagPainter.m */; };
 		D6DB9302229A386D0030DB46 /* MXMPainterPathDto.h in Headers */ = {isa = PBXBuildFile; fileRef = D6DB9300229A386D0030DB46 /* MXMPainterPathDto.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -62,6 +80,25 @@
 		D678DA962288EEBB00F8B4C8 /* MXMParagraph.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MXMParagraph.h; sourceTree = "<group>"; };
 		D678DA972288EEBB00F8B4C8 /* MXMParagraph.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MXMParagraph.m; sourceTree = "<group>"; };
 		D68019A4229FBFA900E2E27B /* images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = images.xcassets; sourceTree = "<group>"; };
+		D6978BFF2489F90600A15F66 /* CLFloor+Factory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLFloor+Factory.m"; sourceTree = "<group>"; };
+		D6978C002489F90600A15F66 /* CLLocation+ChangeFloor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CLLocation+ChangeFloor.h"; sourceTree = "<group>"; };
+		D6978C012489F90600A15F66 /* CLFloor+Factory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CLFloor+Factory.h"; sourceTree = "<group>"; };
+		D6978C022489F90600A15F66 /* CLLocation+ChangeFloor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocation+ChangeFloor.m"; sourceTree = "<group>"; };
+		D6978C0B248A288B00A15F66 /* GeoFunctions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeoFunctions.h; sourceTree = "<group>"; };
+		D6978C0C248A288B00A15F66 /* GeoFunctions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GeoFunctions.m; sourceTree = "<group>"; };
+		D6978C0F248A29D300A15F66 /* MXMLineSegment.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MXMLineSegment.h; sourceTree = "<group>"; };
+		D6978C10248A29D300A15F66 /* MXMLineSegment.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MXMLineSegment.m; sourceTree = "<group>"; };
+		D6978C1F248A325100A15F66 /* MXMRouteProjection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MXMRouteProjection.h; sourceTree = "<group>"; };
+		D6978C20248A325100A15F66 /* MXMRouteProjection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MXMRouteProjection.m; sourceTree = "<group>"; };
+		D6978C23248A328D00A15F66 /* MXMRouteShortener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MXMRouteShortener.h; sourceTree = "<group>"; };
+		D6978C24248A328D00A15F66 /* MXMRouteShortener.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MXMRouteShortener.m; sourceTree = "<group>"; };
+		D6978C27248DD29100A15F66 /* MXMNavigationPathDTO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MXMNavigationPathDTO.h; sourceTree = "<group>"; };
+		D6978C28248DD29100A15F66 /* MXMNavigationPathDTO.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MXMNavigationPathDTO.m; sourceTree = "<group>"; };
+		D6978C39248E2C6F00A15F66 /* LocalBuildingProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocalBuildingProxy.h; sourceTree = "<group>"; };
+		D6978C3A248E2C6F00A15F66 /* LocalBuildingProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocalBuildingProxy.m; sourceTree = "<group>"; };
+		D6978C3E248F6B9B00A15F66 /* MXMNavigationPathDTO+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MXMNavigationPathDTO+Private.h"; sourceTree = "<group>"; };
+		D6978C3F248F8D1700A15F66 /* MXMRouteAdsorber.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MXMRouteAdsorber.h; sourceTree = "<group>"; };
+		D6978C40248F8D1700A15F66 /* MXMRouteAdsorber.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MXMRouteAdsorber.m; sourceTree = "<group>"; };
 		D6987115232A3B9500D34F1A /* MXMVisualFlagPainter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXMVisualFlagPainter.h; sourceTree = "<group>"; };
 		D6987116232A3B9500D34F1A /* MXMVisualFlagPainter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MXMVisualFlagPainter.m; sourceTree = "<group>"; };
 		D6DB9300229A386D0030DB46 /* MXMPainterPathDto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MXMPainterPathDto.h; sourceTree = "<group>"; };
@@ -125,6 +162,61 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		D6978C072489F91E00A15F66 /* PrivateFiles */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = PrivateFiles;
+			sourceTree = "<group>";
+		};
+		D6978C082489F99500A15F66 /* RoutePainter */ = {
+			isa = PBXGroup;
+			children = (
+				D6F8C0D421858D3F00E3AFC4 /* MXMRoutePainter.h */,
+				D6F8C0D521858D3F00E3AFC4 /* MXMRoutePainter.m */,
+				D678DA962288EEBB00F8B4C8 /* MXMParagraph.h */,
+				D678DA972288EEBB00F8B4C8 /* MXMParagraph.m */,
+				D6DB9300229A386D0030DB46 /* MXMPainterPathDto.h */,
+				D6DB9301229A386D0030DB46 /* MXMPainterPathDto.m */,
+			);
+			path = RoutePainter;
+			sourceTree = "<group>";
+		};
+		D6978C092489F9BD00A15F66 /* VisualFlagPainter */ = {
+			isa = PBXGroup;
+			children = (
+				D6987115232A3B9500D34F1A /* MXMVisualFlagPainter.h */,
+				D6987116232A3B9500D34F1A /* MXMVisualFlagPainter.m */,
+			);
+			path = VisualFlagPainter;
+			sourceTree = "<group>";
+		};
+		D6978C0A248A262600A15F66 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				D6978C0B248A288B00A15F66 /* GeoFunctions.h */,
+				D6978C0C248A288B00A15F66 /* GeoFunctions.m */,
+				D6978C39248E2C6F00A15F66 /* LocalBuildingProxy.h */,
+				D6978C3A248E2C6F00A15F66 /* LocalBuildingProxy.m */,
+				D6978C1F248A325100A15F66 /* MXMRouteProjection.h */,
+				D6978C20248A325100A15F66 /* MXMRouteProjection.m */,
+				D6978C0F248A29D300A15F66 /* MXMLineSegment.h */,
+				D6978C10248A29D300A15F66 /* MXMLineSegment.m */,
+				D6978C3E248F6B9B00A15F66 /* MXMNavigationPathDTO+Private.h */,
+				D6978C27248DD29100A15F66 /* MXMNavigationPathDTO.h */,
+				D6978C28248DD29100A15F66 /* MXMNavigationPathDTO.m */,
+				D6978C3F248F8D1700A15F66 /* MXMRouteAdsorber.h */,
+				D6978C40248F8D1700A15F66 /* MXMRouteAdsorber.m */,
+				D6978C23248A328D00A15F66 /* MXMRouteShortener.h */,
+				D6978C24248A328D00A15F66 /* MXMRouteShortener.m */,
+				D6978C012489F90600A15F66 /* CLFloor+Factory.h */,
+				D6978BFF2489F90600A15F66 /* CLFloor+Factory.m */,
+				D6978C002489F90600A15F66 /* CLLocation+ChangeFloor.h */,
+				D6978C022489F90600A15F66 /* CLLocation+ChangeFloor.m */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
 		D6E6DC7D22B341AE00DB624E /* FoundationKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -162,16 +254,12 @@
 		D6F8C0BC21858CA700E3AFC4 /* MapxusComponentKit */ = {
 			isa = PBXGroup;
 			children = (
+				D6978C072489F91E00A15F66 /* PrivateFiles */,
 				D6E6DC7D22B341AE00DB624E /* FoundationKit */,
 				D6F8C0BD21858CA700E3AFC4 /* MapxusComponentKit.h */,
-				D6F8C0D421858D3F00E3AFC4 /* MXMRoutePainter.h */,
-				D6F8C0D521858D3F00E3AFC4 /* MXMRoutePainter.m */,
-				D678DA962288EEBB00F8B4C8 /* MXMParagraph.h */,
-				D678DA972288EEBB00F8B4C8 /* MXMParagraph.m */,
-				D6DB9300229A386D0030DB46 /* MXMPainterPathDto.h */,
-				D6DB9301229A386D0030DB46 /* MXMPainterPathDto.m */,
-				D6987115232A3B9500D34F1A /* MXMVisualFlagPainter.h */,
-				D6987116232A3B9500D34F1A /* MXMVisualFlagPainter.m */,
+				D6978C0A248A262600A15F66 /* Navigation */,
+				D6978C082489F99500A15F66 /* RoutePainter */,
+				D6978C092489F9BD00A15F66 /* VisualFlagPainter */,
 				D6F8C0BE21858CA700E3AFC4 /* Info.plist */,
 				D68019A4229FBFA900E2E27B /* images.xcassets */,
 			);
@@ -197,11 +285,20 @@
 				D6E6DC8822B341AE00DB624E /* MXMMapServices+Private.h in Headers */,
 				D6F8C0CB21858CA700E3AFC4 /* MapxusComponentKit.h in Headers */,
 				D6F8C0D621858D3F00E3AFC4 /* MXMRoutePainter.h in Headers */,
+				D6978C29248DD29100A15F66 /* MXMNavigationPathDTO.h in Headers */,
+				D6978C25248A328D00A15F66 /* MXMRouteShortener.h in Headers */,
 				D6987117232A3B9600D34F1A /* MXMVisualFlagPainter.h in Headers */,
+				D6978C042489F90600A15F66 /* CLLocation+ChangeFloor.h in Headers */,
+				D6978C41248F8D1700A15F66 /* MXMRouteAdsorber.h in Headers */,
+				D6978C21248A325100A15F66 /* MXMRouteProjection.h in Headers */,
+				D6978C052489F90600A15F66 /* CLFloor+Factory.h in Headers */,
+				D6978C11248A29D300A15F66 /* MXMLineSegment.h in Headers */,
 				D6E6DC8722B341AE00DB624E /* NSString+Compare.h in Headers */,
 				D6E6DC8622B341AE00DB624E /* MXMLoggerService.h in Headers */,
 				D6E6DC8422B341AE00DB624E /* MXMHttpManager.h in Headers */,
 				D6E6DC8522B341AE00DB624E /* JXJsonFunctionDefine.h in Headers */,
+				D6978C3B248E2C6F00A15F66 /* LocalBuildingProxy.h in Headers */,
+				D6978C0D248A288B00A15F66 /* GeoFunctions.h in Headers */,
 				D6E6DC8922B341AE00DB624E /* MXMConstants.h in Headers */,
 				D6DB9302229A386D0030DB46 /* MXMPainterPathDto.h in Headers */,
 				D678DA982288EEBB00F8B4C8 /* MXMParagraph.h in Headers */,
@@ -263,6 +360,7 @@
 					};
 					D6F8C0B921858CA700E3AFC4 = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1150;
 					};
 					D6F8C0C221858CA700E3AFC4 = {
 						CreatedOnToolsVersion = 10.0;
@@ -363,8 +461,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D6978C42248F8D1700A15F66 /* MXMRouteAdsorber.m in Sources */,
+				D6978C12248A29D300A15F66 /* MXMLineSegment.m in Sources */,
+				D6978C2A248DD29100A15F66 /* MXMNavigationPathDTO.m in Sources */,
+				D6978C0E248A288B00A15F66 /* GeoFunctions.m in Sources */,
 				D6F8C0D721858D3F00E3AFC4 /* MXMRoutePainter.m in Sources */,
 				D6DB9303229A386D0030DB46 /* MXMPainterPathDto.m in Sources */,
+				D6978C3C248E2C6F00A15F66 /* LocalBuildingProxy.m in Sources */,
+				D6978C062489F90600A15F66 /* CLLocation+ChangeFloor.m in Sources */,
+				D6978C032489F90600A15F66 /* CLFloor+Factory.m in Sources */,
+				D6978C22248A325100A15F66 /* MXMRouteProjection.m in Sources */,
+				D6978C26248A328D00A15F66 /* MXMRouteShortener.m in Sources */,
 				D6987118232A3B9600D34F1A /* MXMVisualFlagPainter.m in Sources */,
 				D678DA992288EEBB00F8B4C8 /* MXMParagraph.m in Sources */,
 			);
@@ -530,6 +637,7 @@
 			baseConfigurationReference = F9A7351E6F3D1692B3EE22C4 /* Pods-MapxusComponentKit.debug.xcconfig */;
 			buildSettings = {
 				BITCODE_GENERATION_MODE = marker;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -545,11 +653,13 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.11.3;
+				MARKETING_VERSION = 3.12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mapxus.MapxusComponentKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = NO;
 				SUPPORTS_MACCATALYST = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -559,6 +669,7 @@
 			baseConfigurationReference = 065CAE2C64EC9DC52886EA40 /* Pods-MapxusComponentKit.release.xcconfig */;
 			buildSettings = {
 				BITCODE_GENERATION_MODE = bitcode;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -574,11 +685,12 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.11.3;
+				MARKETING_VERSION = 3.12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mapxus.MapxusComponentKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = NO;
 				SUPPORTS_MACCATALYST = NO;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

@@ -69,6 +69,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// 门口图标
 @property (nonatomic, strong) UIImage *buildingGateIcon;
 
+@property (nonatomic, assign) BOOL isAddStartDash;
+
+@property (nonatomic, assign) BOOL isAddEndDash;
+
 /// 选中绘制的数据源
 @property (nonatomic, strong, nullable) MXMPainterPathDto *dto;
 
@@ -87,7 +91,14 @@ NS_ASSUME_NONNULL_BEGIN
  绘制规划路线，可在`MXMSearchDelegate` - onRouteSearchDone:response:方法里获取规划结果
  @param result 路线规划结果
  */
-- (void)paintRouteUsingResult:(MXMRouteSearchResponse *)result;
+- (void)paintRouteUsingResult:(MXMRouteSearchResponse *)result DEPRECATED_MSG_ATTRIBUTE("Use `-paintRouteUsingPath:wayPoints:` instead.");
+
+/**
+ 绘制规划路线，可在`MXMSearchDelegate` - onRouteSearchDone:response:方法里获取规划结果
+ @param path 路线规划结果
+ @param list 始终点列表
+ */
+- (void)paintRouteUsingPath:(MXMPath *)path wayPoints:(NSArray<MXMIndoorPoint *> *)list;
 
 /**
  清除mapView上已绘制的路线
