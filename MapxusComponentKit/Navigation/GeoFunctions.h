@@ -17,8 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (double)arithmeticDistanceBetweenPoint0:(CLLocationCoordinate2D)p0 andPoint1:(CLLocationCoordinate2D)p1;
 
-+ (double)actualDistanceBetweenPoint0:(CLLocationCoordinate2D)p0 andPoint1:(CLLocationCoordinate2D)p1;
-
 @end
 
 NS_ASSUME_NONNULL_END

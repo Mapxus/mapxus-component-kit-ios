@@ -77,22 +77,25 @@ struct ProjectResult {
         self.previousLocation = projectLocation;
         result.location = projectLocation;
         result.state = MXMAdsorptionStateDefault;
+        return result;
     } else {
         // 如果未开始吸附，则不会重新计算路线
         if (self.previousLocation == nil) {
             result.location = current;
             result.state = MXMAdsorptionStateNotStartBinding;
+            return result;
         }
         if (self.count > self.numberOfAllowedDrifts) {
             result.location = current;
             result.state = MXMAdsorptionStateDriftsNumberExceeded;
+            return result;
         } else {
             self.count++;
             result.location = self.previousLocation;
             result.state = MXMAdsorptionStateDrifting;
+            return result;
         }
     }
-    return result;
 }
 
 @end
