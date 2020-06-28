@@ -58,7 +58,7 @@ struct ProjectResult {
                 buildingId = result.building.buildingId;
                 floor = result.floor.code;
             }
-            NSString *key = [MXMNavigationPathDTO generateKeyUsingBuildinngId:buildingId andFloor:floor];
+            NSString *key = [MXMNavigationPathDTO generateKeyUsingBuildingId:buildingId andFloor:floor];
             struct ProjectResult final = [self calculateNewLocationWithCurrent:actual key:key];
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (self.delegate && [self.delegate respondsToSelector:@selector(refreshTheAdsorptionLocation:buildingID:floor:state:fromActual:)]) {

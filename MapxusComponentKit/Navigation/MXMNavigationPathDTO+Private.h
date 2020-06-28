@@ -18,7 +18,7 @@ typedef NSArray<MXMLineSegment *> LineArray;
 
 - (nullable LineArray *)fragmenntWithKey:(NSString *)key;
 
-+ (NSString *)generateKeyUsingBuildinngId:(nullable NSString *)buildingId andFloor:(nullable NSString *)floor;
++ (NSString *)generateKeyUsingBuildingId:(nullable NSString *)buildingId andFloor:(nullable NSString *)floor;
 
 @end
 

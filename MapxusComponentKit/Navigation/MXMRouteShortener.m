@@ -26,10 +26,14 @@
 }
 
 - (void)cutFromTheLocationProjection:(CLLocation *)projection buildingID:(nullable NSString *)buildingID andFloor:(nullable NSString *)floor {
-    NSString *key = [MXMNavigationPathDTO generateKeyUsingBuildinngId:buildingID andFloor:floor];
+    NSString *key = [MXMNavigationPathDTO generateKeyUsingBuildingId:buildingID andFloor:floor];
     CLLocationCoordinate2D projectionCoordinate = projection.coordinate;
     NSArray *points = self.originalPath.points.coordinates;
     NSArray *fragmentList = [self.routePathDTO fragmenntWithKey:key];
+    // 找不到路线数据
+    if (fragmentList == nil) {
+        return;
+    }
     MXMLineSegment *nearestLineSegment = [MXMRouteProjection findNearestLineSegmentOnList:fragmentList usingCoordinate:projectionCoordinate];
     
     NSUInteger index = nearestLineSegment.instructionIndex;
@@ -49,11 +53,14 @@
         i++;
     }
     
-    MXMGeoPoint *startPoint = [[MXMGeoPoint alloc] init];
-    startPoint.latitude = projectionCoordinate.latitude;
-    startPoint.longitude = projectionCoordinate.longitude;
+    // 两点匹配，i最多到points.count-2
+    if (i > points.count-2) {
+        return;
+    }
+    
     NSRange residueRange = NSMakeRange(i+1, points.count-1-i);
     NSArray *residueCoordinates = [points subarrayWithRange:residueRange];
+    MXMGeoPoint *startPoint = [MXMGeoPoint locationWithLatitude:projectionCoordinate.latitude longitude:projectionCoordinate.longitude];
     NSMutableArray *newCoordinates = [NSMutableArray arrayWithArray:residueCoordinates];
     [newCoordinates insertObject:startPoint atIndex:0];
     

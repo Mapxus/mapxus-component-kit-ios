@@ -19,7 +19,7 @@
         int i = 0;
         for (MXMInstruction *instruction in instructions) {
             // 小节的楼层标签
-            NSString *key = [MXMNavigationPathDTO generateKeyUsingBuildinngId:instruction.buildingId andFloor:instruction.floor];
+            NSString *key = [MXMNavigationPathDTO generateKeyUsingBuildingId:instruction.buildingId andFloor:instruction.floor];
             
             /// 前一段
             LineArray *list1;
@@ -93,7 +93,7 @@
     return self.fragments[key];
 }
 
-+ (NSString *)generateKeyUsingBuildinngId:(nullable NSString *)buildingId andFloor:(nullable NSString *)floor {
++ (NSString *)generateKeyUsingBuildingId:(nullable NSString *)buildingId andFloor:(nullable NSString *)floor {
     NSString *key;
     if (buildingId != nil && floor != nil && buildingId.length != 0 && floor.length != 0) {
         key = [NSString stringWithFormat:@"%@-%@", buildingId, floor];
