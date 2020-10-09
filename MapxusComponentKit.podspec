@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "MapxusComponentKit"
-  s.version      = "3.14.0"
+  s.version      = "3.15.0"
   s.summary      = "Indoor map UI component"
   s.description  = <<-DESC
                    Standardized indoor map UI component.
@@ -15,6 +15,6 @@ Pod::Spec.new do |s|
   s.requires_arc = true
   s.module_name  = "MapxusComponentKit"
   s.vendored_frameworks = "MapxusComponentKit/MapxusComponentKit.framework"
-  s.dependency "MapxusMapSDK", "3.14.0"
+  s.dependency "MapxusMapSDK", "3.15.0"
 
 end
