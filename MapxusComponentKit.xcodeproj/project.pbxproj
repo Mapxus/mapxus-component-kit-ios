@@ -101,6 +101,7 @@
 		D6978C40248F8D1700A15F66 /* MXMRouteAdsorber.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MXMRouteAdsorber.m; sourceTree = "<group>"; };
 		D6987115232A3B9500D34F1A /* MXMVisualFlagPainter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXMVisualFlagPainter.h; sourceTree = "<group>"; };
 		D6987116232A3B9500D34F1A /* MXMVisualFlagPainter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MXMVisualFlagPainter.m; sourceTree = "<group>"; };
+		D6BD2D1D253945D90028CADB /* AutoRun.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = AutoRun.sh; sourceTree = "<group>"; };
 		D6DB9300229A386D0030DB46 /* MXMPainterPathDto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MXMPainterPathDto.h; sourceTree = "<group>"; };
 		D6DB9301229A386D0030DB46 /* MXMPainterPathDto.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MXMPainterPathDto.m; sourceTree = "<group>"; };
 		D6E6DC7E22B341AE00DB624E /* MXMHttpManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXMHttpManager.h; sourceTree = "<group>"; };
@@ -233,6 +234,7 @@
 		D6F8C0B021858CA700E3AFC4 = {
 			isa = PBXGroup;
 			children = (
+				D6BD2D1D253945D90028CADB /* AutoRun.sh */,
 				D646764121A5437F00018634 /* IOS-Universal-Framework_aggregate.sh */,
 				D6F8C0BC21858CA700E3AFC4 /* MapxusComponentKit */,
 				D6F8C0C721858CA700E3AFC4 /* MapxusComponentKitTests */,

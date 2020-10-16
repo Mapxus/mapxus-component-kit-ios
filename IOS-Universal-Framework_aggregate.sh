@@ -3,7 +3,7 @@
 ######################
 NULL=
 
-REVEAL_ARCHIVE_IN_FINDER=true
+REVEAL_ARCHIVE_IN_FINDER=false
 
 FRAMEWORK_NAME="${PROJECT_NAME}"
 
@@ -69,8 +69,10 @@ TARGET_DIR="${OUTPUT_DIR}/${FRAMEWORK_NAME}-${CONFIGURATION}-iphoneuniversal/"
 rm -rf "$TARGET_DIR"
 mkdir -p "$TARGET_DIR"
 
-cp -rf "${FRAMEWORK}" "$OUTPUT_DIR"
 cp -r "${FRAMEWORK}" "$TARGET_DIR"
+
+rm -rf "${POD_DIR}/${FRAMEWORK_NAME}.framework"
+cp -rf "${FRAMEWORK}" "${POD_DIR}"
 
 if [ ${REVEAL_ARCHIVE_IN_FINDER} = true ]; then
     open "${OUTPUT_DIR}/"
