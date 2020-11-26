@@ -84,6 +84,17 @@
         newCurrentInstruction.type = currentInstruction.type;
         NSUInteger end = currentInstruction.interval.lastObject.unsignedIntegerValue;
         newCurrentInstruction.interval = @[@(0), @(end-i)];
+        // 重新计算距离
+        double newDistance = 0.0;
+        for (int j = 0; j<=end-i-1; j++) {
+            MXMGeoPoint *fpp = newCoordinates[j];
+            CLLocation *ff = [[CLLocation alloc] initWithLatitude:fpp.latitude longitude:fpp.longitude];
+            MXMGeoPoint *lpp = newCoordinates[j+1];
+            CLLocation *ll = [[CLLocation alloc] initWithLatitude:lpp.latitude longitude:lpp.longitude];
+            newDistance += [ff distanceFromLocation:ll];
+        }
+        newCurrentInstruction.distance = newDistance;
+
         [newInstructions addObject:newCurrentInstruction];
     }
     
