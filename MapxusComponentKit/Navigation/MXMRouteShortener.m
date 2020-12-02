@@ -71,20 +71,19 @@
     NSMutableArray *newInstructions = [NSMutableArray array];
     
     // 如果是到达了梯子上，直接丢弃，不再绘制
-    if (currentInstruction.sign != MXMDownstairs && currentInstruction.sign != MXMUpstairs) {
+//    if (currentInstruction.sign != MXMDownstairs && currentInstruction.sign != MXMUpstairs) {
         MXMInstruction *newCurrentInstruction = [[MXMInstruction alloc] init];
         newCurrentInstruction.buildingId = currentInstruction.buildingId;
         newCurrentInstruction.floor = currentInstruction.floor;
         newCurrentInstruction.streetName = currentInstruction.streetName;
-        newCurrentInstruction.distance = currentInstruction.distance;
         newCurrentInstruction.heading = currentInstruction.heading;
         newCurrentInstruction.sign = currentInstruction.sign;
         newCurrentInstruction.text = currentInstruction.text;
-        newCurrentInstruction.time = currentInstruction.time;
         newCurrentInstruction.type = currentInstruction.type;
         NSUInteger end = currentInstruction.interval.lastObject.unsignedIntegerValue;
         newCurrentInstruction.interval = @[@(0), @(end-i)];
-        // 重新计算距离
+        // 重新计算距离与时间
+        double oldDistance = currentInstruction.distance;
         double newDistance = 0.0;
         for (int j = 0; j<=end-i-1; j++) {
             MXMGeoPoint *fpp = newCoordinates[j];
@@ -94,9 +93,14 @@
             newDistance += [ff distanceFromLocation:ll];
         }
         newCurrentInstruction.distance = newDistance;
+        if (currentInstruction.time != 0) {
+            newCurrentInstruction.time = (NSUInteger)(newDistance / ( oldDistance / currentInstruction.time));
+        } else {
+            newCurrentInstruction.time = currentInstruction.time;
+        }
 
         [newInstructions addObject:newCurrentInstruction];
-    }
+//    }
     
     // 去到最后一个instruction，就只保留最后一个，之后的不需要再遍历，因为没有之后的instruction了
     if (index != instructions.count-1) {
@@ -122,11 +126,18 @@
     
     MXMPath *newPath = [[MXMPath alloc] init];
     newPath.bbox = self.originalPath.bbox;
-    newPath.distance = self.originalPath.distance;
     newPath.weight = self.originalPath.weight;
-    newPath.time = self.originalPath.time;
     newPath.instructions = [newInstructions copy];
     newPath.points = newGeometry;
+    
+    NSUInteger tim = 0;
+    double dis = 0.0;
+    for (MXMInstruction *ins in newInstructions) {
+        tim += ins.time;
+        dis += ins.distance;
+    }
+    newPath.distance = dis;
+    newPath.time = tim;
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(routeShortener:redrawingNewPath:fromInstructionIndex:)]) {
         [self.delegate routeShortener:self redrawingNewPath:newPath fromInstructionIndex:index];
