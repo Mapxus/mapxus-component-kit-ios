@@ -15,8 +15,7 @@
 + (nullable CLLocation *)getProjectedResultWithPathDTO:(MXMNavigationPathDTO *)DTO userPosition:(CLLocation *)position key:(NSString *)key maximumDrift:(double)maximumDrift {
     CLLocationCoordinate2D projectedCoordinate = [self getProjectionLatLonWithPathDTO:DTO position:position key:key];
     if (CLLocationCoordinate2DIsValid(projectedCoordinate)) {
-        CLLocation *projectedLocation = [[CLLocation alloc] initWithLatitude:projectedCoordinate.latitude longitude:projectedCoordinate.longitude];
-        double distance = [projectedLocation distanceFromLocation:position];
+        double distance = [GeoFunctions geoDistanceBetweenPoint0:projectedCoordinate andPoint1:position.coordinate];
         // 对路线漂移量过大
         if (distance > maximumDrift) {
             return nil;

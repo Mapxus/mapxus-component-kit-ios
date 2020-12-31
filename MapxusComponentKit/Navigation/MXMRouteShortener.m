@@ -87,10 +87,10 @@
         double newDistance = 0.0;
         for (int j = 0; j<=end-i-1; j++) {
             MXMGeoPoint *fpp = newCoordinates[j];
-            CLLocation *ff = [[CLLocation alloc] initWithLatitude:fpp.latitude longitude:fpp.longitude];
+            CLLocationCoordinate2D ff = CLLocationCoordinate2DMake(fpp.latitude, fpp.longitude);
             MXMGeoPoint *lpp = newCoordinates[j+1];
-            CLLocation *ll = [[CLLocation alloc] initWithLatitude:lpp.latitude longitude:lpp.longitude];
-            newDistance += [ff distanceFromLocation:ll];
+            CLLocationCoordinate2D ll = CLLocationCoordinate2DMake(lpp.latitude, lpp.longitude);
+            newDistance += [GeoFunctions geoDistanceBetweenPoint0:ff andPoint1:ll];
         }
         newCurrentInstruction.distance = newDistance;
         if (currentInstruction.time != 0) {
