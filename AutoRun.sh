@@ -38,11 +38,11 @@ do
     esac
 done
 
-FRAMEWORK_DIR="$FRAMEWORK_ROOT_PATH/mapxus-component-kit-ios/MapxusComponentKit"
+FRAMEWORK_DIR="$FRAMEWORK_ROOT_PATH/mapxus-component-kit-ios-template/dynamic"
 #目录如果不存在，则拉取github
 if [ ! -d "${FRAMEWORK_DIR}" ]
 then
-  git clone https://github.com/Mapxus/mapxus-component-kit-ios.git "$FRAMEWORK_ROOT_PATH/mapxus-component-kit-ios"
+  git clone git@gitee.com:150vb/mapxus-component-kit-ios-template.git "$FRAMEWORK_ROOT_PATH/mapxus-component-kit-ios-template"
 fi
 
 #打包并复制到目录
