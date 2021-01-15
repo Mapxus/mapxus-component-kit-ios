@@ -1,20 +1,28 @@
 
 Pod::Spec.new do |s|
 
-  s.name         = "MapxusComponentKit"
-  s.version      = "3.16.1"
-  s.summary      = "Indoor map UI component"
-  s.description  = <<-DESC
-                   Standardized indoor map UI component.
-                   DESC
-  s.homepage     = "http://www.mapxus.com"
-  s.license      = { :type => "MIT", :file => "LICENSE" }
-  s.author       = { "Mapxus" => "developer@maphive.io" }
-  s.platform     = :ios, "9.0"
-  s.source       = { :git => 'https://github.com/MapxusSample/mapxus-component-kit-ios.git', :tag => "#{s.version}" }
+
+  version = '3.17.0'
+
+  s.name         = 'MapxusComponentKit'
+  s.version      = version
+
+  s.summary      = 'Indoor map UI component'
+  s.description  = 'Standardized indoor map UI component.'
+  s.homepage     = 'http://www.mapxus.com'
+  s.license      = { :type => 'MIT', :file => 'LICENSE' }
+  s.author       = { 'Mapxus' => 'developer@maphive.io' }
+
+  s.platform     = :ios, '9.0'
+
+  s.source       = { :http => "https://ios-sdk.mapxus.com/#{version.to_s}/mapxus-component-kit-ios.zip", :flatten => true }
+
   s.requires_arc = true
-  s.module_name  = "MapxusComponentKit"
-  s.vendored_frameworks = "MapxusComponentKit/MapxusComponentKit.framework"
-  s.dependency "MapxusMapSDK", "3.16.1"
+
+  s.module_name  = 'MapxusComponentKit'
+  s.vendored_frameworks = 'dynamic/MapxusComponentKit.framework'
+
+  s.dependency "MapxusMapSDK", version
+
 
 end

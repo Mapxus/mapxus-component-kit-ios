@@ -1,6 +1,0 @@
-framework module MapxusComponentKit {
-  umbrella header "MapxusComponentKit.h"
-
-  export *
-  module * { export * }
-}
