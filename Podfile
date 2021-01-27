@@ -7,8 +7,8 @@ target 'MapxusComponentKit' do
   inhibit_all_warnings!
 
   # Pods for MapxusComponentKit
-  pod 'MapxusBaseSDK', :path => '../mapxus-base-sdk-ios-template'
-  pod 'MapxusMapSDK', :path => '../mapxus-map-sdk-ios-template'
+  pod 'MapxusBaseSDK', :path => '../mapxus-base-sdk-ios'
+  pod 'MapxusMapSDK', :path => '../mapxus-map-sdk-ios'
 
   target 'MapxusComponentKitTests' do
     inherit! :search_paths
