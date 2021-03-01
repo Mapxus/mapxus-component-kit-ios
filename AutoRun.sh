@@ -38,6 +38,24 @@ do
     esac
 done
 
+
+XCCONFIG_FILE='BuildConfig/mapxus.prod.xcconfig'
+
+if [[ -z $COM ]] && [[ -z $ENV ]]; then
+    XCCONFIG_FILE='BuildConfig/mapxus.prod.xcconfig'
+
+elif [[ -z $COM ]] && [[ $ENV == "-test" ]]; then
+    XCCONFIG_FILE='BuildConfig/mapxus.test.xcconfig'
+
+elif [[ $COM == "-landsd" ]] && [[ -z $ENV ]]; then
+    XCCONFIG_FILE='BuildConfig/landsd.prod.xcconfig'
+
+elif [[ $COM == "-landsd" ]] && [[ $ENV == "-test" ]]; then
+    XCCONFIG_FILE='BuildConfig/landsd.test.xcconfig'
+
+fi
+
+
 FRAMEWORK_DIR="$FRAMEWORK_ROOT_PATH/mapxus-component-kit-ios/dynamic"
 #目录如果不存在，则拉取github
 if [ ! -d "${FRAMEWORK_DIR}" ]
@@ -47,4 +65,4 @@ fi
 
 #打包并复制到目录
 pod install
-xcodebuild -workspace MapxusComponentKit.xcworkspace -scheme MapxusComponentKit-Universal POD_DIR="$FRAMEWORK_DIR"
+xcodebuild -workspace MapxusComponentKit.xcworkspace -scheme MapxusComponentKit-Universal POD_DIR="$FRAMEWORK_DIR" XCCONFIG_FILE="$XCCONFIG_FILE"
