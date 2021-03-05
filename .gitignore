@@ -65,3 +65,4 @@ iOSInjectionProject/
 Output/
 Document/
 *.xcconfig
+*.env

@@ -82,6 +82,7 @@
 		D65E1B7B25ECA4EA00D78764 /* landsd.prod.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = landsd.prod.xcconfig; sourceTree = "<group>"; };
 		D65E1B7C25ECA4EA00D78764 /* mapxus.test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = mapxus.test.xcconfig; sourceTree = "<group>"; };
 		D65E1B7D25ECA4EA00D78764 /* landsd.test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = landsd.test.xcconfig; sourceTree = "<group>"; };
+		D65E1BA525F094EC00D78764 /* UploadCocoapods.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = UploadCocoapods.sh; sourceTree = "<group>"; };
 		D678DA962288EEBB00F8B4C8 /* MXMParagraph.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MXMParagraph.h; sourceTree = "<group>"; };
 		D678DA972288EEBB00F8B4C8 /* MXMParagraph.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MXMParagraph.m; sourceTree = "<group>"; };
 		D68019A4229FBFA900E2E27B /* images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = images.xcassets; sourceTree = "<group>"; };
@@ -106,7 +107,7 @@
 		D6978C40248F8D1700A15F66 /* MXMRouteAdsorber.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MXMRouteAdsorber.m; sourceTree = "<group>"; };
 		D6987115232A3B9500D34F1A /* MXMVisualFlagPainter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXMVisualFlagPainter.h; sourceTree = "<group>"; };
 		D6987116232A3B9500D34F1A /* MXMVisualFlagPainter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MXMVisualFlagPainter.m; sourceTree = "<group>"; };
-		D6BD2D1D253945D90028CADB /* AutoRun.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = AutoRun.sh; sourceTree = "<group>"; };
+		D6BD2D1D253945D90028CADB /* AutoBuild.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = AutoBuild.sh; sourceTree = "<group>"; };
 		D6DB9300229A386D0030DB46 /* MXMPainterPathDto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MXMPainterPathDto.h; sourceTree = "<group>"; };
 		D6DB9301229A386D0030DB46 /* MXMPainterPathDto.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MXMPainterPathDto.m; sourceTree = "<group>"; };
 		D6E6DC7E22B341AE00DB624E /* MXMHttpManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXMHttpManager.h; sourceTree = "<group>"; };
@@ -252,7 +253,8 @@
 			isa = PBXGroup;
 			children = (
 				D65E1B7825ECA4EA00D78764 /* BuildConfig */,
-				D6BD2D1D253945D90028CADB /* AutoRun.sh */,
+				D6BD2D1D253945D90028CADB /* AutoBuild.sh */,
+				D65E1BA525F094EC00D78764 /* UploadCocoapods.sh */,
 				D646764121A5437F00018634 /* IOS-Universal-Framework_aggregate.sh */,
 				D6F8C0BC21858CA700E3AFC4 /* MapxusComponentKit */,
 				D6F8C0C721858CA700E3AFC4 /* MapxusComponentKitTests */,
