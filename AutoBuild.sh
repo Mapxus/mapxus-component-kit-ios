@@ -56,13 +56,19 @@ elif [[ $COM == "-landsd" ]] && [[ $ENV == "-test" ]]; then
 fi
 
 
-FRAMEWORK_DIR="$FRAMEWORK_ROOT_PATH/mapxus-component-kit-ios/dynamic"
+FRAMEWORK_DIR="$FRAMEWORK_ROOT_PATH/mapxus-component-kit-ios"
 #目录如果不存在，则拉取github
 if [ ! -d "${FRAMEWORK_DIR}" ]
 then
-  git clone https://github.com/Mapxus/mapxus-component-kit-ios.git "$FRAMEWORK_ROOT_PATH/mapxus-component-kit-ios"
+  git clone https://github.com/Mapxus/mapxus-component-kit-ios.git "$FRAMEWORK_DIR"
+fi
+
+DYNAMIC_DIR="$FRAMEWORK_DIR/dynamic"
+if [ ! -d "${DYNAMIC_DIR}" ]
+then
+  mkdir $DYNAMIC_DIR
 fi
 
 #打包并复制到目录
 pod install
-xcodebuild -workspace MapxusComponentKit.xcworkspace -scheme MapxusComponentKit-Universal POD_DIR="$FRAMEWORK_DIR" XCCONFIG_FILE="$XCCONFIG_FILE"
+xcodebuild -workspace MapxusComponentKit.xcworkspace -scheme MapxusComponentKit-Universal POD_DIR="$DYNAMIC_DIR" XCCONFIG_FILE="$XCCONFIG_FILE"
