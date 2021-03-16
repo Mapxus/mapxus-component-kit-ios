@@ -36,6 +36,10 @@ podspecFile=MapxusComponentKit.podspec
 # 进入目录
 cd $WORK_DIR
 
+if [ -f "$zipFile" ]; then
+  rm -r "$zipFile"
+fi
+
 # 打包压缩
 zip -r $zipFile * -x '*.podspec' '*/.*'
 
