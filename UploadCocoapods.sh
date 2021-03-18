@@ -33,6 +33,9 @@ shareName=com-mapxus-iossdk
 
 podspecFile=MapxusComponentKit.podspec
 
+### 读取key和name
+export $(xargs < BuildConfig/azure.env)
+
 # 进入目录
 cd $WORK_DIR
 
@@ -47,9 +50,6 @@ zip -r $zipFile * -x '*.podspec' '*/.*'
 ### 获取tag
 version=$(git describe --abbrev=0 --tags)
 
-### 读取key和name
-export $(xargs < BuildConfig/azure.env)
-
 ### create version directory
 az storage directory create \
 --share-name $shareName \
@@ -62,7 +62,7 @@ az storage file upload \
 --share-name $shareName \
 --account-key $accountKey \
 --account-name $accountName \
---path $version \
+--path "$version/$zipFile" \
 --source $zipFile
 
 # 上传Cocoapods
