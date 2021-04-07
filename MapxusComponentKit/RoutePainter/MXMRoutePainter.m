@@ -43,6 +43,7 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
         [self addDefaultImage];
         self.isAddEndDash = YES;
         self.isAddStartDash = YES;
+        self.hiddenTranslucentPaths = NO;
     }
     return self;
 }
@@ -96,6 +97,7 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
     self.dto = [[MXMPainterPathDto alloc] initWithPath:path startPoint:startP endPoint:endP];
     
     // 3.Supplementary starting line
+    // ============================================================================
     NSMutableArray *addLineFeatures = [NSMutableArray array];
     {
         if (self.isAddStartDash) {
@@ -160,13 +162,12 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
     addLineLayer.lineCap = [NSExpression expressionForConstantValue:[NSValue valueWithMGLLineCap:MGLLineCapRound]];
     addLineLayer.lineDashPattern = [NSExpression expressionForConstantValue:@[@(1), @(2)]];
     [self.mapView.style addLayer:addLineLayer];
-
     
-    // 添加路线
-    NSMutableArray *lineFeatures = [NSMutableArray array];
-    NSMutableArray *connectorFeatures = [NSMutableArray array];
+    // ============================================================================
 
-    // 添加起始点透明图标
+    // 始终点图标层
+    NSMutableArray *startAndEndFeatures = [NSMutableArray array];
+    // 添加起始点图标
     NSMutableDictionary *startAttributes = [NSMutableDictionary dictionary];
     if (startP.buildingId) {
         startAttributes[@"key"] = [NSString stringWithFormat:@"%@-%@", startP.buildingId, startP.floor];
@@ -177,8 +178,8 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
     MGLPointFeature *startFeature = [[MGLPointFeature alloc] init];
     startFeature.coordinate = CLLocationCoordinate2DMake(startP.latitude, startP.longitude);
     startFeature.attributes = startAttributes;
-    [connectorFeatures addObject:startFeature];
-    // 添加终点透明图标
+    [startAndEndFeatures addObject:startFeature];
+    // 添加终点图标
     NSMutableDictionary *endAttributes = [NSMutableDictionary dictionary];
     if (endP.buildingId) {
         endAttributes[@"key"] = [NSString stringWithFormat:@"%@-%@", endP.buildingId, endP.floor];
@@ -189,9 +190,23 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
     MGLPointFeature *toFeature = [[MGLPointFeature alloc] init];
     toFeature.coordinate = CLLocationCoordinate2DMake(endP.latitude, endP.longitude);
     toFeature.attributes = endAttributes;
-    [connectorFeatures addObject:toFeature];
+    [startAndEndFeatures addObject:toFeature];
     
+    // 添加转折点渲染层数据
+    MGLShapeSource *startAndEndSource = [[MGLShapeSource alloc] initWithIdentifier:@"startAndEndSource" features:startAndEndFeatures options:nil];
+    [self.mapView.style addSource:startAndEndSource];
+    // 添加转折点渲染层
+    MGLSymbolStyleLayer *startAndEndLayer = [[MGLSymbolStyleLayer alloc] initWithIdentifier:@"route-start-and-end-layer" source:startAndEndSource];
+    startAndEndLayer.iconImageName = [NSExpression expressionForKeyPath:@"iconName"];
+    startAndEndLayer.iconAllowsOverlap = [NSExpression expressionForConstantValue:@YES];
+    startAndEndLayer.symbolSpacing = [NSExpression expressionForConstantValue:@1];
+    [self.mapView.style addLayer:startAndEndLayer];
     
+    // ============================================================================
+
+    // 添加路线
+    NSMutableArray *lineFeatures = [NSMutableArray array];
+    NSMutableArray *connectorFeatures = [NSMutableArray array];
     // 添加路线
     for (MXMParagraph *paph in self.dto.paragraphs.allValues) {
         // 当前楼层转折点
@@ -250,7 +265,6 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
     // 添加线渲染层数据
     MGLShapeSource *lineSource = [[MGLShapeSource alloc] initWithIdentifier:@"lineSource" features:lineFeatures options:nil];
     [self.mapView.style addSource:lineSource];
-    
     // 添加线渲染层
     MGLLineStyleLayer *lineLayer = [[MGLLineStyleLayer alloc] initWithIdentifier:@"route-line-layer" source:lineSource];
     lineLayer.lineWidth = [NSExpression expressionForConstantValue:@8];
@@ -272,7 +286,6 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
     // 添加转折点渲染层数据
     MGLShapeSource *connectorSource = [[MGLShapeSource alloc] initWithIdentifier:@"connectorSource" features:connectorFeatures options:nil];
     [self.mapView.style addSource:connectorSource];
-    
     // 添加转折点渲染层
     MGLSymbolStyleLayer *connectorLayer = [[MGLSymbolStyleLayer alloc] initWithIdentifier:@"route-connector-layer" source:connectorSource];
     connectorLayer.iconImageName = [NSExpression expressionForKeyPath:@"iconName"];
@@ -326,53 +339,67 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
     MGLStyleLayer *layer2 = [self.mapView.style layerWithIdentifier:@"route-arrow-layer"];
     MGLStyleLayer *layer3 = [self.mapView.style layerWithIdentifier:@"route-connector-layer"];
     MGLStyleLayer *layer4 = [self.mapView.style layerWithIdentifier:@"route-addLine-layer"];
-    
+    MGLStyleLayer *layer5 = [self.mapView.style layerWithIdentifier:@"route-start-and-end-layer"];
+
     layer1 ? [self.mapView.style removeLayer:layer1] : nil;
     layer2 ? [self.mapView.style removeLayer:layer2] : nil;
     layer3 ? [self.mapView.style removeLayer:layer3] : nil;
     layer4 ? [self.mapView.style removeLayer:layer4] : nil;
+    layer5 ? [self.mapView.style removeLayer:layer5] : nil;
 
     MGLSource *source1 = [self.mapView.style sourceWithIdentifier:@"lineSource"];
     MGLSource *source2 = [self.mapView.style sourceWithIdentifier:@"connectorSource"];
     MGLSource *source3 = [self.mapView.style sourceWithIdentifier:@"addLineSource"];
+    MGLSource *source4 = [self.mapView.style sourceWithIdentifier:@"startAndEndSource"];
 
     source1 ? [self.mapView.style removeSource:source1] : nil;
     source2 ? [self.mapView.style removeSource:source2] : nil;
     source3 ? [self.mapView.style removeSource:source3] : nil;
+    source4 ? [self.mapView.style removeSource:source4] : nil;
 }
 
 - (void)changeOnBuilding:(nullable NSString *)buildingId floor:(nullable NSString *)floor
 {
+    float transparency = 0.4;
+    if (self.hiddenTranslucentPaths) {
+        transparency = 0;
+    }
     NSString *key;
     if ([NSString isEmpty:buildingId] || [NSString isEmpty:floor]) {
         key = @"outdoor";
         // 线条变色
         MGLLineStyleLayer *lineLayer = (MGLLineStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-line-layer"];
-        lineLayer.lineOpacity = [NSExpression expressionWithFormat:@"MGL_MATCH(key, %@, %@, %@)", @"outdoor", @(1), @(0.4)];
+        lineLayer.lineOpacity = [NSExpression expressionWithFormat:@"MGL_MATCH(key, %@, %@, %@)", @"outdoor", @(1), @(transparency)];
         // 虚线段变色
         MGLLineStyleLayer *addLineLayer = (MGLLineStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-addLine-layer"];
-        addLineLayer.lineOpacity = [NSExpression expressionWithFormat:@"MGL_MATCH(key, %@, %@, %@)", @"outdoor", @(1), @(0.4)];
+        addLineLayer.lineOpacity = [NSExpression expressionWithFormat:@"MGL_MATCH(key, %@, %@, %@)", @"outdoor", @(1), @(transparency)];
         // 方向图标变色
         MGLSymbolStyleLayer *arrowLayer = (MGLSymbolStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-arrow-layer"];
-        arrowLayer.iconOpacity = [NSExpression expressionWithFormat:@"MGL_MATCH(key, %@, %@, %@)", @"outdoor", @(1), @(0.4)];
+        arrowLayer.iconOpacity = [NSExpression expressionWithFormat:@"MGL_MATCH(key, %@, %@, %@)", @"outdoor", @(1), @(transparency)];
+        // 始终点图标变色
+        MGLSymbolStyleLayer *startAndEndLayer = (MGLSymbolStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-start-and-end-layer"];
+        startAndEndLayer.iconOpacity = [NSExpression expressionWithFormat:@"MGL_MATCH(key, %@, %@, %@)", @"outdoor", @(1), @(0.4)];
         // 转折点变色及隐藏
         MGLSymbolStyleLayer *connectorLayer = (MGLSymbolStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-connector-layer"];
-        connectorLayer.iconOpacity = [NSExpression expressionWithFormat:@"MGL_MATCH(key, %@, %@, %@)", @"outdoor", @(1), @(0.4)];
+        connectorLayer.iconOpacity = [NSExpression expressionWithFormat:@"MGL_MATCH(key, %@, %@, %@)", @"outdoor", @(1), @(transparency)];
         connectorLayer.predicate = [self createPredicateWith:key];
     } else {
         key = [NSString stringWithFormat:@"%@-%@", buildingId, floor];
         // 线条变色
         MGLLineStyleLayer *lineLayer = (MGLLineStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-line-layer"];
-        lineLayer.lineOpacity = [NSExpression expressionWithFormat:@"MGL_MATCH(key, %@, %@, %@, %@, %@)", key, @(1), @"outdoor", @(1), @(0.4)];
+        lineLayer.lineOpacity = [NSExpression expressionWithFormat:@"MGL_MATCH(key, %@, %@, %@, %@, %@)", key, @(1), @"outdoor", @(1), @(transparency)];
         // 虚线段变色
         MGLLineStyleLayer *addLineLayer = (MGLLineStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-addLine-layer"];
-        addLineLayer.lineOpacity = [NSExpression expressionWithFormat:@"MGL_MATCH(key, %@, %@, %@, %@, %@)", key, @(1), @"outdoor", @(1), @(0.4)];
+        addLineLayer.lineOpacity = [NSExpression expressionWithFormat:@"MGL_MATCH(key, %@, %@, %@, %@, %@)", key, @(1), @"outdoor", @(1), @(transparency)];
         // 方向图标变色
         MGLSymbolStyleLayer *arrowLayer = (MGLSymbolStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-arrow-layer"];
-        arrowLayer.iconOpacity = [NSExpression expressionWithFormat:@"MGL_MATCH(key, %@, %@, %@, %@, %@)", key, @(1), @"outdoor", @(1), @(0.4)];
+        arrowLayer.iconOpacity = [NSExpression expressionWithFormat:@"MGL_MATCH(key, %@, %@, %@, %@, %@)", key, @(1), @"outdoor", @(1), @(transparency)];
+        // 始终点图标变色
+        MGLSymbolStyleLayer *startAndEndLayer = (MGLSymbolStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-start-and-end-layer"];
+        startAndEndLayer.iconOpacity = [NSExpression expressionWithFormat:@"MGL_MATCH(key, %@, %@, %@, %@, %@)", key, @(1), @"outdoor", @(1), @(0.4)];
         // 转折点变色及隐藏
         MGLSymbolStyleLayer *connectorLayer = (MGLSymbolStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-connector-layer"];
-        connectorLayer.iconOpacity = [NSExpression expressionWithFormat:@"MGL_MATCH(key, %@, %@, %@, %@, %@)", key, @(1), @"outdoor", @(1), @(0.4)];
+        connectorLayer.iconOpacity = [NSExpression expressionWithFormat:@"MGL_MATCH(key, %@, %@, %@, %@, %@)", key, @(1), @"outdoor", @(1), @(transparency)];
         connectorLayer.predicate = [self createPredicateWith:key];
     }
 }
@@ -403,24 +430,15 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
 
 - (NSCompoundPredicate *)createPredicateWith:(NSString *)key
 {
-    NSPredicate *P1 = [NSPredicate predicateWithFormat:@"iconName == %@", startIconString];
-    NSPredicate *P2 = [NSPredicate predicateWithFormat:@"iconName == %@", endIconString];
     NSPredicate *P3 = [NSPredicate predicateWithFormat:@"key == %@", key];
     NSPredicate *P4 = [NSPredicate predicateWithFormat:@"$zoomLevel > 15.7"];
-    
-    NSMutableArray *orArr = [NSMutableArray array];
-    [orArr addObject:P1];
-    [orArr addObject:P2];
-    
+        
     NSMutableArray *andArr = [NSMutableArray array];
     [andArr addObject:P3];
     [andArr addObject:P4];
     NSCompoundPredicate *aPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:andArr];
 
-    [orArr addObject:aPredicate];
-    
-    NSCompoundPredicate *rPredicate = [NSCompoundPredicate orPredicateWithSubpredicates:orArr];
-    return rPredicate;
+    return aPredicate;
 }
 
 @end

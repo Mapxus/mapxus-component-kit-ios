@@ -69,9 +69,14 @@ NS_ASSUME_NONNULL_BEGIN
 /// 门口图标
 @property (nonatomic, strong) UIImage *buildingGateIcon;
 
+/// 添加起始点到路网起始端的虚线段
 @property (nonatomic, assign) BOOL isAddStartDash;
 
+/// 添加终点到路网终端的虚线段
 @property (nonatomic, assign) BOOL isAddEndDash;
+
+/// 隐藏未选中楼层上的路线，默认为 NO
+@property (nonatomic, assign) BOOL hiddenTranslucentPaths;
 
 /// 选中绘制的数据源
 @property (nonatomic, strong, nullable) MXMPainterPathDto *dto;
