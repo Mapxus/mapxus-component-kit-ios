@@ -66,3 +66,7 @@ Output/
 Document/
 *.xcconfig
 *.env
+
+# Bundler
+.bundle
+vendor/
