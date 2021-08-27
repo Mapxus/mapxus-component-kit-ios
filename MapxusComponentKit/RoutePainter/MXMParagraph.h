@@ -12,17 +12,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- 段落转折点类型
- - StartEndPoint: 起始点
- - ElevatorUp: 电梯上行
- - ElevatorDown: 电梯下行
- - EscalatorUp: 扶手梯上行
- - EscalatorDown: 扶手梯下行
- - RampUp: 斜坡上行
- - RampDown: 斜坡下行
- - StairsUp: 楼梯上行
- - StairsDown: 楼梯下行
- - BuildingGate: 穿过门口
+ Paragraph Turning Point Types
  */
 typedef NS_ENUM(NSUInteger, MXMParagraphTurningType) {
     StartEndPoint = 0,
@@ -40,23 +30,23 @@ typedef NS_ENUM(NSUInteger, MXMParagraphTurningType) {
 
 
 /**
- * 段落模型，连续的室外坐标或连续同一建筑楼层的室内坐标为一个段落。
+ A segment model, with consecutive outdoor coordinates or consecutive indoor coordinates of the same building floor as a segment.
  */
 @interface MXMParagraph : NSObject
 /**
- 按规划顺序排列的key，其中室外段落如果有室内段落隔开，以 outdoor 1、outdoor 2或buildingId-floor 1... 来区分标识，
- 室内段落 key 以 buildingId-floor 拼接而成。
+ Key in planning order, where outdoor passages are separated by indoor passages by outdoor 1, outdoor 2 or buildingId-floor 1... to distinguish them.
+ The indoor sections are grouped together by buildingId and floor.
  */
 @property (nonatomic, strong) NSString *key;
-/// 段落所在建筑的ID，nil表示在室外
+/// ID of the building in which the segment is located, nil means outside
 @property (nonatomic, strong, nullable) NSString *buildingId;
-/// 段落所在楼层，nil表示在室外
+/// The floor where the paragraph is located, nil means outside
 @property (nonatomic, strong, nullable) NSString *floor;
-/// 段落开始处的转折点类型
+/// Type of turning point at the beginning of a paragraph
 @property (nonatomic, assign) MXMParagraphTurningType startPointType;
-/// 段落结尾处的转折点类型
+/// Types of turning points at the end of paragraphs
 @property (nonatomic, assign) MXMParagraphTurningType endPointType;
-/// 段落包含的坐标点
+/// Coordinate points contained in a paragraph
 @property (nonatomic, strong) NSMutableArray<MXMGeoPoint *> *points;
 @end
 

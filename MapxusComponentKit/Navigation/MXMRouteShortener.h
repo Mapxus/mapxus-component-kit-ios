@@ -16,16 +16,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
- * 路线缩短工具的结果回调协议
+ * Results callback protocol from route shortener
  */
 @protocol MXMRouteShortenerDelegate <NSObject>
 
 /**
- * 缩短计算结果回调。在计算好结果后，通过调用此方法输出计算结果
+ * Shorten the calculation result callback. After the result has been calculated, the calculation result is output by calling this method
  *
- * @param shortener 进行缩短的对象
- * @param path 进行缩短后的路线
- * @param index 在原始完整路线上的下标号
+ * @param shortener Performing shortened executors
+ * @param path Shortened route
+ * @param index Subscripts on the original complete route
  */
 - (void)routeShortener:(MXMRouteShortener *)shortener redrawingNewPath:(MXMPath *)path fromInstructionIndex:(NSUInteger)index;
 
@@ -33,34 +33,34 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
- * 路线缩短工具，通过此工具进行路线缩短计算
+ * Route shortening tool with which to perform route shortening calculations
  */
 @interface MXMRouteShortener : NSObject
 
-/// 委托人句柄
+/// Handle
 @property (nonatomic, weak) id<MXMRouteShortenerDelegate> delegate;
 
-/// 原始的完整路线
+/// The original complete route
 @property (nonatomic, strong, readonly) MXMPath *originalPath;
 
-/// 原始的完整途经点列表
+/// The original full list of waypoints
 @property (nonatomic, strong, readonly) NSArray<MXMIndoorPoint *> *originalWayPoints;
 
 /**
- * 输入计算要素
+ * Enter calculation elements
  *
- * @param path 选择要显示的规划路线
- * @param wayPoints 途经点列表
- * @param navigationPathDTO 导航数据
+ * @param path Select the planned route to be displayed
+ * @param wayPoints List of passing points
+ * @param navigationPathDTO Navigation data
  */
 - (void)inputSourceWithOriginalPath:(MXMPath *)path originalWayPoints:(NSArray<MXMIndoorPoint *> *)wayPoints andNavigationPathDTO:(MXMNavigationPathDTO *)navigationPathDTO;
 
 /**
- * 从映射点开始计算缩短路线
+ * Calculation of shortened routes from mapping points
  *
- * @param projection 原始定位点在路线上的映射定位
- * @param buildingID 定位所在建筑ID
- * @param floor 定位所在楼层名字
+ * @param projection Mapped positioning of original positioning points on the route
+ * @param buildingID Locate the building ID
+ * @param floor Locate the name of the floor you are on
  */
 - (void)cutFromTheLocationProjection:(CLLocation *)projection buildingID:(nullable NSString *)buildingID andFloor:(nullable NSString *)floor;
 

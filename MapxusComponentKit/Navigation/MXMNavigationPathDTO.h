@@ -12,14 +12,14 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- * 导航功能的数据对象
+ * Data for the navigation function
  */
 @interface MXMNavigationPathDTO : NSObject
 
 /**
- * 把路线数据转换成导航数据
+ * Converting route data into navigation data
  *
- * @param path 选定的规划路线
+ * @param path Selected planning route
  */
 - (instancetype)initWithPath:(MXMPath *)path;
 

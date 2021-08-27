@@ -13,19 +13,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
- * 吸附状态
+ * Adsorption status
  */
 typedef enum : NSUInteger {
-    /// 正常吸附状态
+    /// Normal adsorption state
     MXMAdsorptionStateDefault,
     
-    /// 因为路网密度及定位误差原因，在导航开始时会出现找不到吸附点的情况，表明用户离可规划路线还有一定距离，这种情况一般不归为错误，可引导用户向规划路线起点靠近
+    /// Because of the density of the road network and positioning errors, at the beginning of the navigation there will be a situation where the adsorption point cannot be found, indicating that the user is still some distance away from the planned route, this situation is generally not classified as an error and the user can be guided closer to the starting point of the planned route
     MXMAdsorptionStateNotStartBinding,
     
-    /// 定位发生了漂移，找不到吸附点，但次数小于等于`numberOfAllowedDrifts`
+    /// Positioning has drifted and the adsorption point cannot be found, but the number is less than or equal to `numberOfAllowedDrifts`
     MXMAdsorptionStateDrifting,
     
-    /// 在正常吸附状态期间，连续找不到吸附点次数大于`numberOfAllowedDrifts`
+    /// The number of consecutive failed adsorption points during the normal adsorption state is greater than `numberOfAllowedDrifts`.
     MXMAdsorptionStateDriftsNumberExceeded,
 
     
@@ -33,19 +33,18 @@ typedef enum : NSUInteger {
 
 
 /**
- * 吸附计算结果回调协议
+ * Callback protocol for adsorption calculation results
  */
 @protocol MXMRouteAdsorberDelegate <NSObject>
 
 /**
- * 回调输出计算出的吸附点信息
+ * The callback outputs the calculated adsorption point information
  *
- * @param location 计算出的吸附点。当`state`值为`MXMAdsorptionStateNotStartBinding`与`MXMAdsorptionStateDriftsNumberExceeded`时，返回的`location`与`actual`会相等；
- *                当`state`值为`MXMAdsorptionStateDrifting`时，返回值为上一次计算的吸附点
- * @param buildingID 计算出的吸附点所在建筑ID
- * @param floor 计算出的吸附点所在的楼层名字
- * @param state 吸附状态标识
- * @param actual 原始的定位点
+ * @param location The calculated adsorption point. When the `state` value is `MXMAdsorptionStateNotStartBinding` and `MXMAdsorptionStateDriftsNumberExceeded`, the `location` and `actual` returned will be equal. When the value of `state` is `MXMAdsorptionStateDrifting`, the returned value will be the last calculated adsorption point
+ * @param buildingID Calculated ID of the building where the adsorption point is located
+ * @param floor Calculated name of the floor where the adsorption point is located
+ * @param state Adsorption status
+ * @param actual Original location
  */
 - (void)refreshTheAdsorptionLocation:(CLLocation *)location buildingID:(nullable NSString *)buildingID floor:(nullable NSString *)floor state:(MXMAdsorptionState)state fromActual:(CLLocation *)actual;
 
@@ -53,30 +52,30 @@ typedef enum : NSUInteger {
 
 
 /**
- * 吸附器，计算定位点在给定规划路线的吸附位置
+ * Adsorber, calculation of the adsorption position of the positioning point for a given planning route
  */
 @interface MXMRouteAdsorber : NSObject
 
-/// 允许漂移次数，默认值为3
+/// Number of drifts allowed, default value is 3
 @property (nonatomic, assign) NSUInteger numberOfAllowedDrifts;
 
-/// 最大允许漂移量，单位(m)，默认值为20m
+/// Maximum permissible drift in (m), default value is 20m
 @property (nonatomic, assign) double maximumDrift;
 
-/// 委托人句柄
+/// Handle
 @property (nonatomic, weak) id<MXMRouteAdsorberDelegate> delegate;
 
 /**
- * 输入选定规划路线的导航数据
+ * Enter navigation data for the selected planning route
  *
- * @param navigationPathDTO 选定规划路线的导航数据
+ * @param navigationPathDTO Navigation data for selected planning routes
  */
 - (void)updateNavigationPathDTO:(MXMNavigationPathDTO *)navigationPathDTO;
 
 /**
- * 通过真实定位计算出相对于规划路线的吸附点
+ * Calculation of adsorption points relative to the planned route by real positioning
  *
- * @param actual 真实的定位
+ * @param actual The actual location
  */
 - (void)calculateTheAdsorptionLocationFromActual:(CLLocation *)actual;
 

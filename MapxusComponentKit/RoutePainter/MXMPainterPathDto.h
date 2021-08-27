@@ -16,31 +16,31 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
- * 规划路线的数据模型
+ * Planning the route collated data model
  */
 @interface MXMPainterPathDto : NSObject
 
-/// 起点
+/// Start point
 @property (nonatomic, strong, readonly) MXMIndoorPoint *startPoint;
 
-/// 终点
+/// End point
 @property (nonatomic, strong, readonly) MXMIndoorPoint *endPoint;
 
 /**
- 按规划顺序排列的key，其中室外段落如果有室内段落隔开，以 outdoor 1、outdoor 2或buildingId-floor 1... 来区分标识，
- 室内段落 key 以 buildingId-floor 拼接而成。
+ Key in planning order, where outdoor passages are separated by indoor passages by outdoor 1, outdoor 2 or buildingId-floor 1... to distinguish them.
+ The indoor sections are grouped together by buildingId and floor.
  */
 @property (nonatomic, strong, readonly) NSArray<NSString*> *keys;
 
-/// 各段落的详细信息
+/// Details of each paragraph
 @property (nonatomic, strong, readonly) NSDictionary<NSString *, MXMParagraph *> *paragraphs;
 
 /**
- 初始化函数
- @param path 路线规划接口 -(void)MXMRouteSearch: 返回结果中其中一个方案的路线模型
- @param start 起始点室内坐标
- @param end 结束点室内坐标
- @return 整理后的数据模型
+ Initialisation functions
+ @param path One of the path form planning interface  `-(void)MXMRouteSearch:`
+ @param start Start point
+ @param end End point
+ @return MXMPainterPathDto object
  */
 - (instancetype)initWithPath:(MXMPath *)path startPoint:(MXMIndoorPoint *)start endPoint:(MXMIndoorPoint *)end;
 

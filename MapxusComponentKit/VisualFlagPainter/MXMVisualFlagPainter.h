@@ -15,49 +15,49 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
- 点击节点后执行的代码块.
- @param node 节点上所带的可视化数据信息
+ Defines the type of code block that is executed when the annotation is clicked
+ @param node Information about the visual data carried on the annotation
  */
 typedef void(^CircleOnClickBlock)(NodeDictionary *node);
 
 
 /**
- * 可视化地图标注点绘制工具
+ * Visual map annotations painter
  */
 @interface MXMVisualFlagPainter : NSObject
 
 
 /**
- 点击节点后执行的代码块
+ Block of code executed after clicking on an annotation
  */
 @property (nonatomic, copy) CircleOnClickBlock circleOnClickBlock;
 
 
 /**
- 绘制工具初始化
- @param mapView 绘制的地图对象.
- @return 绘制对象.
+ Initialisation
+ @param mapView Rendering view
+ @return Painter object
  */
 - (instancetype)initWithMapView:(MGLMapView *)mapView;
 
 
 /**
- 渲染数据
- @param nodes MXMNode 转换成json的队列
+ Pass in rendering data
+ @param nodes The list of `MXMNode` that transformed to json object
  */
 - (void)renderFlagUsingNodes:(NSArray<NodeDictionary*> *)nodes;
 
 
 /**
- 清除所有可视化标注点
+ Clear all visual annotations
  */
 - (void)cleanLayer;
 
 
 /**
- 切换显示对应建筑楼层的可视化标注点。 可以在 ` MapxusMapDelegate ` - mapView: didChangeFloor: atBuilding: 回调方法中调用.
- @param buildingId 地图当前显示的建筑
- @param floor 地图当前显示的楼层
+ Toggles the display of the visual annotations corresponding to the floor of the building. This can be called in the ` MapxusMapDelegate ` - mapView: didChangeFloor: atBuilding: callback method.
+ @param buildingId The id of building which you want to show
+ @param floor The name of floor you want to show
  */
 - (void)changeOnBuilding:(NSString *)buildingId floor:(NSString *)floor;
 
