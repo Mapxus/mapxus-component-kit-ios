@@ -1,79 +1,84 @@
-######################
-# Options
-######################
-NULL=
+#!/bin/sh
 
-REVEAL_ARCHIVE_IN_FINDER=false
+REVEAL_XCFRAMEWORK_IN_FINDER=false
 
-FRAMEWORK_NAME="${PROJECT_NAME}"
+FREAMEWORK_NAME="${PROJECT_NAME}"
+FREAMEWORK_OUTPUT_DIR="${PROJECT_DIR}/Output"
+ARCHIVE_PATH_IOS_DEVICE="./Build/ios_device.xcarchive"
+ARCHIVE_PATH_IOS_SIMULATOR="./Build/ios_simulator.xcarchive"
+# ARCHIVE_PATH_MACOS="./build/macos.xcarchive"
 
-SIMULATOR_LIBRARY_PATH="${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${FRAMEWORK_NAME}.framework"
+function archiveOnePlatform {
+    echo "▸ Starts archiving the scheme: ${1} for destination: ${2};\n▸ Archive path: ${3}"
 
-DEVICE_LIBRARY_PATH="${BUILD_DIR}/${CONFIGURATION}-iphoneos/${FRAMEWORK_NAME}.framework"
+    xcodebuild archive \
+        -workspace ${PROJECT_NAME}.xcworkspace \
+        -scheme "${1}" \
+        -destination "${2}" \
+        -archivePath "${3}" \
+        -xcconfig ${XCCONFIG_FILE} \
+        VALID_ARCHS="${4}" \
+        SKIP_INSTALL=NO \
+        BUILD_LIBRARY_FOR_DISTRIBUTION=YES | xcpretty
 
-UNIVERSAL_LIBRARY_DIR="${BUILD_DIR}/${CONFIGURATION}-iphoneuniversal"
+    # sudo gem install -n /usr/local/bin xcpretty
+    # xcpretty makes xcode compile information much more readable.
+}
 
-FRAMEWORK="${UNIVERSAL_LIBRARY_DIR}/${FRAMEWORK_NAME}.framework"
+function archiveAllPlatforms {
 
+    # https://www.mokacoding.com/blog/xcodebuild-destination-options/
 
-######################
-# Build Frameworks
-######################
-if [ -d ${PROJECT_NAME}.xcworkspace ]; then
-xcodebuild -workspace ${PROJECT_NAME}.xcworkspace -scheme ${PROJECT_NAME} -sdk iphonesimulator -configuration ${CONFIGURATION} -xcconfig ${XCCONFIG_FILE} clean build CONFIGURATION_BUILD_DIR=${BUILD_DIR}/${CONFIGURATION}-iphonesimulator -UseModernBuildSystem=NO 2>&1
-xcodebuild -workspace ${PROJECT_NAME}.xcworkspace -scheme ${PROJECT_NAME} -sdk iphoneos -configuration ${CONFIGURATION} -xcconfig ${XCCONFIG_FILE} clean build CONFIGURATION_BUILD_DIR=${BUILD_DIR}/${CONFIGURATION}-iphoneos -UseModernBuildSystem=NO 2>&1
-else
-xcodebuild -project ${PROJECT_NAME}.xcodeproj -scheme ${PROJECT_NAME} -sdk iphonesimulator -configuration ${CONFIGURATION} -xcconfig ${XCCONFIG_FILE} clean build CONFIGURATION_BUILD_DIR=${BUILD_DIR}/${CONFIGURATION}-iphonesimulator 2>&1
-xcodebuild -project ${PROJECT_NAME}.xcodeproj -scheme ${PROJECT_NAME} -sdk iphoneos -configuration ${CONFIGURATION} -xcconfig ${XCCONFIG_FILE} clean build CONFIGURATION_BUILD_DIR=${BUILD_DIR}/${CONFIGURATION}-iphoneos 2>&1
-fi
+    # Platform                Destination
+    # iOS                    generic/platform=iOS
+    # iOS Simulator            generic/platform=iOS Simulator
+    # iPadOS                generic/platform=iPadOS
+    # iPadOS Simulator        generic/platform=iPadOS Simulator
+    # macOS                    generic/platform=macOS
+    # tvOS                    generic/platform=tvOS
+    # watchOS                generic/platform=watchOS
+    # watchOS Simulator        generic/platform=watchOS Simulator
+    # carPlayOS                generic/platform=carPlayOS
+    # carPlayOS Simulator    generic/platform=carPlayOS Simulator
 
-######################
-# Create directory for universal
-######################
+    SCHEME=${1}
 
-rm -rf "${UNIVERSAL_LIBRARY_DIR}"
+    archiveOnePlatform $SCHEME "generic/platform=iOS Simulator" ${ARCHIVE_PATH_IOS_SIMULATOR} "x86_64 arm64"
+    archiveOnePlatform $SCHEME "generic/platform=iOS" ${ARCHIVE_PATH_IOS_DEVICE} "armv7 arm64"
+    # archiveOnePlatform $SCHEME "generic/platform=macOS" ${ARCHIVE_PATH_MACOS}
+}
 
-mkdir "${UNIVERSAL_LIBRARY_DIR}"
+function makeXCFramework {
 
-mkdir "${FRAMEWORK}"
+    FRAMEWORK_RELATIVE_PATH="Products/Library/Frameworks"
+    OUTPUT_DIR="${FREAMEWORK_OUTPUT_DIR}/DynamicFramework"
 
+    mkdir -p "${OUTPUT_DIR}"
 
-######################
-# Copy files Framework
-######################
+    xcodebuild -create-xcframework \
+        -framework "${ARCHIVE_PATH_IOS_DEVICE}/${FRAMEWORK_RELATIVE_PATH}/${FREAMEWORK_NAME}.framework" \
+        -framework "${ARCHIVE_PATH_IOS_SIMULATOR}/${FRAMEWORK_RELATIVE_PATH}/${FREAMEWORK_NAME}.framework" \
+        -output "${OUTPUT_DIR}/${FREAMEWORK_NAME}.xcframework"
+        
+    rm -rf "${POD_DIR}/${FREAMEWORK_NAME}.xcframework"
+    cp -rf "${OUTPUT_DIR}/${FREAMEWORK_NAME}.xcframework" "${POD_DIR}/${FREAMEWORK_NAME}.xcframework"
+}
 
-cp -r "${DEVICE_LIBRARY_PATH}/." "${FRAMEWORK}"
+echo "#####################"
+echo "▸ Cleaning XCFramework output dir: ${FREAMEWORK_OUTPUT_DIR}"
+rm -rf $FREAMEWORK_OUTPUT_DIR
 
+#### Make XCFramework
 
-######################
-# Make an universal binary
-######################
+echo "▸ Archive framework: ${FREAMEWORK_NAME}"
+archiveAllPlatforms $FREAMEWORK_NAME
 
-lipo "${SIMULATOR_LIBRARY_PATH}/${FRAMEWORK_NAME}" "${DEVICE_LIBRARY_PATH}/${FRAMEWORK_NAME}" -create -output "${FRAMEWORK}/${FRAMEWORK_NAME}" | echo
+echo "▸ Make framework: ${FREAMEWORK_NAME}.xcframework"
+makeXCFramework
 
-# For Swift framework, Swiftmodule needs to be copied in the universal framework
-if [ -d "${SIMULATOR_LIBRARY_PATH}/Modules/${FRAMEWORK_NAME}.swiftmodule/" ]; then
-cp -f ${SIMULATOR_LIBRARY_PATH}/Modules/${FRAMEWORK_NAME}.swiftmodule\/${NULL}* "${FRAMEWORK}/Modules/${FRAMEWORK_NAME}.swiftmodule/" | echo
-fi
+# Clean Build
+rm -rf "./Build"
 
-if [ -d "${DEVICE_LIBRARY_PATH}/Modules/${FRAMEWORK_NAME}.swiftmodule/" ]; then
-cp -f ${DEVICE_LIBRARY_PATH}/Modules/${FRAMEWORK_NAME}.swiftmodule\/${NULL}* "${FRAMEWORK}/Modules/${FRAMEWORK_NAME}.swiftmodule/" | echo
-fi
-
-######################
-# On Release, copy the result to release directory
-######################
-OUTPUT_DIR="${PROJECT_DIR}/Output"
-TARGET_DIR="${OUTPUT_DIR}/${FRAMEWORK_NAME}-${CONFIGURATION}-iphoneuniversal/"
-
-rm -rf "$TARGET_DIR"
-mkdir -p "$TARGET_DIR"
-
-cp -r "${FRAMEWORK}" "$TARGET_DIR"
-
-rm -rf "${POD_DIR}/${FRAMEWORK_NAME}.framework"
-cp -rf "${FRAMEWORK}" "${POD_DIR}"
-
-if [ ${REVEAL_ARCHIVE_IN_FINDER} = true ]; then
-    open "${OUTPUT_DIR}/"
+if [ ${REVEAL_XCFRAMEWORK_IN_FINDER} = true ]; then
+    open "${FREAMEWORK_OUTPUT_DIR}/"
 fi
