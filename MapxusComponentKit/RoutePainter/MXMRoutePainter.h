@@ -94,12 +94,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Paint a planned route, available in the `MXMSearchDelegate` - onRouteSearchDone:response: method
- @param result Route planning results
- */
-- (void)paintRouteUsingResult:(MXMRouteSearchResponse *)result DEPRECATED_MSG_ATTRIBUTE("Use `-paintRouteUsingPath:wayPoints:` instead.");
-
-/**
- Paint a planned route, available in the `MXMSearchDelegate` - onRouteSearchDone:response: method
  @param path One of route planning result
  @param list Way points list
  */

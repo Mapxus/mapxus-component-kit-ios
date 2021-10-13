@@ -82,15 +82,94 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
     [self.mapView.style setImage:self.buildingGateIcon forName:buildingGateIconString];
 }
 
-- (void)paintRouteUsingResult:(MXMRouteSearchResponse *)result {
-    [self paintRouteUsingPath:result.paths.firstObject wayPoints:result.wayPointList];
-}
-
 - (void)paintRouteUsingPath:(MXMPath *)path wayPoints:(NSArray<MXMIndoorPoint *> *)list
 {
     [self putIconInMapView];
     // 1.clears data before drawing
-    [self cleanRoute];
+    
+    // 添加虚线段
+    MGLShapeSource *addLineSource = (MGLShapeSource *)[self.mapView.style sourceWithIdentifier:@"addLineSource"];
+    if (addLineSource == nil) {
+        addLineSource = [[MGLShapeSource alloc] initWithIdentifier:@"addLineSource" shape:nil options:nil];
+        [self.mapView.style addSource:addLineSource];
+    }
+    // 添加线渲染层
+    MGLLineStyleLayer *addLineLayer = (MGLLineStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-addLine-layer"];
+    if (addLineLayer == nil) {
+        addLineLayer = [[MGLLineStyleLayer alloc] initWithIdentifier:@"route-addLine-layer" source:addLineSource];
+        addLineLayer.lineWidth = [NSExpression expressionForConstantValue:@8];
+        addLineLayer.lineColor = [NSExpression expressionForConstantValue:self.dashLineColor];
+        addLineLayer.lineCap = [NSExpression expressionForConstantValue:[NSValue valueWithMGLLineCap:MGLLineCapRound]];
+        addLineLayer.lineDashPattern = [NSExpression expressionForConstantValue:@[@(1), @(2)]];
+        [self.mapView.style addLayer:addLineLayer];
+
+    }
+
+    // 添加转折点渲染层数据
+    MGLShapeSource *startAndEndSource = (MGLShapeSource *)[self.mapView.style sourceWithIdentifier:@"startAndEndSource"];
+    if (startAndEndSource == nil) {
+        startAndEndSource = [[MGLShapeSource alloc] initWithIdentifier:@"startAndEndSource" shape:nil options:nil];
+        [self.mapView.style addSource:startAndEndSource];
+    }
+    // 添加转折点渲染层
+    MGLSymbolStyleLayer *startAndEndLayer = (MGLSymbolStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-start-and-end-layer"];
+    if (startAndEndLayer == nil) {
+        startAndEndLayer = [[MGLSymbolStyleLayer alloc] initWithIdentifier:@"route-start-and-end-layer" source:startAndEndSource];
+        startAndEndLayer.iconImageName = [NSExpression expressionForKeyPath:@"iconName"];
+        startAndEndLayer.iconAllowsOverlap = [NSExpression expressionForConstantValue:@YES];
+        startAndEndLayer.symbolSpacing = [NSExpression expressionForConstantValue:@1];
+        [self.mapView.style addLayer:startAndEndLayer];
+    }
+    
+
+    // 添加线渲染层数据
+    MGLShapeSource *lineSource = (MGLShapeSource *)[self.mapView.style sourceWithIdentifier:@"lineSource"];
+    if (lineSource == nil) {
+        lineSource = [[MGLShapeSource alloc] initWithIdentifier:@"lineSource" shape:nil options:nil];
+        [self.mapView.style addSource:lineSource];
+    }
+    // 添加线渲染层
+    MGLLineStyleLayer *lineLayer = (MGLLineStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-line-layer"];
+    if (lineLayer == nil) {
+        lineLayer = [[MGLLineStyleLayer alloc] initWithIdentifier:@"route-line-layer" source:lineSource];
+        lineLayer.lineWidth = [NSExpression expressionForConstantValue:@8];
+        lineLayer.lineColor = [NSExpression expressionWithFormat:@"MGL_MATCH(key, 'outdoor', %@, %@)",
+                               self.outdoorLineColor,
+                               self.indoorLineColor];
+        lineLayer.lineCap = [NSExpression expressionForConstantValue:[NSValue valueWithMGLLineCap:MGLLineCapRound]];
+        lineLayer.lineJoin = [NSExpression expressionForConstantValue:[NSValue valueWithMGLLineJoin:(MGLLineJoinRound)]];
+        [self.mapView.style addLayer:lineLayer];
+    }
+    // 添加线方向渲染层
+    MGLSymbolStyleLayer *arrowLayer = (MGLSymbolStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-arrow-layer"];
+    if (arrowLayer == nil) {
+        arrowLayer = [[MGLSymbolStyleLayer alloc] initWithIdentifier:@"route-arrow-layer" source:lineSource];
+        arrowLayer.iconImageName = [NSExpression expressionForConstantValue:arrowIconString];
+        arrowLayer.iconAllowsOverlap = [NSExpression expressionForConstantValue:@YES];
+        arrowLayer.symbolPlacement = [NSExpression expressionForConstantValue:[NSValue valueWithMGLSymbolPlacement:MGLSymbolPlacementLine]];
+        arrowLayer.symbolSpacing = [NSExpression expressionForConstantValue:self.arrowSymbolSpacing];
+        [self.mapView.style addLayer:arrowLayer];
+    }
+    
+    
+    // 添加转折点渲染层数据
+    MGLShapeSource *connectorSource = (MGLShapeSource *)[self.mapView.style sourceWithIdentifier:@"connectorSource"];
+    if (connectorSource == nil) {
+        connectorSource = [[MGLShapeSource alloc] initWithIdentifier:@"connectorSource" shape:nil options:nil];
+        [self.mapView.style addSource:connectorSource];
+    }
+    // 添加转折点渲染层
+    MGLSymbolStyleLayer *connectorLayer = (MGLSymbolStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-connector-layer"];
+    if (connectorLayer == nil) {
+        connectorLayer = [[MGLSymbolStyleLayer alloc] initWithIdentifier:@"route-connector-layer" source:connectorSource];
+        connectorLayer.iconImageName = [NSExpression expressionForKeyPath:@"iconName"];
+        connectorLayer.iconAllowsOverlap = [NSExpression expressionForConstantValue:@YES];
+        connectorLayer.symbolSpacing = [NSExpression expressionForConstantValue:@1];
+        [self.mapView.style addLayer:connectorLayer];
+    }
+    
+    
+    
     // 2.Take the first path in the path group
     MXMIndoorPoint *startP = list.firstObject;
     MXMIndoorPoint *endP = list.lastObject;
@@ -151,18 +230,9 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
             }
         }
     }
-
-    // 添加虚线段
-    MGLShapeSource *addLineSource = [[MGLShapeSource alloc] initWithIdentifier:@"addLineSource" features:addLineFeatures options:nil];
-    [self.mapView.style addSource:addLineSource];
-    // 添加线渲染层
-    MGLLineStyleLayer *addLineLayer = [[MGLLineStyleLayer alloc] initWithIdentifier:@"route-addLine-layer" source:addLineSource];
-    addLineLayer.lineWidth = [NSExpression expressionForConstantValue:@8];
-    addLineLayer.lineColor = [NSExpression expressionForConstantValue:self.dashLineColor];
-    addLineLayer.lineCap = [NSExpression expressionForConstantValue:[NSValue valueWithMGLLineCap:MGLLineCapRound]];
-    addLineLayer.lineDashPattern = [NSExpression expressionForConstantValue:@[@(1), @(2)]];
-    [self.mapView.style addLayer:addLineLayer];
-    
+    MGLShapeCollectionFeature *addLineShapeCollectionFeature = [MGLShapeCollectionFeature shapeCollectionWithShapes:addLineFeatures];
+    addLineSource.shape = addLineShapeCollectionFeature;
+        
     // ============================================================================
 
     // 始终点图标层
@@ -192,15 +262,8 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
     toFeature.attributes = endAttributes;
     [startAndEndFeatures addObject:toFeature];
     
-    // 添加转折点渲染层数据
-    MGLShapeSource *startAndEndSource = [[MGLShapeSource alloc] initWithIdentifier:@"startAndEndSource" features:startAndEndFeatures options:nil];
-    [self.mapView.style addSource:startAndEndSource];
-    // 添加转折点渲染层
-    MGLSymbolStyleLayer *startAndEndLayer = [[MGLSymbolStyleLayer alloc] initWithIdentifier:@"route-start-and-end-layer" source:startAndEndSource];
-    startAndEndLayer.iconImageName = [NSExpression expressionForKeyPath:@"iconName"];
-    startAndEndLayer.iconAllowsOverlap = [NSExpression expressionForConstantValue:@YES];
-    startAndEndLayer.symbolSpacing = [NSExpression expressionForConstantValue:@1];
-    [self.mapView.style addLayer:startAndEndLayer];
+    MGLShapeCollectionFeature *startAndEndShapeCollectionFeature = [MGLShapeCollectionFeature shapeCollectionWithShapes:startAndEndFeatures];
+    startAndEndSource.shape = startAndEndShapeCollectionFeature;
     
     // ============================================================================
 
@@ -262,36 +325,11 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
         [lineFeatures addObject:feature];
     }
 
-    // 添加线渲染层数据
-    MGLShapeSource *lineSource = [[MGLShapeSource alloc] initWithIdentifier:@"lineSource" features:lineFeatures options:nil];
-    [self.mapView.style addSource:lineSource];
-    // 添加线渲染层
-    MGLLineStyleLayer *lineLayer = [[MGLLineStyleLayer alloc] initWithIdentifier:@"route-line-layer" source:lineSource];
-    lineLayer.lineWidth = [NSExpression expressionForConstantValue:@8];
-    lineLayer.lineColor = [NSExpression expressionWithFormat:@"MGL_MATCH(key, 'outdoor', %@, %@)",
-                           self.outdoorLineColor,
-                           self.indoorLineColor];
-    lineLayer.lineCap = [NSExpression expressionForConstantValue:[NSValue valueWithMGLLineCap:MGLLineCapRound]];
-    lineLayer.lineJoin = [NSExpression expressionForConstantValue:[NSValue valueWithMGLLineJoin:(MGLLineJoinRound)]];
-    [self.mapView.style addLayer:lineLayer];
-    // 添加线方向渲染层
-    MGLSymbolStyleLayer *arrowLayer = [[MGLSymbolStyleLayer alloc] initWithIdentifier:@"route-arrow-layer" source:lineSource];
-    arrowLayer.iconImageName = [NSExpression expressionForConstantValue:arrowIconString];
-    arrowLayer.iconAllowsOverlap = [NSExpression expressionForConstantValue:@YES];
-    arrowLayer.symbolPlacement = [NSExpression expressionForConstantValue:[NSValue valueWithMGLSymbolPlacement:MGLSymbolPlacementLine]];
-    arrowLayer.symbolSpacing = [NSExpression expressionForConstantValue:self.arrowSymbolSpacing];
-    [self.mapView.style addLayer:arrowLayer];
-
+    MGLShapeCollectionFeature *lineShapeCollectionFeature = [MGLShapeCollectionFeature shapeCollectionWithShapes:lineFeatures];
+    lineSource.shape = lineShapeCollectionFeature;
     
-    // 添加转折点渲染层数据
-    MGLShapeSource *connectorSource = [[MGLShapeSource alloc] initWithIdentifier:@"connectorSource" features:connectorFeatures options:nil];
-    [self.mapView.style addSource:connectorSource];
-    // 添加转折点渲染层
-    MGLSymbolStyleLayer *connectorLayer = [[MGLSymbolStyleLayer alloc] initWithIdentifier:@"route-connector-layer" source:connectorSource];
-    connectorLayer.iconImageName = [NSExpression expressionForKeyPath:@"iconName"];
-    connectorLayer.iconAllowsOverlap = [NSExpression expressionForConstantValue:@YES];
-    connectorLayer.symbolSpacing = [NSExpression expressionForConstantValue:@1];
-    [self.mapView.style addLayer:connectorLayer];
+    MGLShapeCollectionFeature *connectorShapeCollectionFeature = [MGLShapeCollectionFeature shapeCollectionWithShapes:connectorFeatures];
+    connectorSource.shape = connectorShapeCollectionFeature;
 }
 
 - (NSString *)getIconNameWith:(MXMParagraphTurningType)type
