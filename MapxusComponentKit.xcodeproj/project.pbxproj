@@ -556,7 +556,7 @@
 		};
 		D6F8C0CC21858CA700E3AFC4 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D65E1B7C25ECA4EA00D78764 /* mapxus.test.xcconfig */;
+			baseConfigurationReference = D65E1B7A25ECA4EA00D78764 /* mapxus.prod.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
