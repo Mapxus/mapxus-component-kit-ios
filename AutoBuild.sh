@@ -13,7 +13,7 @@ COM=""
 # 手动使用本工具打包时，可以不传-d参数，使用本默认值
 FRAMEWORK_ROOT_PATH="${PWD}/.."
 
-# c: 公司，可选mapxus、landsd
+# c: 公司，可选mapxus、landsd、kawasaki
 # d: framework文件存放根目录
 # e: 环境，可选test、prod
 while getopts ":c:d:e:" opt
@@ -23,13 +23,15 @@ do
         FRAMEWORK_ROOT_PATH=$OPTARG
         ;;
         e)
-        if [ $OPTARG == "test" ]; then
+        if [[ $OPTARG == "test" ]]; then
             ENV="-test"
         fi
         ;;
         c)
-        if [ $OPTARG == "landsd" ]; then
+        if [[ $OPTARG == "landsd" ]]; then
             COM="-landsd"
+        elif [[ $OPTARG == "kawasaki" ]]; then
+            COM="-kawasaki"
         fi
         ;;
         ?)
@@ -52,6 +54,9 @@ elif [[ $COM == "-landsd" ]] && [[ -z $ENV ]]; then
 
 elif [[ $COM == "-landsd" ]] && [[ $ENV == "-test" ]]; then
     XCCONFIG_FILE='BuildConfig/landsd.test.xcconfig'
+
+elif [[ $COM == "-kawasaki" ]]; then
+    XCCONFIG_FILE='BuildConfig/kawasaki.prod.xcconfig'
 
 fi
 
