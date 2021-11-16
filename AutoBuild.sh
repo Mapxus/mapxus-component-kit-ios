@@ -1,17 +1,46 @@
 #!/bin/sh
 
 #  AutoRun.sh
-#  MapxusMapSDK
+#  MapxusComponentKit
 #
-#  Created by chenghao guo on 2020/10/14.
+#  Created by chenghao guo on 2020/9/14.
 #  Copyright © 2020 MAPHIVE TECHNOLOGY LIMITED. All rights reserved.
 
-#
+############## 变量初始化 ##############
+
+# 环境变量
 ENV=""
-#
+# 机构变量
 COM=""
-# 手动使用本工具打包时，可以不传-d参数，使用本默认值
-FRAMEWORK_ROOT_PATH="${PWD}/.."
+# 编译配置文件
+XCCONFIG_FILE='BuildConfig/mapxus.prod.xcconfig'
+# 项目名
+PROJECT_NAME='MapxusComponentKit.xcworkspace'
+# The scheme which to build
+SCHEME='MapxusComponentKit-Universal'
+# 包名
+FREAMEWORK_PACKAGE_NAME='MapxusComponentKit.xcframework'
+# 包原始路径
+ORIGINAL_PATH='./Output/DynamicFramework'
+
+## Always build global
+# 分发根的上级目录，手动使用本工具打包时，可以不传-d参数，使用本默认值
+GLOBAL_DISTRIBUTION_PARENT_PATH="${PWD}/.."
+# 分发根目录
+GLOBAL_DISTRIBUTION_ROOT_PATH="/mapxus-component-kit-ios"
+# 分发目录下载源
+GLOBAL_DISTRIBUTION_URL='https://github.com/Mapxus/mapxus-component-kit-ios.git'
+
+## Maybe build region
+# 分发根的上级目录，手动使用本工具打包时，可以不传-d参数，使用本默认值
+REGION_DISTRIBUTION_PARENT_PATH="${PWD}/.."
+# 分发根目录
+REGION_DISTRIBUTION_ROOT_PATH="/mapxus-component-kit-ios"
+# 分发目录下载源
+REGION_DISTRIBUTION_URL='https://github.com/Mapxus/mapxus-component-kit-ios.git'
+
+
+############## 参数获取 ##############
 
 # c: 公司，可选mapxus、landsd、kawasaki
 # d: framework文件存放根目录
@@ -20,7 +49,7 @@ while getopts ":c:d:e:" opt
 do
     case $opt in
         d)
-        FRAMEWORK_ROOT_PATH=$OPTARG
+        GLOBAL_DISTRIBUTION_PARENT_PATH=$OPTARG
         ;;
         e)
         if [[ $OPTARG == "test" ]]; then
@@ -41,7 +70,7 @@ do
 done
 
 
-XCCONFIG_FILE='BuildConfig/mapxus.prod.xcconfig'
+############## 更新变量 ##############
 
 if [[ -z $COM ]] && [[ -z $ENV ]]; then
     XCCONFIG_FILE='BuildConfig/mapxus.prod.xcconfig'
@@ -57,22 +86,14 @@ elif [[ $COM == "-landsd" ]] && [[ $ENV == "-test" ]]; then
 
 elif [[ $COM == "-kawasaki" ]]; then
     XCCONFIG_FILE='BuildConfig/kawasaki.prod.xcconfig'
-
+    REGION_DISTRIBUTION_PARENT_PATH="${GLOBAL_DISTRIBUTION_PARENT_PATH}/sdk-jp"
+    REGION_DISTRIBUTION_ROOT_PATH="/mapxus-component-kit-ios-jp"
+    REGION_DISTRIBUTION_URL='https://github.com/Mapxus/mapxus-component-kit-ios-jp.git'
+    
 fi
 
 
-FRAMEWORK_DIR="$FRAMEWORK_ROOT_PATH/mapxus-component-kit-ios"
-#目录如果不存在，则拉取github
-if [ ! -d "${FRAMEWORK_DIR}" ]
-then
-  git clone https://github.com/Mapxus/mapxus-component-kit-ios.git "$FRAMEWORK_DIR"
-fi
-
-DYNAMIC_DIR="$FRAMEWORK_DIR/dynamic"
-if [ ! -d "${DYNAMIC_DIR}" ]
-then
-  mkdir $DYNAMIC_DIR
-fi
+############## 编译 SDK 放在工程目录 ##############
 
 #打包并复制到目录
 export LANG=en_US.UTF-8
@@ -80,4 +101,36 @@ export LANGUAGE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
 bundle exec pod install --repo-update
-xcodebuild -workspace MapxusComponentKit.xcworkspace -scheme MapxusComponentKit-Universal POD_DIR="$DYNAMIC_DIR" XCCONFIG_FILE="$XCCONFIG_FILE"
+xcodebuild -workspace "${PROJECT_NAME}" -scheme "${SCHEME}" XCCONFIG_FILE="${XCCONFIG_FILE}"
+
+
+function makeDirAndCopy {
+    ############## 下载存放目录 ##############
+
+    DISTRIBUTION_DIR="${1}${2}"
+    echo "copy to ${DISTRIBUTION_DIR}"
+    
+    #目录如果不存在，则拉取github
+    if [ ! -d "${DISTRIBUTION_DIR}" ]; then
+        git clone "${3}" "${DISTRIBUTION_DIR}"
+    fi
+
+    DYNAMIC_DIR="${DISTRIBUTION_DIR}/dynamic"
+    if [ ! -d "${DYNAMIC_DIR}" ]; then
+        mkdir "${DYNAMIC_DIR}"
+    fi
+
+    ############## 包复制 ##############
+
+    rm -rf "${DYNAMIC_DIR}/${FREAMEWORK_PACKAGE_NAME}"
+    cp -rf "${ORIGINAL_PATH}/${FREAMEWORK_PACKAGE_NAME}" "${DYNAMIC_DIR}/${FREAMEWORK_PACKAGE_NAME}"
+}
+
+
+# copy to global
+makeDirAndCopy ${GLOBAL_DISTRIBUTION_PARENT_PATH} ${GLOBAL_DISTRIBUTION_ROOT_PATH} ${GLOBAL_DISTRIBUTION_URL}
+
+# copy to region
+if [[ $GLOBAL_DISTRIBUTION_PARENT_PATH != $REGION_DISTRIBUTION_PARENT_PATH ]]; then
+    makeDirAndCopy ${REGION_DISTRIBUTION_PARENT_PATH} ${REGION_DISTRIBUTION_ROOT_PATH} ${REGION_DISTRIBUTION_URL}
+fi

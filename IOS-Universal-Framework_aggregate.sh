@@ -60,8 +60,6 @@ function makeXCFramework {
         -framework "${ARCHIVE_PATH_IOS_SIMULATOR}/${FRAMEWORK_RELATIVE_PATH}/${FREAMEWORK_NAME}.framework" \
         -output "${OUTPUT_DIR}/${FREAMEWORK_NAME}.xcframework"
         
-    rm -rf "${POD_DIR}/${FREAMEWORK_NAME}.xcframework"
-    cp -rf "${OUTPUT_DIR}/${FREAMEWORK_NAME}.xcframework" "${POD_DIR}/${FREAMEWORK_NAME}.xcframework"
 }
 
 echo "#####################"
