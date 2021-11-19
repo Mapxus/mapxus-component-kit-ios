@@ -80,7 +80,10 @@ elif [[ -z $COM ]] && [[ $ENV == "-test" ]]; then
 
 elif [[ $COM == "-landsd" ]] && [[ -z $ENV ]]; then
     XCCONFIG_FILE='BuildConfig/landsd.prod.xcconfig'
-
+    REGION_DISTRIBUTION_PARENT_PATH="${GLOBAL_DISTRIBUTION_PARENT_PATH}/sdk-landsd"
+    REGION_DISTRIBUTION_ROOT_PATH="/mapxus-component-kit-ios-landsd"
+    REGION_DISTRIBUTION_URL='https://chenghaoguo@bitbucket.org/chenghaoguo/mapxus-component-kit-ios-landsd.git'
+    
 elif [[ $COM == "-landsd" ]] && [[ $ENV == "-test" ]]; then
     XCCONFIG_FILE='BuildConfig/landsd.test.xcconfig'
 

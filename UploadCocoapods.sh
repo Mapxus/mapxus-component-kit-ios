@@ -34,7 +34,9 @@ do
         DISTRIBUTION_PARENT_PATH=$OPTARG
         ;;
         c)
-        if [[ $OPTARG == "kawasaki" ]]; then
+        if [[ $OPTARG == "landsd" ]]; then
+            COM="-landsd"
+        elif [[ $OPTARG == "kawasaki" ]]; then
             COM="-kawasaki"
         fi
         ;;
@@ -49,6 +51,18 @@ done
 
 if [[ -z $COM ]]; then
     echo "COM=mapxus"
+    
+elif [[ $COM == "-landsd" ]]; then
+    DISTRIBUTION_PARENT_PATH="${DISTRIBUTION_PARENT_PATH}/sdk-landsd"
+    # 分发根目录
+    DISTRIBUTION_ROOT_PATH="/mapxus-component-kit-ios-landsd"
+    # 压缩文件名
+    ZIP_FILE='mapxus-component-kit-ios-landsd.zip'
+    # 密码文件
+    ENV_FILE='azure-landsd.env'
+    # cocoapods配置文件
+    POSDSPEC_FILE='MapxusComponentKit-landsd.podspec'
+    
 elif [[ $COM == "-kawasaki" ]]; then
     DISTRIBUTION_PARENT_PATH="${DISTRIBUTION_PARENT_PATH}/sdk-jp"
     # 分发根目录
