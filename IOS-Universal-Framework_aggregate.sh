@@ -19,7 +19,7 @@ function archiveOnePlatform {
         -xcconfig ${XCCONFIG_FILE} \
         VALID_ARCHS="${4}" \
         SKIP_INSTALL=NO \
-        BUILD_LIBRARY_FOR_DISTRIBUTION=YES | xcpretty
+        BUILD_LIBRARY_FOR_DISTRIBUTION=YES | bundle exec xcpretty
 
     # sudo gem install -n /usr/local/bin xcpretty
     # xcpretty makes xcode compile information much more readable.
