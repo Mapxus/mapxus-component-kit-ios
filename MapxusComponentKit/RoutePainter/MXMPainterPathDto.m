@@ -73,7 +73,7 @@
             paph.key = currentKey;
             paph.startPointType = lastPaph?lastPaph.endPointType:StartEndPoint;
 
-            if (ins.sign == MXMContinueOnStreet && [ins.type isEqualToString:@"gate_building"]) {
+            if (ins.sign == MXMLeaveBuilding || ins.sign == MXMEnterBuilding) {
                 paph.startPointType = BuildingGate;
                 lastPaph.endPointType = BuildingGate;
             }
@@ -108,6 +108,11 @@
                 [paph.points addObject:fp];
             }
         } else {
+            if (ins.sign == MXMLeaveBuilding || ins.sign == MXMEnterBuilding) {
+                paph.endPointType = BuildingGate;
+            } else if (ins.sign == MXMFinish) {
+                paph.endPointType = StartEndPoint;
+            }
             // 整合线段
             NSUInteger fIndex = [ins.interval.firstObject unsignedIntegerValue];
             NSUInteger lIndex = [ins.interval.lastObject unsignedIntegerValue];
