@@ -382,13 +382,18 @@
 				TargetAttributes = {
 					D646764221A543D300018634 = {
 						CreatedOnToolsVersion = 10.1;
+						DevelopmentTeam = ZNBZ7BZAKZ;
+						ProvisioningStyle = Automatic;
 					};
 					D6F8C0B921858CA700E3AFC4 = {
 						CreatedOnToolsVersion = 10.0;
 						LastSwiftMigration = 1150;
+						ProvisioningStyle = Manual;
 					};
 					D6F8C0C221858CA700E3AFC4 = {
 						CreatedOnToolsVersion = 10.0;
+						DevelopmentTeam = ZNBZ7BZAKZ;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -700,7 +705,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.2.1;
+				MARKETING_VERSION = 5.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(BUNDLE_ID)";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -737,7 +742,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.2.1;
+				MARKETING_VERSION = 5.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(BUNDLE_ID)";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
