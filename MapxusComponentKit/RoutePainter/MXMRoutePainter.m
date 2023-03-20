@@ -8,7 +8,7 @@
 
 #import "MXMRoutePainter.h"
 #import "NSString+Compare.h"
-
+#import "MXMPainterPathDto+Private.h"
 
 static NSString *arrowIconString = @"arrowIcon";
 static NSString *startIconString = @"startIcon";
@@ -191,11 +191,16 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
                 routeCoordinates[1] = CLLocationCoordinate2DMake(fristPoint.latitude, fristPoint.longitude);
                 
                 NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-                if ([NSString isEmpty:startP.buildingId]) {
-                    dic[@"key"] = @"outdoor";
+              if (firstPaph.key) {
+                NSString *venueKey = self.dto.keyMapping[firstPaph.key];
+                if (venueKey) {
+                  dic[@"key"] = venueKey;
                 } else {
-                    dic[@"key"] = [NSString stringWithFormat:@"%@-%@", firstPaph.buildingId, firstPaph.floor];
+                  dic[@"key"] = @"outdoor";
                 }
+              } else {
+                dic[@"key"] = @"outdoor";
+              }
                 MGLPolylineFeature *feature = [MGLPolylineFeature polylineWithCoordinates:routeCoordinates count:2];
                 feature.attributes = dic;
                 
@@ -218,11 +223,16 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
                 routeCoordinates[1] = CLLocationCoordinate2DMake(lastPoint.latitude, lastPoint.longitude);
                 
                 NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-                if ([NSString isEmpty:endP.buildingId]) {
-                    dic[@"key"] = @"outdoor";
+              if (lastPaph.key) {
+                NSString *venueKey = self.dto.keyMapping[lastPaph.key];
+                if (venueKey) {
+                  dic[@"key"] = venueKey;
                 } else {
-                    dic[@"key"] = [NSString stringWithFormat:@"%@-%@", lastPaph.buildingId, lastPaph.floor];
+                  dic[@"key"] = @"outdoor";
                 }
+              } else {
+                dic[@"key"] = @"outdoor";
+              }
                 MGLPolylineFeature *feature = [MGLPolylineFeature polylineWithCoordinates:routeCoordinates count:2];
                 feature.attributes = dic;
                 
@@ -237,13 +247,19 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
 
     // 始终点图标层
     NSMutableArray *startAndEndFeatures = [NSMutableArray array];
-    // 添加起始点图标
+    // 添加起点图标
     NSMutableDictionary *startAttributes = [NSMutableDictionary dictionary];
-    if (startP.buildingId) {
-        startAttributes[@"key"] = [NSString stringWithFormat:@"%@-%@", startP.buildingId, startP.floor];
+  if (startP.buildingId) {
+    NSString *buildingKey = [NSString stringWithFormat:@"%@-%@", startP.buildingId, startP.floor];
+    NSString *venueKey = self.dto.keyMapping[buildingKey];
+    if (venueKey) {
+      startAttributes[@"key"] = venueKey;
     } else {
-        startAttributes[@"key"] = @"outdoor";
+      startAttributes[@"key"] = @"outdoor";
     }
+  } else {
+    startAttributes[@"key"] = @"outdoor";
+  }
     startAttributes[@"iconName"] = startIconString;
     MGLPointFeature *startFeature = [[MGLPointFeature alloc] init];
     startFeature.coordinate = CLLocationCoordinate2DMake(startP.latitude, startP.longitude);
@@ -251,11 +267,18 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
     [startAndEndFeatures addObject:startFeature];
     // 添加终点图标
     NSMutableDictionary *endAttributes = [NSMutableDictionary dictionary];
-    if (endP.buildingId) {
-        endAttributes[@"key"] = [NSString stringWithFormat:@"%@-%@", endP.buildingId, endP.floor];
+  if (endP.buildingId) {
+    NSString *buildingKey = [NSString stringWithFormat:@"%@-%@", endP.buildingId, endP.floor];
+    NSString *venueKey = self.dto.keyMapping[buildingKey];
+    if (venueKey) {
+      endAttributes[@"key"] = venueKey;
     } else {
-        endAttributes[@"key"] = @"outdoor";
+      endAttributes[@"key"] = @"outdoor";
     }
+  } else {
+    endAttributes[@"key"] = @"outdoor";
+  }
+
     endAttributes[@"iconName"] = endIconString;
     MGLPointFeature *toFeature = [[MGLPointFeature alloc] init];
     toFeature.coordinate = CLLocationCoordinate2DMake(endP.latitude, endP.longitude);
@@ -277,11 +300,16 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
         if (startIconName) {
             MXMGeoPoint *fristPoint = paph.points.firstObject;
             NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
-            if (paph.buildingId) {
-                attributes[@"key"] = [NSString stringWithFormat:@"%@-%@", paph.buildingId, paph.floor];
+          if (paph.key) {
+            NSString *venueKey = self.dto.keyMapping[paph.key];
+            if (venueKey) {
+              attributes[@"key"] = venueKey;
             } else {
-                attributes[@"key"] = @"outdoor";
+              attributes[@"key"] = @"outdoor";
             }
+          } else {
+            attributes[@"key"] = @"outdoor";
+          }
             attributes[@"iconName"] = startIconName;
             MGLPointFeature *pointFeature = [[MGLPointFeature alloc] init];
             pointFeature.coordinate = CLLocationCoordinate2DMake(fristPoint.latitude, fristPoint.longitude);
@@ -293,11 +321,16 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
         if (endIconName) {
             MXMGeoPoint *lastPoint = paph.points.lastObject;
             NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
-            if (paph.buildingId) {
-                attributes[@"key"] = [NSString stringWithFormat:@"%@-%@", paph.buildingId, paph.floor];
+          if (paph.key) {
+            NSString *venueKey = self.dto.keyMapping[paph.key];
+            if (venueKey) {
+              attributes[@"key"] = venueKey;
             } else {
-                attributes[@"key"] = @"outdoor";
+              attributes[@"key"] = @"outdoor";
             }
+          } else {
+            attributes[@"key"] = @"outdoor";
+          }
             attributes[@"iconName"] = endIconName;
             MGLPointFeature *pointFeature = [[MGLPointFeature alloc] init];
             pointFeature.coordinate = CLLocationCoordinate2DMake(lastPoint.latitude, lastPoint.longitude);
@@ -314,11 +347,16 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
             t++;
         }
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-        if (paph.buildingId) {
-            dic[@"key"] = [NSString stringWithFormat:@"%@-%@", paph.buildingId, paph.floor];
+      if (paph.key) {
+        NSString *venueKey = self.dto.keyMapping[paph.key];
+        if (venueKey) {
+          dic[@"key"] = venueKey;
         } else {
-            dic[@"key"] = @"outdoor";
+          dic[@"key"] = @"outdoor";
         }
+      } else {
+        dic[@"key"] = @"outdoor";
+      }
         MGLPolylineFeature *feature = [MGLPolylineFeature polylineWithCoordinates:routeCoordinates count:paph.points.count];
         feature.attributes = dic;
         
@@ -396,14 +434,14 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
     source4 ? [self.mapView.style removeSource:source4] : nil;
 }
 
-- (void)changeOnBuilding:(nullable NSString *)buildingId floor:(nullable NSString *)floor
+- (void)changeOnVenue:(nullable NSString *)venueId ordinal:(nullable MXMOrdinal *)ordinal
 {
     float transparency = 0.4;
     if (self.hiddenTranslucentPaths) {
         transparency = 0;
     }
     NSString *key;
-    if ([NSString isEmpty:buildingId] || [NSString isEmpty:floor]) {
+    if ([NSString isEmpty:venueId] || ordinal == nil) {
         key = @"outdoor";
         // 线条变色
         MGLLineStyleLayer *lineLayer = (MGLLineStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-line-layer"];
@@ -422,7 +460,7 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
         connectorLayer.iconOpacity = [NSExpression expressionWithFormat:@"MGL_MATCH(key, %@, %@, %@)", @"outdoor", @(1), @(transparency)];
         connectorLayer.predicate = [self createPredicateWith:key];
     } else {
-        key = [NSString stringWithFormat:@"%@-%@", buildingId, floor];
+      key = [NSString stringWithFormat:@"%@-%ld", venueId, ordinal.level];
         // 线条变色
         MGLLineStyleLayer *lineLayer = (MGLLineStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-line-layer"];
         lineLayer.lineOpacity = [NSExpression expressionWithFormat:@"MGL_MATCH(key, %@, %@, %@, %@, %@)", key, @(1), @"outdoor", @(1), @(transparency)];

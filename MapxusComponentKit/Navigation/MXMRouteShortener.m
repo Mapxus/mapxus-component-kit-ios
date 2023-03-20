@@ -75,6 +75,8 @@
         MXMInstruction *newCurrentInstruction = [[MXMInstruction alloc] init];
         newCurrentInstruction.buildingId = currentInstruction.buildingId;
         newCurrentInstruction.floor = currentInstruction.floor;
+        newCurrentInstruction.venueId = currentInstruction.venueId;
+        newCurrentInstruction.ordinal = currentInstruction.ordinal;
         newCurrentInstruction.streetName = currentInstruction.streetName;
         newCurrentInstruction.heading = currentInstruction.heading;
         newCurrentInstruction.sign = currentInstruction.sign;
@@ -112,6 +114,8 @@
             MXMInstruction *tmpInstruction = [[MXMInstruction alloc] init];
             tmpInstruction.buildingId = indexInstruction.buildingId;
             tmpInstruction.floor = indexInstruction.floor;
+            tmpInstruction.venueId = indexInstruction.venueId;
+            tmpInstruction.ordinal = indexInstruction.ordinal;
             tmpInstruction.streetName = indexInstruction.streetName;
             tmpInstruction.distance = indexInstruction.distance;
             tmpInstruction.heading = indexInstruction.heading;

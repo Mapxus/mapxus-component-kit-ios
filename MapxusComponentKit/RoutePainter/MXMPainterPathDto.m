@@ -6,15 +6,8 @@
 //  Copyright © 2019 MAPHIVE TECHNOLOGY LIMITED. All rights reserved.
 //
 
-#import "MXMPainterPathDto.h"
+#import "MXMPainterPathDto+Private.h"
 #import "NSString+Compare.h"
-
-@interface MXMPainterPathDto ()
-
-@property (nonatomic, strong) NSMutableArray *mutableKeys;
-@property (nonatomic, strong) NSMutableDictionary *mutableParagraphs;
-
-@end
 
 @implementation MXMPainterPathDto
 
@@ -39,15 +32,23 @@
     MXMParagraph *paph;
     
     for (MXMInstruction *ins in path.instructions) {
-        // 上一 instruction 的 key
-        NSString *lastKey = self.mutableKeys.lastObject?:@"";
-        // 当前 instruction 的预设 key
-        NSString *currentKey;
-        if ([NSString isEmpty:ins.buildingId] || [NSString isEmpty:ins.floor]) {
-            currentKey = @"outdoor";
-        } else {
-            currentKey = [NSString stringWithFormat:@"%@-%@", ins.buildingId, ins.floor];
-        }
+      // 上一 instruction 的 key
+      NSString *lastKey = self.mutableKeys.lastObject?:@"";
+      // 当前 instruction 的预设 key
+      NSString *currentKey;
+      if ([NSString isEmpty:ins.buildingId] ||
+          [NSString isEmpty:ins.floor] ||
+          [NSString isEmpty:ins.venueId] ||
+          ins.ordinal == nil) {
+        currentKey = @"outdoor";
+        self.keyMapping[currentKey] = currentKey;
+      } else {
+        currentKey = [NSString stringWithFormat:@"%@-%@", ins.buildingId, ins.floor];
+        NSString *venueKey = [NSString stringWithFormat:@"%@-%ld", ins.venueId, ins.ordinal.level];
+        self.keyMapping[currentKey] = venueKey;
+      }
+      
+      
         
         if ([lastKey hasPrefix:currentKey]) { // 当前 instruction 与上一 instruction 的 key 一致，currentKey 沿用上一 instruction 的 key
             currentKey = lastKey;
@@ -154,5 +155,14 @@
     }
     return _mutableParagraphs;
 }
+
+- (NSMutableDictionary *)keyMapping
+{
+    if (!_keyMapping) {
+        _keyMapping = [NSMutableDictionary dictionary];
+    }
+    return _keyMapping;
+}
+
 
 @end

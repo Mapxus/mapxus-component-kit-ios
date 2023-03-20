@@ -75,6 +75,7 @@
 		065CAE2C64EC9DC52886EA40 /* Pods-MapxusComponentKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapxusComponentKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-MapxusComponentKit/Pods-MapxusComponentKit.release.xcconfig"; sourceTree = "<group>"; };
 		56BDB151588D1F8F97A83C62 /* Pods_MapxusComponentKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MapxusComponentKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FA13853B7BED4B44B8103B7 /* Pods-MapxusComponentKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapxusComponentKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MapxusComponentKitTests/Pods-MapxusComponentKitTests.release.xcconfig"; sourceTree = "<group>"; };
+		8963030129C2ACB200C9275E /* MXMPainterPathDto+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MXMPainterPathDto+Private.h"; sourceTree = "<group>"; };
 		CF8A610D74AFD9191989515A /* Pods-MapxusComponentKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapxusComponentKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MapxusComponentKitTests/Pods-MapxusComponentKitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D646764121A5437F00018634 /* IOS-Universal-Framework_aggregate.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "IOS-Universal-Framework_aggregate.sh"; sourceTree = "<group>"; };
 		D65E1B7925ECA4EA00D78764 /* common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = common.xcconfig; sourceTree = "<group>"; };
@@ -198,6 +199,7 @@
 				D678DA962288EEBB00F8B4C8 /* MXMParagraph.h */,
 				D678DA972288EEBB00F8B4C8 /* MXMParagraph.m */,
 				D6DB9300229A386D0030DB46 /* MXMPainterPathDto.h */,
+				8963030129C2ACB200C9275E /* MXMPainterPathDto+Private.h */,
 				D6DB9301229A386D0030DB46 /* MXMPainterPathDto.m */,
 			);
 			path = RoutePainter;

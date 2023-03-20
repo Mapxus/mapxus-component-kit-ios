@@ -109,7 +109,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param buildingId The id of building which you want to show
  @param floor The name of floor you want to show
  */
-- (void)changeOnBuilding:(nullable NSString *)buildingId floor:(nullable NSString *)floor;
+- (void)changeOnVenue:(nullable NSString *)venueId ordinal:(nullable MXMOrdinal *)ordinal;
 
 /**
  Zoom focus to a given paragraph
