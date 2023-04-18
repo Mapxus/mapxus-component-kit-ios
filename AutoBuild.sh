@@ -97,6 +97,10 @@ fi
 
 
 ############## 编译 SDK 放在工程目录 ##############
+## Generate the build number using current date and time
+buildNumber=$(date "+%y.%m.%d.%H.%M")
+## Set the build number in plist file
+agvtool new-version "$buildNumber"
 
 #打包并复制到目录
 export LANG=en_US.UTF-8

@@ -21,6 +21,7 @@
             // 小节的楼层标签
             NSString *key = [MXMNavigationPathDTO generateKeyUsingBuildingId:instruction.buildingId andFloor:instruction.floor];
             
+          // 加上前后两段的原因是因为楼梯线段只属于某一层楼，在上电梯时容易因为定位精度问题吸附不了，所以在两层楼的端点都加上电梯段来预防
             /// 前一段
             LineArray *list1;
             if (i-1 >= 0 && i-1 < instructions.count) {
@@ -65,7 +66,7 @@
     NSMutableArray *list = [NSMutableArray array];
     NSUInteger fIndex = [instruction.interval.firstObject unsignedIntegerValue];
     NSUInteger lIndex = [instruction.interval.lastObject unsignedIntegerValue];
-#warning 应该规避数组越限，但通过接口上报情况
+    // warning 应该规避数组越限，但通过接口上报情况
     NSRange range;
     if (lIndex >= points.count && fIndex >= points.count) {
         range = NSMakeRange(points.count-1, 1);

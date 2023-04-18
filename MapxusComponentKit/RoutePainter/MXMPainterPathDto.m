@@ -117,7 +117,7 @@
             // 整合线段
             NSUInteger fIndex = [ins.interval.firstObject unsignedIntegerValue];
             NSUInteger lIndex = [ins.interval.lastObject unsignedIntegerValue];
-#warning 应该规避数组越限，但通过接口上报情况
+// warning 应该规避数组越限，但通过接口上报情况
             NSRange range;
             if (lIndex >= pointList.count && fIndex >= pointList.count) {
                 range = NSMakeRange(pointList.count-1, 1);

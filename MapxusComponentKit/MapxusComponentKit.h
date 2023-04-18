@@ -16,19 +16,19 @@ FOUNDATION_EXPORT const unsigned char MapxusComponentKitVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <MapxusComponentKit/PublicHeader.h>
 
-#import "CLFloor+Factory.h"
-#import "CLLocation+ChangeFloor.h"
+#import <MapxusComponentKit/CLFloor+Factory.h>
+#import <MapxusComponentKit/CLLocation+ChangeFloor.h>
 
 // 路线绘制功能
-#import "MXMParagraph.h"
-#import "MXMPainterPathDto.h"
-#import "MXMRoutePainter.h"
+#import <MapxusComponentKit/MXMParagraph.h>
+#import <MapxusComponentKit/MXMPainterPathDto.h>
+#import <MapxusComponentKit/MXMRoutePainter.h>
 
 // 导航功能
-#import "MXMNavigationPathDTO.h"
-#import "MXMRouteAdsorber.h"
-#import "MXMRouteShortener.h"
+#import <MapxusComponentKit/MXMNavigationPathDTO.h>
+#import <MapxusComponentKit/MXMRouteAdsorber.h>
+#import <MapxusComponentKit/MXMRouteShortener.h>
 
 // 实景展示点绘制功能
-#import "MXMVisualFlagPainter.h"
+#import <MapxusComponentKit/MXMVisualFlagPainter.h>
 

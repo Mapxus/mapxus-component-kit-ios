@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <MapxusMapSDK/MapxusMapSDK.h>
-#import "MXMNavigationPathDTO.h"
+#import <MapxusComponentKit/MXMNavigationPathDTO.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

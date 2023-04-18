@@ -8,8 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <MapxusMapSDK/MXMCommonObj.h>
-
-#import "MXMParagraph.h"
+#import <MapxusComponentKit/MXMParagraph.h>
 
 
 NS_ASSUME_NONNULL_BEGIN

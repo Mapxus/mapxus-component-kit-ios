@@ -10,7 +10,7 @@
 #import <Foundation/Foundation.h>
 #import <MapxusMapSDK/MapxusMapSDK.h>
 
-#import "MXMPainterPathDto.h"
+#import <MapxusComponentKit/MXMPainterPathDto.h>
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -106,8 +106,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Toggle the transparency of the paragraphs on the corresponding building and floor, called in the `MapxusMapDelegate` - mapView:didChangeFloor:atBuilding: method
- @param buildingId The id of building which you want to show
- @param floor The name of floor you want to show
+ @param venueId The id of venue which you want to show
+ @param ordinal The ordinal of floor you want to show
  */
 - (void)changeOnVenue:(nullable NSString *)venueId ordinal:(nullable MXMOrdinal *)ordinal;
 
