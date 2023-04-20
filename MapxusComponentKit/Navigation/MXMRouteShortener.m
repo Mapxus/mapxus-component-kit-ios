@@ -130,7 +130,6 @@
     
     MXMPath *newPath = [[MXMPath alloc] init];
     newPath.bbox = self.originalPath.bbox;
-    newPath.weight = self.originalPath.weight;
     newPath.instructions = [newInstructions copy];
     newPath.points = newGeometry;
     
