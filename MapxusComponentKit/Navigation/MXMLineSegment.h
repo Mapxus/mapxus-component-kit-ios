@@ -21,9 +21,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (CLLocationCoordinate2D)projectionOfThePoint:(CLLocationCoordinate2D)point;
 
-- (CLLocationCoordinate2D)closestPointToThePoint:(CLLocationCoordinate2D)point;
+//- (CLLocationCoordinate2D)closestPointToThePoint:(CLLocationCoordinate2D)point;
+//
+//- (double)distancePerpendicularFromThePoint:(CLLocationCoordinate2D)point;
 
-- (double)distancePerpendicularFromThePoint:(CLLocationCoordinate2D)point;
+- (double)closestDistanceToThePointIncludeStartEndProjection:(CLLocationCoordinate2D)point;
+
+- (double)closestDistanceToThePointIncludeStartProjection:(CLLocationCoordinate2D)point;
+
+- (CLLocationCoordinate2D)findClosestPointInStartEndProjectionToPoint:(CLLocationCoordinate2D)point;
+
 
 @end
 
