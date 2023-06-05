@@ -58,7 +58,7 @@
         CLLocationCoordinate2D coordinate = position.coordinate;
         MXMLineSegment *nearestLineSegment = [self findNearestLineSegmentOnList:list usingCoordinate:coordinate];
         if (nearestLineSegment) {
-            return [nearestLineSegment projectionOfThePoint:coordinate];
+            return [nearestLineSegment findClosestPointInStartEndProjectionToPoint:coordinate];
         }
         return kCLLocationCoordinate2DInvalid;
     } else {
@@ -67,29 +67,24 @@
 }
 
 + (nullable MXMLineSegment *)findNearestLineSegmentOnList:(NSArray<MXMLineSegment *> *)list usingCoordinate:(CLLocationCoordinate2D)coordinate {
-    MXMLineSegment *nearest = nil;
-    double min = DBL_MAX;
-    for (MXMLineSegment *c in list) {
-        if ([self isIntersectWithCoordinate:coordinate andLine:c]) {
-            double distance = [c distancePerpendicularFromThePoint:coordinate];
-            if (distance < min) {
-                nearest = c;
-                min = distance;
-            }
-        }
+  MXMLineSegment *nearest = nil;
+  double min = DBL_MAX;
+  int index = 0;
+  for (MXMLineSegment *c in list) {
+    double distance;
+    if (index == list.count-1) {
+      distance = [c closestDistanceToThePointIncludeStartEndProjection:coordinate];
+    } else {
+      distance = [c closestDistanceToThePointIncludeStartProjection:coordinate];
     }
-    return nearest;
+    if (distance < min) {
+      nearest = c;
+      min = distance;
+    }
+    index++;
+  }
+  return nearest;
 }
 
-+ (BOOL)isIntersectWithCoordinate:(CLLocationCoordinate2D)coordinate andLine:(MXMLineSegment *)line {
-    CLLocationCoordinate2D projection = [line projectionOfThePoint:coordinate];
-    CLLocationCoordinate2D closest = [line closestPointToThePoint:coordinate];
-    if (projection.latitude != closest.latitude) {
-        return NO;
-    } else {
-        return projection.longitude == closest.longitude;
-    }
-    
-}
 
 @end
