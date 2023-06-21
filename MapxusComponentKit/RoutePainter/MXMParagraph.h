@@ -38,10 +38,16 @@ typedef NS_ENUM(NSUInteger, MXMParagraphTurningType) {
  The indoor sections are grouped together by buildingId and floor.
  */
 @property (nonatomic, strong) NSString *key;
+
+@property (nonatomic, strong, nullable) NSString *venueId;
 /// ID of the building in which the segment is located, nil means outside
 @property (nonatomic, strong, nullable) NSString *buildingId;
+/// The floorId where the paragraph is located, nil means outside
+@property (nonatomic, strong, nullable) NSString *floorId;
+
+@property (nonatomic, strong, nullable) MXMOrdinal *ordinal;
 /// The floor where the paragraph is located, nil means outside
-@property (nonatomic, strong, nullable) NSString *floor;
+@property (nonatomic, strong, nullable) NSString *floor DEPRECATED_MSG_ATTRIBUTE("Please use `floorId`");
 /// Type of turning point at the beginning of a paragraph
 @property (nonatomic, assign) MXMParagraphTurningType startPointType;
 /// Types of turning points at the end of paragraphs
