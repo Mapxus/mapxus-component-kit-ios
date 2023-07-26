@@ -102,23 +102,6 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
     addLineLayer.lineCap = [NSExpression expressionForConstantValue:[NSValue valueWithMGLLineCap:MGLLineCapRound]];
     addLineLayer.lineDashPattern = [NSExpression expressionForConstantValue:@[@(1), @(2)]];
     [self.mapView.style addLayer:addLineLayer];
-    
-  }
-  
-  // 添加转折点渲染层数据
-  MGLShapeSource *startAndEndSource = (MGLShapeSource *)[self.mapView.style sourceWithIdentifier:@"startAndEndSource"];
-  if (startAndEndSource == nil) {
-    startAndEndSource = [[MGLShapeSource alloc] initWithIdentifier:@"startAndEndSource" shape:nil options:nil];
-    [self.mapView.style addSource:startAndEndSource];
-  }
-  // 添加转折点渲染层
-  MGLSymbolStyleLayer *startAndEndLayer = (MGLSymbolStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-start-and-end-layer"];
-  if (startAndEndLayer == nil) {
-    startAndEndLayer = [[MGLSymbolStyleLayer alloc] initWithIdentifier:@"route-start-and-end-layer" source:startAndEndSource];
-    startAndEndLayer.iconImageName = [NSExpression expressionForKeyPath:@"iconName"];
-    startAndEndLayer.iconAllowsOverlap = [NSExpression expressionForConstantValue:@YES];
-    startAndEndLayer.symbolSpacing = [NSExpression expressionForConstantValue:@1];
-    [self.mapView.style addLayer:startAndEndLayer];
   }
   
   
@@ -168,6 +151,22 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
     [self.mapView.style addLayer:connectorLayer];
   }
   
+  
+  // 添加起点终点渲染层数据
+  MGLShapeSource *startAndEndSource = (MGLShapeSource *)[self.mapView.style sourceWithIdentifier:@"startAndEndSource"];
+  if (startAndEndSource == nil) {
+    startAndEndSource = [[MGLShapeSource alloc] initWithIdentifier:@"startAndEndSource" shape:nil options:nil];
+    [self.mapView.style addSource:startAndEndSource];
+  }
+  // 添加起点终点渲染层
+  MGLSymbolStyleLayer *startAndEndLayer = (MGLSymbolStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-start-and-end-layer"];
+  if (startAndEndLayer == nil) {
+    startAndEndLayer = [[MGLSymbolStyleLayer alloc] initWithIdentifier:@"route-start-and-end-layer" source:startAndEndSource];
+    startAndEndLayer.iconImageName = [NSExpression expressionForKeyPath:@"iconName"];
+    startAndEndLayer.iconAllowsOverlap = [NSExpression expressionForConstantValue:@YES];
+    startAndEndLayer.symbolSpacing = [NSExpression expressionForConstantValue:@1];
+    [self.mapView.style addLayer:startAndEndLayer];
+  }
   
   
   // 2.Take the first path in the path group
