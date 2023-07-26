@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
 
 
-  version = '6.1.0'
+  version = '6.1.1'
 
   s.name         = 'MapxusComponentKit'
   s.version      = version
@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
 
   s.platform     = :ios, '9.0'
 
-  s.source       = { :http => "https://ios-sdk.mapxus.com/#{version.to_s}/mapxus-component-kit-ios.zip", :flatten => true }
+  s.source       = { :http => "https://nexus3.mapxus.com/repository/ios-sdk/#{version.to_s}/mapxus-component-kit-ios.zip", :flatten => true }
 
   s.requires_arc = true
 
