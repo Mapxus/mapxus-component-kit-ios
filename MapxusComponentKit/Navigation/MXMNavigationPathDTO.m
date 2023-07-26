@@ -18,15 +18,15 @@
         NSArray *points = path.points.coordinates;
         int i = 0;
         for (MXMInstruction *instruction in instructions) {
-            NSString *floor = nil;
-            if (instruction.floor) {
-              floor = instruction.floor;
-            }
-            if (instruction.floorId) {
-              floor = instruction.floorId;
-            }
+//            NSString *floor = nil;
+//            if (instruction.floor) {
+//              floor = instruction.floor;
+//            }
+//            if (instruction.floorId) {
+//              floor = instruction.floorId;
+//            }
             // 小节的楼层标签
-            NSString *key = [MXMNavigationPathDTO generateKeyUsingBuildingId:instruction.buildingId andFloor:floor];
+            NSString *key = [MXMNavigationPathDTO generateKeyUsingBuildingId:instruction.buildingId andFloor:instruction.floor];
             
           // 加上前后两段的原因是因为楼梯线段只属于某一层楼，在上电梯时容易因为定位精度问题吸附不了，所以在两层楼的端点都加上电梯段来预防
             /// 前一段
