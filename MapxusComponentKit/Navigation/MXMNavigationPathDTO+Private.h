@@ -14,6 +14,7 @@ typedef NSArray<MXMLineSegment *> LineArray;
 
 @interface MXMNavigationPathDTO ()
 
+@property (nonatomic, strong) NSDictionary *floorIdMap;
 @property (nonatomic, strong, readonly) NSDictionary<NSString *, LineArray *> *fragments;
 
 - (nullable LineArray *)fragmenntWithKey:(NSString *)key;

@@ -48,11 +48,12 @@
         [NSString isEmpty:ins.venueId] ||
         ins.ordinal == nil) {
       currentKey = @"outdoor";
-      self.keyMapping[currentKey] = currentKey;
     } else {
-      currentKey = [NSString stringWithFormat:@"%@-%@", ins.buildingId, floor];
-      NSString *venueKey = [NSString stringWithFormat:@"%@-%ld", ins.venueId, ins.ordinal.level];
-      self.keyMapping[currentKey] = venueKey;
+      if (ins.floorId) {
+        currentKey = ins.floorId;
+      } else {
+        currentKey = [NSString stringWithFormat:@"%@-%@", ins.buildingId, ins.floor];
+      }
     }
     
     
@@ -67,10 +68,17 @@
         }
       }
       if (i != 0) {
-        currentKey = [currentKey stringByAppendingFormat:@" %d", i];
+        currentKey = [currentKey stringByAppendingFormat:@"-%d", i];
       }
     }
     
+    if ([currentKey containsString:@"outdoor"]) {
+      self.keyMapping[currentKey] = @"outdoor";
+    } else {
+      NSString *venueKey = [NSString stringWithFormat:@"%@-%ld", ins.venueId, ins.ordinal.level];
+      self.keyMapping[currentKey] = venueKey;
+    }
+
     // 建筑或楼层有变化
     if (![lastKey isEqualToString:currentKey]) {
       MXMParagraph *lastPaph = [self.mutableParagraphs objectForKey:lastKey];

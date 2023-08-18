@@ -44,29 +44,36 @@ struct ProjectResult {
 }
 
 - (void)calculateTheAdsorptionLocationFromActual:(CLLocation *)actual {
-    if (self.pathDTO == nil) {
-        [MXMLoggerService logMsg:@"Mapxus Error: NavigationPathDTO is nil, please call `- updateNavigationPathDTO:`"];
-        return ;
-    }
-    
-    dispatch_async(self.subQueue, ^{
-        LocalBuildingProxy *proxy = [[LocalBuildingProxy alloc] init];
-        [proxy searchLocalBuildingWithLocation:actual completion:^(MXMReverseGeoCodeSearchResult * _Nullable result, NSError * _Nullable error) {
-            NSString *buildingId = nil;
-            NSString *floor = nil;
-            if (result) {
-                buildingId = result.building.buildingId;
-                floor = result.floor.code;
-            }
-            NSString *key = [MXMNavigationPathDTO generateKeyUsingBuildingId:buildingId andFloor:floor];
-            struct ProjectResult final = [self calculateNewLocationWithCurrent:actual key:key];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (self.delegate && [self.delegate respondsToSelector:@selector(refreshTheAdsorptionLocation:buildingID:floor:state:fromActual:)]) {
-                    [self.delegate refreshTheAdsorptionLocation:final.location buildingID:buildingId floor:floor state:final.state fromActual:actual];
-                }
-            });
-        }];
-    });
+  if (self.pathDTO == nil) {
+    [MXMLoggerService logMsg:@"Mapxus Error: NavigationPathDTO is nil, please call `- updateNavigationPathDTO:`"];
+    return ;
+  }
+  
+  dispatch_async(self.subQueue, ^{
+    LocalBuildingProxy *proxy = [[LocalBuildingProxy alloc] init];
+    [proxy searchLocalBuildingWithLocation:actual completion:^(MXMReverseGeoCodeSearchResult * _Nullable result, NSError * _Nullable error) {
+      NSString *buildingId = nil;
+      NSString *floorId = nil;
+      NSString *floor = nil;
+      if (result) {
+        buildingId = result.building.buildingId;
+        floorId = result.floor.floorId;
+        floor = result.floor.code;
+      }
+      if (floorId == nil) {
+        floorId = @"outdoor";
+      }
+      NSString *key = self.pathDTO.floorIdMap[floorId];
+      struct ProjectResult final = [self calculateNewLocationWithCurrent:actual key:key];
+      dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.delegate && [self.delegate respondsToSelector:@selector(refreshTheAdsorptionLocation:buildingId:floorId:state:fromActual:)]) {
+          [self.delegate refreshTheAdsorptionLocation:final.location buildingId:buildingId floorId:floorId state:final.state fromActual:actual];
+        } else if (self.delegate && [self.delegate respondsToSelector:@selector(refreshTheAdsorptionLocation:buildingID:floor:state:fromActual:)]) {
+          [self.delegate refreshTheAdsorptionLocation:final.location buildingID:buildingId floor:floor state:final.state fromActual:actual];
+        }
+      });
+    }];
+  });
 }
 
 - (struct ProjectResult)calculateNewLocationWithCurrent:(CLLocation *)current key:(NSString *)key {

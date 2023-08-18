@@ -93,17 +93,17 @@
     [self.mapView.style addLayer:circlesLayer];
 }
 
-- (void)changeOnBuilding:(NSString *)buildingId floor:(NSString *)floor
+- (void)changeOnFloorId:(NSString *)floorId
 {
     MGLVectorStyleLayer *lineLayer = (MGLVectorStyleLayer *)[self.mapView.style layerWithIdentifier:@"clusteredPorts"];
-    lineLayer.predicate = [self createPredicateWith:lineLayer.predicate floor:floor building:buildingId];
+    lineLayer.predicate = [NSPredicate predicateWithFormat:@"floorId == %@", floorId];
 }
 
-- (NSPredicate *)createPredicateWith:(id)predicate floor:(NSString *)floorName building:(NSString *)buildingId
-{
-    NSPredicate *f = [NSPredicate predicateWithFormat:@"floor == %@", floorName];
-    return f;
-}
+//- (NSPredicate *)createPredicateWith:(id)predicate floor:(NSString *)floorName building:(NSString *)buildingId
+//{
+//    NSPredicate *f = [NSPredicate predicateWithFormat:@"floor == %@", floorName];
+//    return f;
+//}
 
 
 #pragma mark - UIGestureRecognizerDelegate

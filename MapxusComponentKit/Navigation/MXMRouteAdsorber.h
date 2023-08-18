@@ -41,12 +41,25 @@ typedef enum : NSUInteger {
  * The callback outputs the calculated adsorption point information
  *
  * @param location The calculated adsorption point. When the `state` value is `MXMAdsorptionStateNotStartBinding` and `MXMAdsorptionStateDriftsNumberExceeded`, the `location` and `actual` returned will be equal. When the value of `state` is `MXMAdsorptionStateDrifting`, the returned value will be the last calculated adsorption point
- * @param buildingID Calculated ID of the building where the adsorption point is located
- * @param floor Calculated name of the floor where the adsorption point is located
+ * @param buildingId Calculated ID of the building where the adsorption point is located
+ * @param floorId Calculated ID of the floor where the adsorption point is located
  * @param state Adsorption status
  * @param actual Original location
  */
-- (void)refreshTheAdsorptionLocation:(CLLocation *)location buildingID:(nullable NSString *)buildingID floor:(nullable NSString *)floor state:(MXMAdsorptionState)state fromActual:(CLLocation *)actual;
+- (void)refreshTheAdsorptionLocation:(CLLocation *)location
+                          buildingId:(nullable NSString *)buildingId
+                             floorId:(nullable NSString *)floorId
+                               state:(MXMAdsorptionState)state
+                          fromActual:(CLLocation *)actual;
+
+@optional
+
+- (void)refreshTheAdsorptionLocation:(CLLocation *)location
+                          buildingID:(nullable NSString *)buildingID
+                               floor:(nullable NSString *)floor
+                               state:(MXMAdsorptionState)state
+                          fromActual:(CLLocation *)actual
+DEPRECATED_MSG_ATTRIBUTE("Please use `- [MXMRouteAdsorberDelegate refreshTheAdsorptionLocation:buildingId:floorId:state:fromActual:]`");
 
 @end
 

@@ -249,14 +249,12 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
   // 添加起点图标
   NSMutableDictionary *startAttributes = [NSMutableDictionary dictionary];
   if (startP.buildingId) {
-    NSString *floor = nil;
-    if (startP.floor) {
-      floor = startP.floor;
-    }
+    NSString *buildingKey;
     if (startP.floorId) {
-      floor = startP.floorId;
+      buildingKey = startP.floorId;
+    } else {
+      buildingKey = [NSString stringWithFormat:@"%@-%@", startP.buildingId, startP.floor];
     }
-    NSString *buildingKey = [NSString stringWithFormat:@"%@-%@", startP.buildingId, floor];
     NSString *venueKey = self.dto.keyMapping[buildingKey];
     if (venueKey) {
       startAttributes[@"key"] = venueKey;
@@ -274,14 +272,12 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
   // 添加终点图标
   NSMutableDictionary *endAttributes = [NSMutableDictionary dictionary];
   if (endP.buildingId) {
-    NSString *floor = nil;
-    if (endP.floor) {
-      floor = endP.floor;
-    }
+    NSString *buildingKey;
     if (endP.floorId) {
-      floor = endP.floorId;
+      buildingKey = endP.floorId;
+    } else {
+      buildingKey = [NSString stringWithFormat:@"%@-%@", endP.buildingId, endP.floor];
     }
-    NSString *buildingKey = [NSString stringWithFormat:@"%@-%@", endP.buildingId, floor];
     NSString *venueKey = self.dto.keyMapping[buildingKey];
     if (venueKey) {
       endAttributes[@"key"] = venueKey;

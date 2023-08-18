@@ -44,7 +44,7 @@ typedef NS_ENUM(NSUInteger, MXMParagraphTurningType) {
 @property (nonatomic, strong, nullable) NSString *buildingId;
 /// The floorId where the paragraph is located, nil means outside
 @property (nonatomic, strong, nullable) NSString *floorId;
-
+/// The floor ordinal where the paragraph is located, nil means outside
 @property (nonatomic, strong, nullable) MXMOrdinal *ordinal;
 /// The floor where the paragraph is located, nil means outside
 @property (nonatomic, strong, nullable) NSString *floor DEPRECATED_MSG_ATTRIBUTE("Please use `floorId`");

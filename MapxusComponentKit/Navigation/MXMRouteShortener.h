@@ -55,14 +55,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)inputSourceWithOriginalPath:(MXMPath *)path originalWayPoints:(NSArray<MXMIndoorPoint *> *)wayPoints andNavigationPathDTO:(MXMNavigationPathDTO *)navigationPathDTO;
 
-/**
- * Calculation of shortened routes from mapping points
- *
- * @param projection Mapped positioning of original positioning points on the route
- * @param buildingID Locate the building ID
- * @param floor Locate the name of the floor you are on
- */
-- (void)cutFromTheLocationProjection:(CLLocation *)projection buildingID:(nullable NSString *)buildingID andFloor:(nullable NSString *)floor;
+/// Calculation of shortened routes from mapping points
+/// @param projection Mapped positioning of original positioning points on the route
+/// @param floorId Locate the ID of the floor you are on
+- (void)cutFromTheLocationProjection:(CLLocation *)projection floorId:(nullable NSString *)floorId;
+
+- (void)cutFromTheLocationProjection:(CLLocation *)projection buildingID:(nullable NSString *)buildingID andFloor:(nullable NSString *)floor DEPRECATED_MSG_ATTRIBUTE("Please use `- [MXMRouteShortener cutFromTheLocationProjection:floorId:]`");
 
 @end
 
