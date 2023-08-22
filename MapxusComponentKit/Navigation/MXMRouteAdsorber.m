@@ -52,10 +52,12 @@ struct ProjectResult {
   dispatch_async(self.subQueue, ^{
     LocalBuildingProxy *proxy = [[LocalBuildingProxy alloc] init];
     [proxy searchLocalBuildingWithLocation:actual completion:^(MXMReverseGeoCodeSearchResult * _Nullable result, NSError * _Nullable error) {
+      NSString *venueId = nil;
       NSString *buildingId = nil;
       NSString *floorId = nil;
       NSString *floor = nil;
       if (result) {
+        venueId = result.venue.venueId;
         buildingId = result.building.buildingId;
         floorId = result.floor.floorId;
         floor = result.floor.code;
@@ -66,8 +68,13 @@ struct ProjectResult {
       NSString *key = self.pathDTO.floorIdMap[floorId];
       struct ProjectResult final = [self calculateNewLocationWithCurrent:actual key:key];
       dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.delegate && [self.delegate respondsToSelector:@selector(refreshTheAdsorptionLocation:buildingId:floorId:state:fromActual:)]) {
-          [self.delegate refreshTheAdsorptionLocation:final.location buildingId:buildingId floorId:floorId state:final.state fromActual:actual];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(refreshTheAdsorptionLocation:venueId:buildingId:floorId:state:fromActual:)]) {
+          [self.delegate refreshTheAdsorptionLocation:final.location
+                                              venueId:venueId
+                                           buildingId:buildingId
+                                              floorId:floorId
+                                                state:final.state
+                                           fromActual:actual];
         } else if (self.delegate && [self.delegate respondsToSelector:@selector(refreshTheAdsorptionLocation:buildingID:floor:state:fromActual:)]) {
           [self.delegate refreshTheAdsorptionLocation:final.location buildingID:buildingId floor:floor state:final.state fromActual:actual];
         }

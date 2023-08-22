@@ -37,6 +37,8 @@ typedef enum : NSUInteger {
  */
 @protocol MXMRouteAdsorberDelegate <NSObject>
 
+@optional
+
 /**
  * The callback outputs the calculated adsorption point information
  *
@@ -47,19 +49,18 @@ typedef enum : NSUInteger {
  * @param actual Original location
  */
 - (void)refreshTheAdsorptionLocation:(CLLocation *)location
+                             venueId:(nullable NSString *)venueId
                           buildingId:(nullable NSString *)buildingId
                              floorId:(nullable NSString *)floorId
                                state:(MXMAdsorptionState)state
                           fromActual:(CLLocation *)actual;
-
-@optional
 
 - (void)refreshTheAdsorptionLocation:(CLLocation *)location
                           buildingID:(nullable NSString *)buildingID
                                floor:(nullable NSString *)floor
                                state:(MXMAdsorptionState)state
                           fromActual:(CLLocation *)actual
-DEPRECATED_MSG_ATTRIBUTE("Please use `- [MXMRouteAdsorberDelegate refreshTheAdsorptionLocation:buildingId:floorId:state:fromActual:]`");
+DEPRECATED_MSG_ATTRIBUTE("Please use `- [MXMRouteAdsorberDelegate refreshTheAdsorptionLocation:venueId:buildingId:floorId:state:fromActual:]`");
 
 @end
 
