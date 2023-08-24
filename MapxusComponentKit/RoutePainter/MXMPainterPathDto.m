@@ -56,7 +56,13 @@
       }
     }
     
-    
+    // 把ShuttleBus路线单独拆成一个Paragraph
+    if (ins.sign == MXMShuttleBus ||
+        ins.sign == MXMShuttleBusStation ||
+        ins.sign == MXMShuttleBusWaiting ||
+        ins.sign == MXMShuttleBusEndTrip) {
+      currentKey = [currentKey stringByAppendingString:@"-ShuttleBus"];
+    }
     
     if ([lastKey hasPrefix:currentKey]) { // 当前 instruction 与上一 instruction 的 key 一致，currentKey 沿用上一 instruction 的 key
       currentKey = lastKey;
@@ -71,7 +77,7 @@
         currentKey = [currentKey stringByAppendingFormat:@"-%d", i];
       }
     }
-    
+    // 配置venue-ordinal映射
     if ([currentKey containsString:@"outdoor"]) {
       self.keyMapping[currentKey] = @"outdoor";
     } else {
@@ -101,6 +107,18 @@
       [self.mutableKeys addObject:currentKey];
     }
     
+    // 设置不同的颜色值
+    if (ins.sign == MXMShuttleBus ||
+        ins.sign == MXMShuttleBusStation ||
+        ins.sign == MXMShuttleBusWaiting ||
+        ins.sign == MXMShuttleBusEndTrip) {
+      paph.lineColorType = 2;
+    } else if ([currentKey containsString:@"outdoor"]) {
+      paph.lineColorType = 0;
+    } else {
+      paph.lineColorType = 1;
+    }
+
     
     if (ins.sign == MXMDownstairs || ins.sign == MXMUpstairs) {
       
@@ -121,10 +139,13 @@
       } else if ([ins.type isEqualToString:@"stairs"] && ins.sign == MXMDownstairs) {
         paph.endPointType = StairsDown;
       }
+      // 去除楼梯上的线
       if (!paph.points.count) {
         NSUInteger fIndex = [ins.interval.firstObject unsignedIntegerValue];
-        MXMGeoPoint *fp = pointList[fIndex];
-        [paph.points addObject:fp];
+        if (pointList.count) {
+          MXMGeoPoint *fp = pointList[fIndex];
+          [paph.points addObject:fp];
+        }
       }
     } else {
       if (ins.sign == MXMLeaveBuilding || ins.sign == MXMEnterBuilding) {
@@ -144,8 +165,10 @@
       } else {
         range = NSMakeRange(fIndex, lIndex-fIndex+1);
       }
-      NSArray *subArr = [pointList subarrayWithRange:range];
-      [paph.points addObjectsFromArray:subArr];
+      if (pointList.count) {
+        NSArray *subArr = [pointList subarrayWithRange:range];
+        [paph.points addObjectsFromArray:subArr];
+      }
     }
   }
   

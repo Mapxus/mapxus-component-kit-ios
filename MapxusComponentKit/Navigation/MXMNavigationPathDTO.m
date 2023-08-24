@@ -70,31 +70,35 @@
 }
 
 - (LineArray *)breakUpLineSegmentWithInstruction:(MXMInstruction *)instruction index:(NSUInteger)index points:(NSArray<MXMGeoPoint *> *)points {
-    NSMutableArray *list = [NSMutableArray array];
-    NSUInteger fIndex = [instruction.interval.firstObject unsignedIntegerValue];
-    NSUInteger lIndex = [instruction.interval.lastObject unsignedIntegerValue];
-    // warning 应该规避数组越限，但通过接口上报情况
-    NSRange range;
-    if (lIndex >= points.count && fIndex >= points.count) {
-        range = NSMakeRange(points.count-1, 1);
-    } else if (lIndex >= points.count && fIndex < points.count) {
-        range = NSMakeRange(fIndex, points.count-fIndex);
-    } else {
-        range = NSMakeRange(fIndex, lIndex-fIndex+1);
-    }
-    NSArray *subArr = [points subarrayWithRange:range];
-    int i = 0;
-    for (MXMGeoPoint *point in subArr) {
-        if (i+1 < subArr.count) {
-            CLLocationCoordinate2D p0 = CLLocationCoordinate2DMake(point.latitude, point.longitude);
-            MXMGeoPoint *nextPoint = subArr[i+1];
-            CLLocationCoordinate2D p1 = CLLocationCoordinate2DMake(nextPoint.latitude, nextPoint.longitude);
-            MXMLineSegment *line = [[MXMLineSegment alloc] initWithEndPoint0:p0 andEndPoint1:p1 onInstructionIndex:index];
-            [list addObject:line];
-        }
-        i++;
-    }
+  NSMutableArray *list = [NSMutableArray array];
+  NSUInteger fIndex = [instruction.interval.firstObject unsignedIntegerValue];
+  NSUInteger lIndex = [instruction.interval.lastObject unsignedIntegerValue];
+  // warning 应该规避数组越限，但通过接口上报情况
+  if (points.count == 0) {
     return [list copy];
+  }
+  
+  NSRange range;
+  if (lIndex >= points.count && fIndex >= points.count) {
+    range = NSMakeRange(points.count-1, 1);
+  } else if (lIndex >= points.count && fIndex < points.count) {
+    range = NSMakeRange(fIndex, points.count-fIndex);
+  } else {
+    range = NSMakeRange(fIndex, lIndex-fIndex+1);
+  }
+  NSArray *subArr = [points subarrayWithRange:range];
+  int i = 0;
+  for (MXMGeoPoint *point in subArr) {
+    if (i+1 < subArr.count) {
+      CLLocationCoordinate2D p0 = CLLocationCoordinate2DMake(point.latitude, point.longitude);
+      MXMGeoPoint *nextPoint = subArr[i+1];
+      CLLocationCoordinate2D p1 = CLLocationCoordinate2DMake(nextPoint.latitude, nextPoint.longitude);
+      MXMLineSegment *line = [[MXMLineSegment alloc] initWithEndPoint0:p0 andEndPoint1:p1 onInstructionIndex:index];
+      [list addObject:line];
+    }
+    i++;
+  }
+  return [list copy];
 }
 
 - (nullable LineArray *)fragmenntWithKey:(NSString *)key {

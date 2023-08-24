@@ -33,12 +33,12 @@ typedef NS_ENUM(NSUInteger, MXMParagraphTurningType) {
  A segment model, with consecutive outdoor coordinates or consecutive indoor coordinates of the same building floor as a segment.
  */
 @interface MXMParagraph : NSObject
-/**
- Key in planning order, where outdoor passages are separated by indoor passages by outdoor 1, outdoor 2 or buildingId-floor 1... to distinguish them.
- The indoor sections are grouped together by buildingId and floor.
- */
+/// Key in planning order, where outdoor passages are separated by indoor passages by outdoor 1, outdoor 2 or buildingId-floor 1... to distinguish them.
+/// The indoor sections are grouped together by buildingId and floor.
 @property (nonatomic, strong) NSString *key;
-
+/// 0: outdoor; 1: indoor; 2: bus
+@property (nonatomic, assign) NSInteger lineColorType;
+/// ID of the building in which the segment is located, nil means outside
 @property (nonatomic, strong, nullable) NSString *venueId;
 /// ID of the building in which the segment is located, nil means outside
 @property (nonatomic, strong, nullable) NSString *buildingId;

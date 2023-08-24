@@ -27,6 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// Outdoor line segment colour
 @property (nonatomic, strong) UIColor *outdoorLineColor;
 
+@property (nonatomic, strong) UIColor *shuttleBusLineColor;
+
 /// Dashed segment colour
 @property (nonatomic, strong) UIColor *dashLineColor;
 

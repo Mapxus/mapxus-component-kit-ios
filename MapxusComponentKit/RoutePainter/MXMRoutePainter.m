@@ -9,6 +9,7 @@
 #import "MXMRoutePainter.h"
 #import "NSString+Compare.h"
 #import "MXMPainterPathDto+Private.h"
+#import "JXJsonFunctionDefine.h"
 
 static NSString *arrowIconString = @"arrowIcon";
 static NSString *startIconString = @"startIcon";
@@ -38,6 +39,7 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
     self.mapView = mapView;
     self.indoorLineColor = [UIColor colorWithRed:0.29 green:0.69 blue:0.83 alpha:1];
     self.outdoorLineColor = [UIColor colorWithRed:0.42 green:0.82 blue:0.61 alpha:1];
+    self.shuttleBusLineColor = MXMRGBHex(0xF3A838);
     self.dashLineColor = [UIColor colorWithRed:0.56 green:0.56 blue:0.56 alpha:1];
     self.arrowSymbolSpacing = @30;
     [self addDefaultImage];
@@ -116,9 +118,10 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
   if (lineLayer == nil) {
     lineLayer = [[MGLLineStyleLayer alloc] initWithIdentifier:@"route-line-layer" source:lineSource];
     lineLayer.lineWidth = [NSExpression expressionForConstantValue:@8];
-    lineLayer.lineColor = [NSExpression expressionWithFormat:@"MGL_MATCH(key, 'outdoor', %@, %@)",
-                           self.outdoorLineColor,
-                           self.indoorLineColor];
+    lineLayer.lineColor = [NSExpression expressionWithFormat:@"MGL_MATCH(lineColorType, 1, %@, 2, %@, %@)",
+                           self.indoorLineColor,
+                           self.shuttleBusLineColor,
+                           self.outdoorLineColor];
     lineLayer.lineCap = [NSExpression expressionForConstantValue:[NSValue valueWithMGLLineCap:MGLLineCapRound]];
     lineLayer.lineJoin = [NSExpression expressionForConstantValue:[NSValue valueWithMGLLineJoin:(MGLLineJoinRound)]];
     [self.mapView.style addLayer:lineLayer];
@@ -184,30 +187,31 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
         MXMParagraph *firstPaph = self.dto.paragraphs[firstKey];
         NSArray *pointList = firstPaph.points;
         MXMGeoPoint *fristPoint = pointList.firstObject;
-        
-        CLLocationCoordinate2D routeCoordinates[2];
-        routeCoordinates[0] = CLLocationCoordinate2DMake(startP.latitude, startP.longitude);
-        routeCoordinates[1] = CLLocationCoordinate2DMake(fristPoint.latitude, fristPoint.longitude);
-        
-        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-        if (firstPaph.key) {
-          NSString *venueKey = self.dto.keyMapping[firstPaph.key];
-          if (venueKey) {
-            dic[@"key"] = venueKey;
+        if (fristPoint) {
+          CLLocationCoordinate2D routeCoordinates[2];
+          routeCoordinates[0] = CLLocationCoordinate2DMake(startP.latitude, startP.longitude);
+          routeCoordinates[1] = CLLocationCoordinate2DMake(fristPoint.latitude, fristPoint.longitude);
+          
+          NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+          if (firstPaph.key) {
+            NSString *venueKey = self.dto.keyMapping[firstPaph.key];
+            if (venueKey) {
+              dic[@"key"] = venueKey;
+            } else {
+              dic[@"key"] = @"outdoor";
+            }
           } else {
             dic[@"key"] = @"outdoor";
           }
-        } else {
-          dic[@"key"] = @"outdoor";
+          MGLPolylineFeature *feature = [MGLPolylineFeature polylineWithCoordinates:routeCoordinates count:2];
+          feature.attributes = dic;
+          
+          [addLineFeatures addObject:feature];
         }
-        MGLPolylineFeature *feature = [MGLPolylineFeature polylineWithCoordinates:routeCoordinates count:2];
-        feature.attributes = dic;
-        
-        [addLineFeatures addObject:feature];
       }
     }
   }
-  
+    
   // 4.Supplementary finish line
   {
     if (self.isAddEndDash) {
@@ -216,26 +220,27 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
         MXMParagraph *lastPaph = self.dto.paragraphs[lastKey];
         NSArray *pointList = lastPaph.points;
         MXMGeoPoint *lastPoint = pointList.lastObject;
-        
-        CLLocationCoordinate2D routeCoordinates[2];
-        routeCoordinates[0] = CLLocationCoordinate2DMake(endP.latitude, endP.longitude);
-        routeCoordinates[1] = CLLocationCoordinate2DMake(lastPoint.latitude, lastPoint.longitude);
-        
-        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-        if (lastPaph.key) {
-          NSString *venueKey = self.dto.keyMapping[lastPaph.key];
-          if (venueKey) {
-            dic[@"key"] = venueKey;
+        if (lastPoint) {
+          CLLocationCoordinate2D routeCoordinates[2];
+          routeCoordinates[0] = CLLocationCoordinate2DMake(endP.latitude, endP.longitude);
+          routeCoordinates[1] = CLLocationCoordinate2DMake(lastPoint.latitude, lastPoint.longitude);
+          
+          NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+          if (lastPaph.key) {
+            NSString *venueKey = self.dto.keyMapping[lastPaph.key];
+            if (venueKey) {
+              dic[@"key"] = venueKey;
+            } else {
+              dic[@"key"] = @"outdoor";
+            }
           } else {
             dic[@"key"] = @"outdoor";
           }
-        } else {
-          dic[@"key"] = @"outdoor";
+          MGLPolylineFeature *feature = [MGLPolylineFeature polylineWithCoordinates:routeCoordinates count:2];
+          feature.attributes = dic;
+          
+          [addLineFeatures addObject:feature];
         }
-        MGLPolylineFeature *feature = [MGLPolylineFeature polylineWithCoordinates:routeCoordinates count:2];
-        feature.attributes = dic;
-        
-        [addLineFeatures addObject:feature];
       }
     }
   }
@@ -304,6 +309,10 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
   NSMutableArray *connectorFeatures = [NSMutableArray array];
   // 添加路线
   for (MXMParagraph *paph in self.dto.paragraphs.allValues) {
+    // 没有点可绘制
+    if (paph.points.count == 0) {
+      break;
+    }
     // 当前楼层转折点
     NSString *startIconName = [self getIconNameWith:paph.startPointType];
     if (startIconName) {
@@ -366,6 +375,7 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
     } else {
       dic[@"key"] = @"outdoor";
     }
+    dic[@"lineColorType"] = @(paph.lineColorType);
     MGLPolylineFeature *feature = [MGLPolylineFeature polylineWithCoordinates:routeCoordinates count:paph.points.count];
     feature.attributes = dic;
     

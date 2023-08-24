@@ -78,6 +78,11 @@ abort(); } \
 #endif
 
 
+#pragma mark - Color
+#define MXMRGBHex(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
+green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
+
 #pragma mark - Encode Decode 方法
 // NSDictionary -> NSString
 FK_EXTERN NSString* DecodeObjectFromDic(NSDictionary *dic, NSString *key);
