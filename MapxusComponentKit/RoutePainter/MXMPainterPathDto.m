@@ -61,7 +61,7 @@
         ins.sign == MXMShuttleBusStation ||
         ins.sign == MXMShuttleBusWaiting ||
         ins.sign == MXMShuttleBusEndTrip) {
-      currentKey = [NSString stringWithFormat:@"ShuttleBus-%@", currentKey];//[currentKey stringByAppendingString:@"-ShuttleBus"];
+      currentKey = [NSString stringWithFormat:@"ShuttleBus-%@", currentKey];
     }
     
     if ([lastKey hasPrefix:currentKey]) { // 当前 instruction 与上一 instruction 的 key 一致，currentKey 沿用上一 instruction 的 key
