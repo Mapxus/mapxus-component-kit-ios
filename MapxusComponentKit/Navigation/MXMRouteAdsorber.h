@@ -43,6 +43,7 @@ typedef enum : NSUInteger {
  * The callback outputs the calculated adsorption point information
  *
  * @param location The calculated adsorption point. When the `state` value is `MXMAdsorptionStateNotStartBinding` and `MXMAdsorptionStateDriftsNumberExceeded`, the `location` and `actual` returned will be equal. When the value of `state` is `MXMAdsorptionStateDrifting`, the returned value will be the last calculated adsorption point
+ * @param venueId Calculated ID of the venue where the adsorption point is located
  * @param buildingId Calculated ID of the building where the adsorption point is located
  * @param floorId Calculated ID of the floor where the adsorption point is located
  * @param state Adsorption status

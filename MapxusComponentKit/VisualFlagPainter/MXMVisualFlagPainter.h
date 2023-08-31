@@ -55,7 +55,7 @@ typedef void(^CircleOnClickBlock)(NodeDictionary *node);
 
 
 /**
- Toggles the display of the visual annotations corresponding to the floor of the building. This can be called in the ` MapxusMapDelegate ` - mapView: didChangeFloor: atBuilding: callback method.
+ Toggles the display of the visual annotations corresponding to the floor of the building. This can be called in the `MapxusMapDelegate` - mapView: didChangeFloor: atBuilding: callback method.
  @param floorId The ID of floor you want to show
  */
 - (void)changeOnFloorId:(NSString *)floorId;

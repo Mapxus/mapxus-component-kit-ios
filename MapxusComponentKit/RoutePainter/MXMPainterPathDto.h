@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) MXMIndoorPoint *endPoint;
 
 /**
- Key in planning order, where outdoor passages are separated by indoor passages by outdoor 1, outdoor 2 or buildingId-floor 1... to distinguish them.
+ Key in planning order, where outdoor passages are separated by indoor passages by outdoor-1, outdoor-2 or buildingId-floor-1... to distinguish them.
  The indoor sections are grouped together by buildingId and floor.
  */
 @property (nonatomic, strong, readonly) NSArray<NSString*> *keys;
