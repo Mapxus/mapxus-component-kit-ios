@@ -62,10 +62,7 @@ struct ProjectResult {
         floorId = result.floor.floorId;
         floor = result.floor.code;
       }
-      if (floorId == nil) {
-        floorId = @"outdoor";
-      }
-      NSString *key = self.pathDTO.floorIdMap[floorId];
+      NSString *key = [MXMNavigationPathDTO generateKeyUsingBuildingId:buildingId andFloor:floor];
       struct ProjectResult final = [self calculateNewLocationWithCurrent:actual key:key];
       dispatch_async(dispatch_get_main_queue(), ^{
         if (self.delegate && [self.delegate respondsToSelector:@selector(refreshTheAdsorptionLocation:venueId:buildingId:floorId:state:fromActual:)]) {
