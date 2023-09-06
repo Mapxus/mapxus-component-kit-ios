@@ -87,6 +87,16 @@
     range = NSMakeRange(fIndex, lIndex-fIndex+1);
   }
   NSArray *subArr = [points subarrayWithRange:range];
+  // 当只有一个点时，两点都取同一个，以保证能吸附
+  if (subArr.count == 1) {
+    MXMGeoPoint *point = subArr.firstObject;
+    CLLocationCoordinate2D p0 = CLLocationCoordinate2DMake(point.latitude, point.longitude);
+    CLLocationCoordinate2D p1 = CLLocationCoordinate2DMake(point.latitude, point.longitude);
+    MXMLineSegment *line = [[MXMLineSegment alloc] initWithEndPoint0:p0 andEndPoint1:p1 onInstructionIndex:index];
+    [list addObject:line];
+    return [list copy];
+  }
+  // 当多于一个点时，取前后两点组成线段
   int i = 0;
   for (MXMGeoPoint *point in subArr) {
     if (i+1 < subArr.count) {

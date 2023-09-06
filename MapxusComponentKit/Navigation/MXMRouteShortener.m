@@ -43,24 +43,93 @@
   NSArray *instructions = self.originalPath.instructions;
   MXMInstruction *currentInstruction = instructions[index];
   
+  // 线段两端点是同一个点
+  BOOL samePointLineSegment = [GeoFunctions isPoint0:nearestLineSegment.p0 equalToPoint1:nearestLineSegment.p1];
+  
   int i = 0;
   for (MXMGeoPoint *point in points) {
     CLLocationCoordinate2D firstPointCoordinate = CLLocationCoordinate2DMake(point.latitude, point.longitude);
     if ([GeoFunctions isPoint0:firstPointCoordinate equalToPoint1:nearestLineSegment.p0]) {
-      MXMGeoPoint *nextPoint = points[i+1];
-      CLLocationCoordinate2D nextPointCoordinate = CLLocationCoordinate2DMake(nextPoint.latitude, nextPoint.longitude);
-      if ([GeoFunctions isPoint0:nextPointCoordinate equalToPoint1:nearestLineSegment.p1]) {
-        break;
+      if (samePointLineSegment) {
+        if ([GeoFunctions isPoint0:firstPointCoordinate equalToPoint1:nearestLineSegment.p1]) {
+          break;
+        }
+      } else {
+        MXMGeoPoint *nextPoint = points[i+1];
+        CLLocationCoordinate2D nextPointCoordinate = CLLocationCoordinate2DMake(nextPoint.latitude, nextPoint.longitude);
+        if ([GeoFunctions isPoint0:nextPointCoordinate equalToPoint1:nearestLineSegment.p1]) {
+          break;
+        }
       }
     }
     i++;
   }
+    
+  // 线段两端点是同一个点，做另类操作
+  if (samePointLineSegment) {
+    if (i > points.count-1) {
+      return;
+    }
+
+    NSRange residueRange = NSMakeRange(i, points.count-i);
+    NSArray *residueCoordinates = [points subarrayWithRange:residueRange];
+    
+    MXMGeometry *newGeometry = [[MXMGeometry alloc] init];
+    newGeometry.coordinates = residueCoordinates;
+    newGeometry.type = self.originalPath.points.type;
+    
+    NSMutableArray *newInstructions = [NSMutableArray array];
+    
+    for (NSUInteger j=index; j<instructions.count; j++) {
+      MXMInstruction *indexInstruction = instructions[j];
+      NSUInteger first = indexInstruction.interval.firstObject.unsignedIntegerValue;
+      NSUInteger last = indexInstruction.interval.lastObject.unsignedIntegerValue;
+      
+      MXMInstruction *tmpInstruction = [[MXMInstruction alloc] init];
+      tmpInstruction.buildingId = indexInstruction.buildingId;
+      tmpInstruction.floor = indexInstruction.floor;
+      tmpInstruction.floorId = indexInstruction.floorId;
+      tmpInstruction.venueId = indexInstruction.venueId;
+      tmpInstruction.ordinal = indexInstruction.ordinal;
+      tmpInstruction.streetName = indexInstruction.streetName;
+      tmpInstruction.distance = indexInstruction.distance;
+      tmpInstruction.heading = indexInstruction.heading;
+      tmpInstruction.sign = indexInstruction.sign;
+      tmpInstruction.text = indexInstruction.text;
+      tmpInstruction.time = indexInstruction.time;
+      tmpInstruction.type = indexInstruction.type;
+      tmpInstruction.interval = @[@(first-i), @(last-i)];
+      [newInstructions addObject:tmpInstruction];
+    }
+    
+    MXMPath *newPath = [[MXMPath alloc] init];
+    newPath.bbox = self.originalPath.bbox;
+    newPath.instructions = [newInstructions copy];
+    newPath.points = newGeometry;
+    
+    NSUInteger tim = 0;
+    double dis = 0.0;
+    for (MXMInstruction *ins in newInstructions) {
+      tim += ins.time;
+      dis += ins.distance;
+    }
+    newPath.distance = dis;
+    newPath.time = tim;
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(routeShortener:redrawingNewPath:fromInstructionIndex:)]) {
+      [self.delegate routeShortener:self redrawingNewPath:newPath fromInstructionIndex:index];
+    }
+    return;
+  }
+  
+  
   
   // 两点匹配，i最多到points.count-2
   if (i > points.count-2) {
     return;
   }
-  
+
+  // 线段两端点不是同一个点，做常规操作
   NSRange residueRange = NSMakeRange(i+1, points.count-1-i);
   NSArray *residueCoordinates = [points subarrayWithRange:residueRange];
   MXMGeoPoint *startPoint = [MXMGeoPoint locationWithLatitude:projectionCoordinate.latitude longitude:projectionCoordinate.longitude];
