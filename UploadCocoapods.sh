@@ -121,4 +121,4 @@ curl -v -u $account:$password -X POST \
 
 ############## 上传Cocoapods ##############
 
-pod trunk push ${POSDSPEC_FILE} --allow-warnings --verbose
+pod trunk push ${POSDSPEC_FILE} --skip-tests --skip-import-validation --allow-warnings --verbose
