@@ -63,6 +63,9 @@ function makeXCFramework {
 }
 
 echo "#####################"
+# Clean Build
+rm -rf "./Build"
+
 echo "▸ Cleaning XCFramework output dir: ${FREAMEWORK_OUTPUT_DIR}"
 rm -rf $FREAMEWORK_OUTPUT_DIR
 
@@ -73,9 +76,6 @@ archiveAllPlatforms $FREAMEWORK_NAME
 
 echo "▸ Make framework: ${FREAMEWORK_NAME}.xcframework"
 makeXCFramework
-
-# Clean Build
-rm -rf "./Build"
 
 if [ ${REVEAL_XCFRAMEWORK_IN_FINDER} = true ]; then
     open "${FREAMEWORK_OUTPUT_DIR}/"
