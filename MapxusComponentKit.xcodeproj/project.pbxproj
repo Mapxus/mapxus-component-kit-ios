@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -22,6 +22,7 @@
 
 /* Begin PBXBuildFile section */
 		327DD5930E9D008D241D7CA9 /* Pods_MapxusComponentKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70BB58C9BA9570E848B2F88D /* Pods_MapxusComponentKit.framework */; };
+		898E9BFB2B205DE200345D0C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 898E9BFA2B205DE200345D0C /* PrivacyInfo.xcprivacy */; };
 		89E1349D29E95E1200D954D1 /* MapxusComponentKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E1349429E95E1200D954D1 /* MapxusComponentKit.framework */; };
 		89E134A229E95E1200D954D1 /* MapxusComponentKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E134A129E95E1200D954D1 /* MapxusComponentKitTests.m */; };
 		89E134A329E95E1200D954D1 /* MapxusComponentKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E1349729E95E1200D954D1 /* MapxusComponentKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -79,6 +80,7 @@
 /* Begin PBXFileReference section */
 		0185DBC7C738203EC4511EF3 /* Pods-MapxusComponentKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapxusComponentKit.release.xcconfig"; path = "Target Support Files/Pods-MapxusComponentKit/Pods-MapxusComponentKit.release.xcconfig"; sourceTree = "<group>"; };
 		70BB58C9BA9570E848B2F88D /* Pods_MapxusComponentKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MapxusComponentKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		898E9BFA2B205DE200345D0C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		89E1349429E95E1200D954D1 /* MapxusComponentKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MapxusComponentKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		89E1349729E95E1200D954D1 /* MapxusComponentKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapxusComponentKit.h; sourceTree = "<group>"; };
 		89E1349C29E95E1200D954D1 /* MapxusComponentKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MapxusComponentKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -129,8 +131,8 @@
 		89E1350229E95E8300D954D1 /* IOS-Universal-Framework_aggregate.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "IOS-Universal-Framework_aggregate.sh"; sourceTree = "<group>"; };
 		89E1350329E95E8300D954D1 /* UploadCocoapods.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = UploadCocoapods.sh; sourceTree = "<group>"; };
 		89E1351129E95ECE00D954D1 /* Mapbox.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Mapbox.xcframework; path = Pods/MapxusRenderSDK/Mapbox.xcframework; sourceTree = "<group>"; };
-		89E1351229E95ECE00D954D1 /* MapxusBaseSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = MapxusBaseSDK.xcframework; path = "../mapxus-base-sdk-ios/dynamic/MapxusBaseSDK.xcframework"; sourceTree = "<group>"; };
-		89E1351329E95ECE00D954D1 /* MapxusMapSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = MapxusMapSDK.xcframework; path = "../mapxus-map-sdk-ios/dynamic/MapxusMapSDK.xcframework"; sourceTree = "<group>"; };
+		89E1351229E95ECE00D954D1 /* MapxusBaseSDK.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:ZNBZ7BZAKZ:MAPHIVE TECHNOLOGY LIMITED"; lastKnownFileType = wrapper.xcframework; name = MapxusBaseSDK.xcframework; path = "../mapxus-base-sdk-ios/dynamic/MapxusBaseSDK.xcframework"; sourceTree = "<group>"; };
+		89E1351329E95ECE00D954D1 /* MapxusMapSDK.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:ZNBZ7BZAKZ:MAPHIVE TECHNOLOGY LIMITED"; lastKnownFileType = wrapper.xcframework; name = MapxusMapSDK.xcframework; path = "../mapxus-map-sdk-ios/dynamic/MapxusMapSDK.xcframework"; sourceTree = "<group>"; };
 		AFD2FC78C0EDD366D6737B5F /* Pods-MapxusComponentKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapxusComponentKitTests.release.xcconfig"; path = "Target Support Files/Pods-MapxusComponentKitTests/Pods-MapxusComponentKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		CF3B1FF1002F555B25C7AD74 /* Pods-MapxusComponentKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapxusComponentKit.debug.xcconfig"; path = "Target Support Files/Pods-MapxusComponentKit/Pods-MapxusComponentKit.debug.xcconfig"; sourceTree = "<group>"; };
 		DEB337637C6A9CED8E84430B /* Pods_MapxusComponentKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MapxusComponentKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -218,6 +220,7 @@
 				89E134B329E95E6700D954D1 /* RoutePainter */,
 				89E134BB29E95E6800D954D1 /* VisualFlagPainter */,
 				89E1349729E95E1200D954D1 /* MapxusComponentKit.h */,
+				898E9BFA2B205DE200345D0C /* PrivacyInfo.xcprivacy */,
 			);
 			path = MapxusComponentKit;
 			sourceTree = "<group>";
@@ -423,6 +426,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				898E9BFB2B205DE200345D0C /* PrivacyInfo.xcprivacy in Resources */,
 				89E134F529E95E6800D954D1 /* images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

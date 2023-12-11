@@ -59,6 +59,9 @@ function makeXCFramework {
         -framework "${ARCHIVE_PATH_IOS_DEVICE}/${FRAMEWORK_RELATIVE_PATH}/${FREAMEWORK_NAME}.framework" \
         -framework "${ARCHIVE_PATH_IOS_SIMULATOR}/${FRAMEWORK_RELATIVE_PATH}/${FREAMEWORK_NAME}.framework" \
         -output "${OUTPUT_DIR}/${FREAMEWORK_NAME}.xcframework"
+    
+    # 加签名
+    codesign --timestamp -v --sign ${CER_SHA_1} "${OUTPUT_DIR}/${FREAMEWORK_NAME}.xcframework"
         
 }
 

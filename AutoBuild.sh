@@ -38,6 +38,8 @@ REGION_DISTRIBUTION_PARENT_PATH="${PWD}/.."
 REGION_DISTRIBUTION_ROOT_PATH="/mapxus-component-kit-ios"
 # 分发目录下载源
 REGION_DISTRIBUTION_URL='https://github.com/Mapxus/mapxus-component-kit-ios.git'
+# 签发证书
+CER_SHA_1='277D3D123EB976C62BA00951C258A3FA235FFA11'
 
 
 ############## 参数获取 ##############
@@ -108,7 +110,7 @@ export LANGUAGE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
 bundle exec pod install --repo-update
-xcodebuild -workspace "${PROJECT_NAME}" -scheme "${SCHEME}" XCCONFIG_FILE="${XCCONFIG_FILE}"
+xcodebuild -workspace "${PROJECT_NAME}" -scheme "${SCHEME}" CER_SHA_1="${CER_SHA_1}" XCCONFIG_FILE="${XCCONFIG_FILE}"
 
 
 function makeDirAndCopy {
