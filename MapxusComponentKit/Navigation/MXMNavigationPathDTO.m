@@ -33,7 +33,13 @@
       if (i-1 >= 0 && i-1 < instructions.count) {
         MXMInstruction *preInstruction = instructions[i-1];
         /// 是梯子转换段
-        if (preInstruction.sign == MXMDownstairs || preInstruction.sign == MXMUpstairs) {
+        if (preInstruction.sign == MXMDownstairs ||
+            preInstruction.sign == MXMUpstairs ||
+            preInstruction.sign == MXMLeaveBuilding ||
+            preInstruction.sign == MXMEnterBuilding ||
+            preInstruction.sign == MXMPassGateline ||
+            preInstruction.sign == MXMThroughConnectingCorridor ||
+            preInstruction.sign == MXMPassArea) {
           list1 = [self breakUpLineSegmentWithInstruction:preInstruction index:i-1 points:points];
         }
       }
@@ -43,7 +49,13 @@
       LineArray *list3;
       if (i+1 >= 0 && i+1 < instructions.count) {
         MXMInstruction *nextInstruction = instructions[i+1];
-        if (nextInstruction.sign == MXMDownstairs || nextInstruction.sign == MXMUpstairs) {
+        if (nextInstruction.sign == MXMDownstairs || 
+            nextInstruction.sign == MXMUpstairs ||
+            nextInstruction.sign == MXMLeaveBuilding ||
+            nextInstruction.sign == MXMEnterBuilding ||
+            nextInstruction.sign == MXMPassGateline ||
+            nextInstruction.sign == MXMThroughConnectingCorridor ||
+            nextInstruction.sign == MXMPassArea) {
           list3 = [self breakUpLineSegmentWithInstruction:nextInstruction index:i+1 points:points];
         }
       }
