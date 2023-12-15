@@ -23,6 +23,8 @@
 /* Begin PBXBuildFile section */
 		327DD5930E9D008D241D7CA9 /* Pods_MapxusComponentKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70BB58C9BA9570E848B2F88D /* Pods_MapxusComponentKit.framework */; };
 		898E9BFB2B205DE200345D0C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 898E9BFA2B205DE200345D0C /* PrivacyInfo.xcprivacy */; };
+		89C699012B2AE59500F7DD5B /* MXMLocationEnhancer.h in Headers */ = {isa = PBXBuildFile; fileRef = 89C698FF2B2AE59500F7DD5B /* MXMLocationEnhancer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		89C699022B2AE59500F7DD5B /* MXMLocationEnhancer.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C699002B2AE59500F7DD5B /* MXMLocationEnhancer.m */; };
 		89E1349D29E95E1200D954D1 /* MapxusComponentKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E1349429E95E1200D954D1 /* MapxusComponentKit.framework */; };
 		89E134A229E95E1200D954D1 /* MapxusComponentKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E134A129E95E1200D954D1 /* MapxusComponentKitTests.m */; };
 		89E134A329E95E1200D954D1 /* MapxusComponentKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E1349729E95E1200D954D1 /* MapxusComponentKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -81,6 +83,8 @@
 		0185DBC7C738203EC4511EF3 /* Pods-MapxusComponentKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapxusComponentKit.release.xcconfig"; path = "Target Support Files/Pods-MapxusComponentKit/Pods-MapxusComponentKit.release.xcconfig"; sourceTree = "<group>"; };
 		70BB58C9BA9570E848B2F88D /* Pods_MapxusComponentKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MapxusComponentKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		898E9BFA2B205DE200345D0C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		89C698FF2B2AE59500F7DD5B /* MXMLocationEnhancer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MXMLocationEnhancer.h; sourceTree = "<group>"; };
+		89C699002B2AE59500F7DD5B /* MXMLocationEnhancer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MXMLocationEnhancer.m; sourceTree = "<group>"; };
 		89E1349429E95E1200D954D1 /* MapxusComponentKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MapxusComponentKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		89E1349729E95E1200D954D1 /* MapxusComponentKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapxusComponentKit.h; sourceTree = "<group>"; };
 		89E1349C29E95E1200D954D1 /* MapxusComponentKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MapxusComponentKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -291,6 +295,8 @@
 				89E134CE29E95E6800D954D1 /* CLLocation+ChangeFloor.m */,
 				89E134D129E95E6800D954D1 /* MXMRouteAdsorber.h */,
 				89E134C829E95E6800D954D1 /* MXMRouteAdsorber.m */,
+				89C698FF2B2AE59500F7DD5B /* MXMLocationEnhancer.h */,
+				89C699002B2AE59500F7DD5B /* MXMLocationEnhancer.m */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -324,6 +330,7 @@
 				89E134F429E95E6800D954D1 /* MXMRouteAdsorber.h in Headers */,
 				89E134F229E95E6800D954D1 /* CLFloor+Factory.h in Headers */,
 				89E134DD29E95E6800D954D1 /* MXMPainterPathDto.h in Headers */,
+				89C699012B2AE59500F7DD5B /* MXMLocationEnhancer.h in Headers */,
 				89E134DA29E95E6800D954D1 /* MXMParagraph.h in Headers */,
 				89E134E429E95E6800D954D1 /* LocalBuildingProxy.h in Headers */,
 				89E134D429E95E6800D954D1 /* JXJsonFunctionDefine.h in Headers */,
@@ -516,6 +523,7 @@
 				89E134DE29E95E6800D954D1 /* MXMParagraph.m in Sources */,
 				89E134F029E95E6800D954D1 /* GeoFunctions.m in Sources */,
 				89E134F129E95E6800D954D1 /* CLLocation+ChangeFloor.m in Sources */,
+				89C699022B2AE59500F7DD5B /* MXMLocationEnhancer.m in Sources */,
 				89E134DB29E95E6800D954D1 /* MXMRoutePainter.m in Sources */,
 				89E134EA29E95E6800D954D1 /* MXMLineSegment.m in Sources */,
 				89E134EC29E95E6800D954D1 /* MXMNavigationPathDTO.m in Sources */,
