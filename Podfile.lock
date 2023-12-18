@@ -1,29 +1,29 @@
 PODS:
-  - AFNetworking/NSURLSession (4.0.1):
+  - AFNetworking/NSURLSession (4.0.2):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/Reachability (4.0.1)
-  - AFNetworking/Security (4.0.1)
-  - AFNetworking/Serialization (4.0.1)
-  - MapxusBaseSDK (6.4.0):
-    - AFNetworking/NSURLSession (~> 4.0)
-    - AFNetworking/Reachability (~> 4.0)
-    - AFNetworking/Security (~> 4.0)
-    - AFNetworking/Serialization (~> 4.0)
-    - YYModel (~> 1.0.4)
-  - MapxusMapSDK (6.4.0):
-    - MapxusBaseSDK (= 6.4.0)
+  - AFNetworking/Reachability (4.0.2)
+  - AFNetworking/Security (4.0.2)
+  - AFNetworking/Serialization (4.0.2)
+  - MapxusBaseSDK (6.5.0):
+    - AFNetworking/NSURLSession (~> 4.0.2)
+    - AFNetworking/Reachability (~> 4.0.2)
+    - AFNetworking/Security (~> 4.0.2)
+    - AFNetworking/Serialization (~> 4.0.2)
+    - YYModel (~> 1.0.5)
+  - MapxusMapSDK (6.5.0):
+    - MapxusBaseSDK (= 6.5.0)
     - MapxusRenderSDK (= 5.13.0)
   - MapxusRenderSDK (5.13.0)
-  - YYModel (1.0.4)
+  - YYModel (1.0.5)
 
 DEPENDENCIES:
   - MapxusBaseSDK (from `../mapxus-base-sdk-ios`)
   - MapxusMapSDK (from `../mapxus-map-sdk-ios`)
 
 SPEC REPOS:
-  https://nexus3.mapxus.com/repository/cocoapods-proxy/:
+  https://github.com/Mapxus/mapxusSpecs.git:
     - AFNetworking
     - MapxusRenderSDK
     - YYModel
@@ -35,12 +35,12 @@ EXTERNAL SOURCES:
     :path: "../mapxus-map-sdk-ios"
 
 SPEC CHECKSUMS:
-  AFNetworking: e27fa2d9d7b9bd6cc4279ee0be09d063d5d9eef6
-  MapxusBaseSDK: 94a150abae39fed3fed10541cebde69dab133e3e
-  MapxusMapSDK: 1c4a3c0338594048567e3c2beaa0dd6fe2e944a7
-  MapxusRenderSDK: 84e25a67b7b5fa4ed5c550fe0641ec3bdf291328
-  YYModel: 47e490c065087c7c7ca264de8f2b418b28e77371
+  AFNetworking: 24bbe15bca5f5c108a34a2608c8efd9d548ee884
+  MapxusBaseSDK: f7fecd4295b0b229f1dc0ed3526ea447e70dd744
+  MapxusMapSDK: 950e3437f4146016d6ca32ac0369248bf6a0e2d3
+  MapxusRenderSDK: 9afa40a07888b84ffe8ccb03b53958fb9e670def
+  YYModel: 035c452ebe1aca91282aa570739c55f3d5e1b16e
 
-PODFILE CHECKSUM: c4471f0b23553438782ebd49b223eaaf3ae18dd7
+PODFILE CHECKSUM: 074f6c74c5d8644efb5643f6c05dca67b76cca4d
 
-COCOAPODS: 1.14.2
+COCOAPODS: 1.14.3
