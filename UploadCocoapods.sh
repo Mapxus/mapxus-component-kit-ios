@@ -22,6 +22,8 @@ ZIP_FILE='mapxus-component-kit-ios.zip'
 ENV_FILE='nexus.env'
 # cocoapods配置文件
 POSDSPEC_FILE='MapxusComponentKit.podspec'
+# 是否推到cocoapods
+IS_PUSH='false'
 
 
 
@@ -29,7 +31,7 @@ POSDSPEC_FILE='MapxusComponentKit.podspec'
 
 # c: 公司，可选mapxus、landsd、kawasaki
 # d: framework文件存放根目录
-while getopts ":c:d:" opt
+while getopts ":c:d:p" opt
 do
     case $opt in
         d)
@@ -41,6 +43,9 @@ do
         elif [[ $OPTARG == "kawasaki" ]]; then
             COM="-kawasaki"
         fi
+        ;;
+        p)
+        IS_PUSH='true'
         ;;
         ?)
         echo "未知参数"
@@ -104,7 +109,7 @@ if [ -f "${ZIP_FILE}" ]; then
 fi
 
 # 打包压缩
-zip -r ${ZIP_FILE} * -x '*.podspec' '*/.*'
+zip -r ${ZIP_FILE} * -x '*.podspec' 'Package.swift' '*/.*'
 
 
 ############## 上传到nexus ##############
@@ -121,4 +126,7 @@ curl -v -u $account:$password -X POST \
 
 ############## 上传Cocoapods ##############
 
-pod trunk push ${POSDSPEC_FILE} --skip-tests --skip-import-validation --allow-warnings --verbose
+if [ $IS_PUSH == 'true' ]
+then
+  pod repo push mapxus ${POSDSPEC_FILE} --skip-tests --skip-import-validation --allow-warnings --verbose
+fi
