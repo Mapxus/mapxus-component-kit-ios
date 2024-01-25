@@ -62,6 +62,7 @@ struct ProjectResult {
         floorId = result.floor.floorId;
         floor = result.floor.code;
       }
+      // TODO: 返回吸附数据，当刚开始找不到吸附点时，会返回上一次的吸附结果，但使用的却是当前定位解析的floorId，这会造成在绘制路线时画出一条乱飞的线段。
       NSString *key = [MXMNavigationPathDTO generateKeyUsingBuildingId:buildingId andFloor:floor];
       struct ProjectResult final = [self calculateNewLocationWithCurrent:actual key:key];
       dispatch_async(dispatch_get_main_queue(), ^{
