@@ -18,6 +18,7 @@ FOUNDATION_EXPORT const unsigned char MapxusComponentKitVersionString[];
 
 #import <MapxusComponentKit/CLFloor+Factory.h>
 #import <MapxusComponentKit/CLLocation+ChangeFloor.h>
+#import <MapxusComponentKit/MXMLocationEnhancer.h>
 
 // 路线绘制功能
 #import <MapxusComponentKit/MXMParagraph.h>
