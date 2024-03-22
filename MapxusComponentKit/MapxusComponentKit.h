@@ -24,6 +24,7 @@ FOUNDATION_EXPORT const unsigned char MapxusComponentKitVersionString[];
 #import <MapxusComponentKit/MXMParagraph.h>
 #import <MapxusComponentKit/MXMPainterPathDto.h>
 #import <MapxusComponentKit/MXMRoutePainter.h>
+#import <MapxusComponentKit/MXMRouteMarker.h>
 
 // 导航功能
 #import <MapxusComponentKit/MXMNavigationPathDTO.h>

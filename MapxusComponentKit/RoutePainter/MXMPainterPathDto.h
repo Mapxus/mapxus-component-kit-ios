@@ -25,6 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// End point
 @property (nonatomic, strong, readonly) MXMIndoorPoint *endPoint;
 
+@property (nonatomic, strong, readonly) NSArray<MXMIndoorPoint *> *wayPoints;
+
 /**
  Key in planning order, where outdoor passages are separated by indoor passages by outdoor-1, outdoor-2 or buildingId-floor-1... to distinguish them.
  The indoor sections are grouped together by buildingId and floor.
@@ -42,6 +44,8 @@ NS_ASSUME_NONNULL_BEGIN
  @return MXMPainterPathDto object
  */
 - (instancetype)initWithPath:(MXMPath *)path startPoint:(MXMIndoorPoint *)start endPoint:(MXMIndoorPoint *)end;
+
+- (instancetype)initWithPath:(MXMPath *)path wayPoints:(NSArray<MXMIndoorPoint *> *)points;
 
 @end
 

@@ -23,6 +23,7 @@ static NSString *rampDownIconString = @"rampDownIcon";
 static NSString *stairsUpIconString = @"stairsUpIcon";
 static NSString *stairsDownIconString = @"stairsDownIcon";
 static NSString *buildingGateIconString = @"buildingGateIcon";
+static NSString *wayPointIconString = @"wayPointIcon";
 
 
 @interface MXMRoutePainter ()
@@ -54,6 +55,11 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
 - (void)addDefaultImage
 {
   NSBundle *bundle = [NSBundle bundleForClass:[MXMRoutePainter class]];
+  MXMRouteMarker *start = [[MXMRouteMarker alloc] init];
+  start.icon = [UIImage imageNamed:@"start_marker" inBundle:bundle compatibleWithTraitCollection:nil];
+  MXMRouteMarker *end = [[MXMRouteMarker alloc] init];
+  end.icon = [UIImage imageNamed:@"end_marker" inBundle:bundle compatibleWithTraitCollection:nil];
+  self.wayPointMarkers = @[start, end];
   self.arrowIcon = [UIImage imageNamed:@"right" inBundle:bundle compatibleWithTraitCollection:nil];
   self.startIcon = [UIImage imageNamed:@"start_marker" inBundle:bundle compatibleWithTraitCollection:nil];
   self.endIcon = [UIImage imageNamed:@"end_marker" inBundle:bundle compatibleWithTraitCollection:nil];
@@ -82,6 +88,12 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
   [self.mapView.style setImage:self.stairsUpIcon forName:stairsUpIconString];
   [self.mapView.style setImage:self.stairsDownIcon forName:stairsDownIconString];
   [self.mapView.style setImage:self.buildingGateIcon forName:buildingGateIconString];
+  int i = 0;
+  for (MXMRouteMarker *marker in self.wayPointMarkers) {
+    if (!marker.icon) {continue;}
+    [self.mapView.style setImage:marker.icon forName:[wayPointIconString stringByAppendingFormat:@"%d", i]];
+    i++;
+  }
 }
 
 - (void)paintRouteUsingPath:(MXMPath *)path wayPoints:(NSArray<MXMIndoorPoint *> *)list
@@ -173,142 +185,76 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
   
   
   // 2.Take the first path in the path group
-  MXMIndoorPoint *startP = list.firstObject;
-  MXMIndoorPoint *endP = list.lastObject;
-  self.dto = [[MXMPainterPathDto alloc] initWithPath:path startPoint:startP endPoint:endP];
-  
-  // 3.Supplementary starting line
-  // ============================================================================
-  NSMutableArray *addLineFeatures = [NSMutableArray array];
-  {
-    if (self.isAddStartDash) {
-      NSString *firstKey = self.dto.keys.firstObject;
-      if (firstKey) {
-        MXMParagraph *firstPaph = self.dto.paragraphs[firstKey];
-        NSArray *pointList = firstPaph.points;
-        MXMGeoPoint *fristPoint = pointList.firstObject;
-        if (fristPoint) {
-          CLLocationCoordinate2D routeCoordinates[2];
-          routeCoordinates[0] = CLLocationCoordinate2DMake(startP.latitude, startP.longitude);
-          routeCoordinates[1] = CLLocationCoordinate2DMake(fristPoint.latitude, fristPoint.longitude);
-          
-          NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-          if (firstPaph.key) {
-            NSString *venueKey = self.dto.keyMapping[firstPaph.key];
-            if (venueKey) {
-              dic[@"key"] = venueKey;
-            } else {
-              dic[@"key"] = @"outdoor";
-            }
-          } else {
-            dic[@"key"] = @"outdoor";
-          }
-          MGLPolylineFeature *feature = [MGLPolylineFeature polylineWithCoordinates:routeCoordinates count:2];
-          feature.attributes = dic;
-          
-          [addLineFeatures addObject:feature];
-        }
-      }
-    }
-  }
-    
-  // 4.Supplementary finish line
-  {
-    if (self.isAddEndDash) {
-      NSString *lastKey = self.dto.keys.lastObject;
-      if (lastKey) {
-        MXMParagraph *lastPaph = self.dto.paragraphs[lastKey];
-        NSArray *pointList = lastPaph.points;
-        MXMGeoPoint *lastPoint = pointList.lastObject;
-        if (lastPoint) {
-          CLLocationCoordinate2D routeCoordinates[2];
-          routeCoordinates[0] = CLLocationCoordinate2DMake(endP.latitude, endP.longitude);
-          routeCoordinates[1] = CLLocationCoordinate2DMake(lastPoint.latitude, lastPoint.longitude);
-          
-          NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-          if (lastPaph.key) {
-            NSString *venueKey = self.dto.keyMapping[lastPaph.key];
-            if (venueKey) {
-              dic[@"key"] = venueKey;
-            } else {
-              dic[@"key"] = @"outdoor";
-            }
-          } else {
-            dic[@"key"] = @"outdoor";
-          }
-          MGLPolylineFeature *feature = [MGLPolylineFeature polylineWithCoordinates:routeCoordinates count:2];
-          feature.attributes = dic;
-          
-          [addLineFeatures addObject:feature];
-        }
-      }
-    }
-  }
-  MGLShapeCollectionFeature *addLineShapeCollectionFeature = [MGLShapeCollectionFeature shapeCollectionWithShapes:addLineFeatures];
-  addLineSource.shape = addLineShapeCollectionFeature;
+  self.dto = [[MXMPainterPathDto alloc] initWithPath:path wayPoints:list];
   
   // ============================================================================
-  
-  // 始终点图标层
+  // 添加途经点
   NSMutableArray *startAndEndFeatures = [NSMutableArray array];
-  // 添加起点图标
-  NSMutableDictionary *startAttributes = [NSMutableDictionary dictionary];
-  if (startP.buildingId) {
-    NSString *buildingKey;
-    if (startP.floorId) {
-      buildingKey = startP.floorId;
-    } else {
-      buildingKey = [NSString stringWithFormat:@"%@-%@", startP.buildingId, startP.floor];
-    }
-    NSString *venueKey = self.dto.keyMapping[buildingKey];
-    if (venueKey) {
-      startAttributes[@"key"] = venueKey;
-    } else {
-      startAttributes[@"key"] = @"outdoor";
-    }
-  } else {
-    startAttributes[@"key"] = @"outdoor";
-  }
-  startAttributes[@"iconName"] = startIconString;
-  MGLPointFeature *startFeature = [[MGLPointFeature alloc] init];
-  startFeature.coordinate = CLLocationCoordinate2DMake(startP.latitude, startP.longitude);
-  startFeature.attributes = startAttributes;
-  [startAndEndFeatures addObject:startFeature];
-  // 添加终点图标
-  NSMutableDictionary *endAttributes = [NSMutableDictionary dictionary];
-  if (endP.buildingId) {
-    NSString *buildingKey;
-    if (endP.floorId) {
-      buildingKey = endP.floorId;
-    } else {
-      buildingKey = [NSString stringWithFormat:@"%@-%@", endP.buildingId, endP.floor];
-    }
-    NSString *venueKey = self.dto.keyMapping[buildingKey];
-    if (venueKey) {
-      endAttributes[@"key"] = venueKey;
-    } else {
-      endAttributes[@"key"] = @"outdoor";
-    }
-  } else {
-    endAttributes[@"key"] = @"outdoor";
-  }
   
-  endAttributes[@"iconName"] = endIconString;
-  MGLPointFeature *toFeature = [[MGLPointFeature alloc] init];
-  toFeature.coordinate = CLLocationCoordinate2DMake(endP.latitude, endP.longitude);
-  toFeature.attributes = endAttributes;
-  [startAndEndFeatures addObject:toFeature];
+  int i = 0;
+  for (MXMIndoorPoint *p in list) {
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+    NSString *theKey;
+    if (p.buildingId) {
+      if (p.floorId) {
+        theKey = p.floorId;
+      } else {
+        theKey = [NSString stringWithFormat:@"%@-%@", p.buildingId, p.floor];
+      }
+    } else {
+      theKey = @"outdoor";
+    }
+    // 有相同的楼层，venueKey都会是一样的，所以在keys里随便找一个匹配的
+    for (NSString *k in self.dto.keys) {
+      if ([k containsString:theKey]) {
+        theKey = k;
+        break;
+      }
+    }
+    NSString *venueKey = self.dto.keyMapping[theKey];
+    if (venueKey) {
+      attributes[@"key"] = venueKey;
+    } else {
+      attributes[@"key"] = @"outdoor";
+    }
+    
+    if (i == 0) {
+      attributes[@"iconName"] = [wayPointIconString stringByAppendingString:@"0"];
+    } else if (i == list.count-1) {
+      attributes[@"iconName"] = [wayPointIconString stringByAppendingFormat:@"%lu", (unsigned long)(self.wayPointMarkers.count-1)];
+    } else {
+      if (i < self.wayPointMarkers.count-1) {
+        attributes[@"iconName"] = [wayPointIconString stringByAppendingFormat:@"%d", i];
+      } else {
+        attributes[@"iconName"] = [wayPointIconString stringByAppendingFormat:@"%lu", (unsigned long)(self.wayPointMarkers.count-1)];
+      }
+    }
+    MGLPointFeature *startFeature = [[MGLPointFeature alloc] init];
+    startFeature.coordinate = CLLocationCoordinate2DMake(p.latitude, p.longitude);
+    startFeature.attributes = attributes;
+    [startAndEndFeatures addObject:startFeature];
+    i++;
+  }
   
   MGLShapeCollectionFeature *startAndEndShapeCollectionFeature = [MGLShapeCollectionFeature shapeCollectionWithShapes:startAndEndFeatures];
   startAndEndSource.shape = startAndEndShapeCollectionFeature;
-  
-  // ============================================================================
+
   
   // 添加路线
   NSMutableArray *lineFeatures = [NSMutableArray array];
   NSMutableArray *connectorFeatures = [NSMutableArray array];
+  NSMutableArray *addLineFeatures = [NSMutableArray array];
   // 添加路线
-  for (MXMParagraph *paph in self.dto.paragraphs.allValues) {
+  NSUInteger waypointIndex = 0;
+  for (MXMInstruction *ins in path.instructions) {
+    if (ins.sign == MXMReachedVia || ins.sign == MXMFinish) {
+      waypointIndex += 1;
+    }
+  }
+  // 计算到第几个waypoint点
+  waypointIndex = list.count - waypointIndex;
+  for (NSString *paphKey in self.dto.keys) {
+    MXMParagraph *paph = self.dto.paragraphs[paphKey];
     // 没有点可绘制
     if (paph.points.count == 0) {
       break;
@@ -380,8 +326,68 @@ static NSString *buildingGateIconString = @"buildingGateIcon";
     feature.attributes = dic;
     
     [lineFeatures addObject:feature];
+    
+    if (paph.startPointType == StartEndPoint && waypointIndex == 1 && self.isAddStartDash) {
+      NSArray *pointList = paph.points;
+      MXMGeoPoint *fristPoint = pointList.firstObject;
+      MXMIndoorPoint *startP = list.firstObject;
+      if (fristPoint) {
+        CLLocationCoordinate2D routeCoordinates[2];
+        routeCoordinates[0] = CLLocationCoordinate2DMake(startP.latitude, startP.longitude);
+        routeCoordinates[1] = CLLocationCoordinate2DMake(fristPoint.latitude, fristPoint.longitude);
+        
+        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+        if (paph.key) {
+          NSString *venueKey = self.dto.keyMapping[paph.key];
+          if (venueKey) {
+            dic[@"key"] = venueKey;
+          } else {
+            dic[@"key"] = @"outdoor";
+          }
+        } else {
+          dic[@"key"] = @"outdoor";
+        }
+        MGLPolylineFeature *feature = [MGLPolylineFeature polylineWithCoordinates:routeCoordinates count:2];
+        feature.attributes = dic;
+        
+        [addLineFeatures addObject:feature];
+      }
+    }
+    
+    if (paph.endPointType == StartEndPoint && self.isAddEndDash) { // 绘制虚线段
+      NSArray *pointList = paph.points;
+      MXMGeoPoint *lastPoint = pointList.lastObject;
+      MXMIndoorPoint *endP = list[waypointIndex];
+      if (lastPoint) {
+        CLLocationCoordinate2D routeCoordinates[2];
+        routeCoordinates[0] = CLLocationCoordinate2DMake(lastPoint.latitude, lastPoint.longitude);
+        routeCoordinates[1] = CLLocationCoordinate2DMake(endP.latitude, endP.longitude);
+        
+        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+        if (paph.key) {
+          NSString *venueKey = self.dto.keyMapping[paph.key];
+          if (venueKey) {
+            dic[@"key"] = venueKey;
+          } else {
+            dic[@"key"] = @"outdoor";
+          }
+        } else {
+          dic[@"key"] = @"outdoor";
+        }
+        MGLPolylineFeature *feature = [MGLPolylineFeature polylineWithCoordinates:routeCoordinates count:2];
+        feature.attributes = dic;
+        
+        [addLineFeatures addObject:feature];
+      }
+      
+      waypointIndex += 1;
+    }
+
   }
   
+  MGLShapeCollectionFeature *addLineShapeCollectionFeature = [MGLShapeCollectionFeature shapeCollectionWithShapes:addLineFeatures];
+  addLineSource.shape = addLineShapeCollectionFeature;
+
   MGLShapeCollectionFeature *lineShapeCollectionFeature = [MGLShapeCollectionFeature shapeCollectionWithShapes:lineFeatures];
   lineSource.shape = lineShapeCollectionFeature;
   

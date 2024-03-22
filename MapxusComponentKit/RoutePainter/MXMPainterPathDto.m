@@ -17,10 +17,24 @@
   if (self) {
     _startPoint = start;
     _endPoint = end;
+    _wayPoints = @[start, end];
     [self dualWithPath:path];
   }
   return self;
 }
+
+- (instancetype)initWithPath:(MXMPath *)path wayPoints:(NSArray<MXMIndoorPoint *> *)points
+{
+  self = [super init];
+  if (self) {
+    _startPoint = points.firstObject;
+    _endPoint = points.lastObject;
+    _wayPoints = [points copy];
+    [self dualWithPath:path];
+  }
+  return self;
+}
+
 
 - (void)dualWithPath:(MXMPath *)path
 {
@@ -31,6 +45,7 @@
   
   MXMParagraph *paph;
   
+  int waypointIndex = 0;
   for (MXMInstruction *ins in path.instructions) {
     NSString *floor = nil;
     if (ins.floor) {
@@ -63,6 +78,12 @@
         ins.sign == MXMShuttleBusEndTrip) {
       currentKey = [NSString stringWithFormat:@"ShuttleBus-%@", currentKey];
     }
+    
+    if (ins.sign == MXMReachedVia) {
+      waypointIndex += 1;
+    }
+    
+    currentKey = [NSString stringWithFormat:@"%@-via%d", currentKey, waypointIndex];
     
     if ([lastKey hasPrefix:currentKey]) { // 当前 instruction 与上一 instruction 的 key 一致，currentKey 沿用上一 instruction 的 key
       currentKey = lastKey;
@@ -150,7 +171,7 @@
     } else {
       if (ins.sign == MXMLeaveBuilding || ins.sign == MXMEnterBuilding) {
         paph.endPointType = BuildingGate;
-      } else if (ins.sign == MXMFinish) {
+      } else if (ins.sign == MXMFinish || ins.sign == MXMReachedVia) {
         paph.endPointType = StartEndPoint;
       }
       // 整合线段

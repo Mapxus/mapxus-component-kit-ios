@@ -11,6 +11,7 @@
 #import <MapxusMapSDK/MapxusMapSDK.h>
 
 #import <MapxusComponentKit/MXMPainterPathDto.h>
+#import <MapxusComponentKit/MXMRouteMarker.h>
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -44,6 +45,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Endpoint icon
 @property (nonatomic, strong) UIImage *endIcon;
+
+@property (nonatomic, strong) NSArray<MXMRouteMarker *> *wayPointMarkers;
 
 /// Lift up icon
 @property (nonatomic, strong) UIImage *elevatorUpIcon;
