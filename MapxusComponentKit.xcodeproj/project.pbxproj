@@ -84,6 +84,7 @@
 /* Begin PBXFileReference section */
 		0185DBC7C738203EC4511EF3 /* Pods-MapxusComponentKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapxusComponentKit.release.xcconfig"; path = "Target Support Files/Pods-MapxusComponentKit/Pods-MapxusComponentKit.release.xcconfig"; sourceTree = "<group>"; };
 		70BB58C9BA9570E848B2F88D /* Pods_MapxusComponentKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MapxusComponentKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		89446B562BB69E4B005B0D17 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		896F2FB52BAA87BE00562534 /* MXMWaypointInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MXMWaypointInfo.h; sourceTree = "<group>"; };
 		896F2FB62BAA87BE00562534 /* MXMWaypointInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MXMWaypointInfo.m; sourceTree = "<group>"; };
 		898E9BFA2B205DE200345D0C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
@@ -197,6 +198,7 @@
 		89E1348A29E95E1200D954D1 = {
 			isa = PBXGroup;
 			children = (
+				89446B562BB69E4B005B0D17 /* CHANGELOG.md */,
 				89E134F629E95E8300D954D1 /* Gemfile */,
 				89E134F829E95E8300D954D1 /* BuildConfig */,
 				89E134F729E95E8300D954D1 /* AutoBuild.sh */,
