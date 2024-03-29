@@ -21,9 +21,20 @@ ZIP_FILE='mapxus-component-kit-ios.zip'
 # 密码文件
 ENV_FILE='nexus.env'
 # cocoapods配置文件
-POSDSPEC_FILE='MapxusComponentKit.podspec'
-# 是否推到cocoapods
-IS_PUSH='false'
+PODSPEC_FILE='MapxusComponentKit.podspec'
+# Package配置文件
+PACKAGE_FILE='Package.swift'
+# changelog文件名
+CHANGELOG_FILE='CHANGELOG.md'
+# 库名
+TARGET_NAME='MapxusBaseSDK'
+
+
+# 从changelog获取版本号
+VERSION=$(sed -n 's/^## v\([^ ]*\) .*$/\1/p' $CHANGELOG_FILE)
+echo "version: $VERSION"
+# changelog内容
+CHANGELOG_CONTENT=$(cat "$CHANGELOG_FILE")
 
 
 
@@ -31,7 +42,7 @@ IS_PUSH='false'
 
 # c: 公司，可选mapxus、landsd、kawasaki
 # d: framework文件存放根目录
-while getopts ":c:d:p" opt
+while getopts ":c:d" opt
 do
     case $opt in
         d)
@@ -44,9 +55,6 @@ do
             COM="-kawasaki"
         fi
         ;;
-        p)
-        IS_PUSH='true'
-        ;;
         ?)
         echo "未知参数"
         exit 1;;
@@ -54,7 +62,7 @@ do
 done
 
 
-############## 更新变量 ##############
+############## 根据输入更新变量 ##############
 
 if [[ -z $COM ]]; then
     echo "COM=mapxus"
@@ -73,7 +81,7 @@ elif [[ $COM == "-landsd" ]]; then
     # 密码文件
     ENV_FILE='nexus.env'
     # cocoapods配置文件
-    POSDSPEC_FILE='MapxusComponentKit-landsd.podspec'
+    PODSPEC_FILE='MapxusComponentKit-landsd.podspec'
     
 elif [[ $COM == "-kawasaki" ]]; then
     # nexus的域名
@@ -89,7 +97,7 @@ elif [[ $COM == "-kawasaki" ]]; then
     # 密码文件
     ENV_FILE='nexus-jp.env'
     # cocoapods配置文件
-    POSDSPEC_FILE='MapxusComponentKit-jp.podspec'
+    PODSPEC_FILE='MapxusComponentKit-jp.podspec'
     
 fi
 
@@ -99,11 +107,11 @@ fi
 ### 读取account和password
 export $(xargs < "BuildConfig/${ENV_FILE}")
 
-WORK_DIR="${DISTRIBUTION_PARENT_PATH}${DISTRIBUTION_ROOT_PATH}"
-
 # 进入目录
+WORK_DIR="${DISTRIBUTION_PARENT_PATH}${DISTRIBUTION_ROOT_PATH}"
 cd ${WORK_DIR}
 
+# 删除旧包
 if [ -f "${ZIP_FILE}" ]; then
   rm -r "${ZIP_FILE}"
 fi
@@ -112,21 +120,50 @@ fi
 zip -r ${ZIP_FILE} * -x '*.podspec' 'Package.swift' '*/.*'
 
 
+
+############## 修改配置文件内容 ##############
+
+### 获取checksum
+checksum=$(swift package compute-checksum ${ZIP_FILE})
+### 替换checksum
+perl -i -pe 'BEGIN { $/ = undef; } s/(binaryTarget\(\s*name:\s*"MapxusBaseSDK",.*?checksum:\s*)"[^"]*"/$1"'$checksum'"/sg' $PACKAGE_FILE
+### 替换package版本号
+sed -i '' "s/let version = \".*\"/let version = \"$VERSION\"/g" $PACKAGE_FILE
+### 替换podspec版本号
+sed -i '' "s/version = \'.*\'/version = \'$VERSION\'/g" $PODSPEC_FILE
+
+
+
+############## 保存修改到git ##############
+
+# 提交修改
+echo "提交修改..."
+git add .
+git commit -m "$CHANGELOG_CONTENT"
+
+# 推送修改
+echo "推送修改..."
+git push
+
+# 打tag
+echo "打tag..."
+git tag $VERSION
+git push origin $VERSION
+
+
+
 ############## 上传到nexus ##############
 
-### 获取tag
-VERSION=$(git describe --abbrev=0 --tags)
-
-### 上传到nexus
 curl -v -u $account:$password -X POST \
 "$REPOSITORY_URL/service/rest/v1/components?repository=$REPOSITORY_NAME" \
 -F "raw.directory=${VERSION}" \
 -F "raw.asset1=@${ZIP_FILE}" \
 -F "raw.asset1.filename=${ZIP_FILE}"
 
+
+
 ############## 上传Cocoapods ##############
 
-if [ $IS_PUSH == 'true' ]
-then
-  pod repo push mapxus ${POSDSPEC_FILE} --skip-tests --skip-import-validation --allow-warnings --verbose
-fi
+pod repo push mapxus ${PODSPEC_FILE} --skip-tests --skip-import-validation --allow-warnings --verbose
+
+echo "完成！"
