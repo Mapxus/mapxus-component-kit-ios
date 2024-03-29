@@ -17,7 +17,7 @@
   if (self) {
     _startPoint = start;
     _endPoint = end;
-    _wayPoints = @[start, end];
+    _waypoints = @[start, end];
     [self dualWithPath:path];
   }
   return self;
@@ -29,7 +29,7 @@
   if (self) {
     _startPoint = points.firstObject;
     _endPoint = points.lastObject;
-    _wayPoints = [points copy];
+    _waypoints = [points copy];
     [self dualWithPath:path];
   }
   return self;

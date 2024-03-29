@@ -25,7 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// End point
 @property (nonatomic, strong, readonly) MXMIndoorPoint *endPoint DEPRECATED_MSG_ATTRIBUTE("`endPoint` is deprecated, please use `wayPoints`");
 
-@property (nonatomic, strong, readonly) NSArray<MXMIndoorPoint *> *wayPoints;
+/// The Raw waypoints passed in during navigation searches.
+@property (nonatomic, strong, readonly) NSArray<MXMIndoorPoint *> *waypoints;
 
 /**
  Key in planning order, where outdoor passages are separated by indoor passages by outdoor-1, outdoor-2 or buildingId-floor-1... to distinguish them.
