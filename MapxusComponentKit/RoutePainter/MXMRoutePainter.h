@@ -11,7 +11,7 @@
 #import <MapxusMapSDK/MapxusMapSDK.h>
 
 #import <MapxusComponentKit/MXMPainterPathDto.h>
-#import <MapxusComponentKit/MXMRouteMarker.h>
+#import <MapxusComponentKit/MXMWaypointInfo.h>
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -41,12 +41,17 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIImage *arrowIcon;
 
 /// Starting point icon
-@property (nonatomic, strong) UIImage *startIcon;
+@property (nonatomic, strong) UIImage *startIcon DEPRECATED_MSG_ATTRIBUTE("`startIcon` is deprecated, please use `waypointInfos`");
 
 /// Endpoint icon
-@property (nonatomic, strong) UIImage *endIcon;
+@property (nonatomic, strong) UIImage *endIcon DEPRECATED_MSG_ATTRIBUTE("`endIcon` is deprecated, please use `waypointInfos`");
 
-@property (nonatomic, strong) NSArray<MXMRouteMarker *> *wayPointMarkers;
+/// Each waypoint is represented by an icon. The first data in the queue is used for the start of the `waypointInfos`, while the last data in the queue is used for
+/// the end of the `waypointInfos`. For the middle point of the waypoint, if the serial number is less than the total number of `waypointInfos` in the queue
+/// minus one, the icon corresponding to the serial number of the `waypointInfos` will be used. All other waypoints will use the last icon in the `waypointInfos` queue.
+/// If you have some of these points that you don't want to use icons for, set the `icon` property of `MXMWaypointInfo` to nil and add this `MXMWaypointInfo`
+/// object to this queue.
+@property (nonatomic, copy, null_resettable) NSArray<MXMWaypointInfo *> *waypointInfos;
 
 /// Lift up icon
 @property (nonatomic, strong) UIImage *elevatorUpIcon;
@@ -75,8 +80,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// Gate icon
 @property (nonatomic, strong) UIImage *buildingGateIcon;
 
-/// Add the dotted line segment from the start point to the start of the road network
+/// Add the dashed line segment from the start point to the start of the road network
 @property (nonatomic, assign) BOOL isAddStartDash;
+
+/// Add a dashed end between the incoming waypoints and the waypoints of the returned results
+@property (nonatomic, assign) BOOL isAddViaDash;
 
 /// Add a dashed line segment from the end point to the end of the road network
 @property (nonatomic, assign) BOOL isAddEndDash;

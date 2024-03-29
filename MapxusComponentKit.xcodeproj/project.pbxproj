@@ -22,8 +22,8 @@
 
 /* Begin PBXBuildFile section */
 		327DD5930E9D008D241D7CA9 /* Pods_MapxusComponentKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70BB58C9BA9570E848B2F88D /* Pods_MapxusComponentKit.framework */; };
-		896F2FB72BAA87BE00562534 /* MXMRouteMarker.h in Headers */ = {isa = PBXBuildFile; fileRef = 896F2FB52BAA87BE00562534 /* MXMRouteMarker.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		896F2FB82BAA87BE00562534 /* MXMRouteMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F2FB62BAA87BE00562534 /* MXMRouteMarker.m */; };
+		896F2FB72BAA87BE00562534 /* MXMWaypointInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 896F2FB52BAA87BE00562534 /* MXMWaypointInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		896F2FB82BAA87BE00562534 /* MXMWaypointInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F2FB62BAA87BE00562534 /* MXMWaypointInfo.m */; };
 		898E9BFB2B205DE200345D0C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 898E9BFA2B205DE200345D0C /* PrivacyInfo.xcprivacy */; };
 		89C699012B2AE59500F7DD5B /* MXMLocationEnhancer.h in Headers */ = {isa = PBXBuildFile; fileRef = 89C698FF2B2AE59500F7DD5B /* MXMLocationEnhancer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		89C699022B2AE59500F7DD5B /* MXMLocationEnhancer.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C699002B2AE59500F7DD5B /* MXMLocationEnhancer.m */; };
@@ -84,8 +84,8 @@
 /* Begin PBXFileReference section */
 		0185DBC7C738203EC4511EF3 /* Pods-MapxusComponentKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapxusComponentKit.release.xcconfig"; path = "Target Support Files/Pods-MapxusComponentKit/Pods-MapxusComponentKit.release.xcconfig"; sourceTree = "<group>"; };
 		70BB58C9BA9570E848B2F88D /* Pods_MapxusComponentKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MapxusComponentKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		896F2FB52BAA87BE00562534 /* MXMRouteMarker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MXMRouteMarker.h; sourceTree = "<group>"; };
-		896F2FB62BAA87BE00562534 /* MXMRouteMarker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MXMRouteMarker.m; sourceTree = "<group>"; };
+		896F2FB52BAA87BE00562534 /* MXMWaypointInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MXMWaypointInfo.h; sourceTree = "<group>"; };
+		896F2FB62BAA87BE00562534 /* MXMWaypointInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MXMWaypointInfo.m; sourceTree = "<group>"; };
 		898E9BFA2B205DE200345D0C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		89C698FF2B2AE59500F7DD5B /* MXMLocationEnhancer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MXMLocationEnhancer.h; sourceTree = "<group>"; };
 		89C699002B2AE59500F7DD5B /* MXMLocationEnhancer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MXMLocationEnhancer.m; sourceTree = "<group>"; };
@@ -264,8 +264,8 @@
 				89E134B429E95E6700D954D1 /* MXMPainterPathDto.m */,
 				89E134BA29E95E6700D954D1 /* MXMRoutePainter.h */,
 				89E134B629E95E6700D954D1 /* MXMRoutePainter.m */,
-				896F2FB52BAA87BE00562534 /* MXMRouteMarker.h */,
-				896F2FB62BAA87BE00562534 /* MXMRouteMarker.m */,
+				896F2FB52BAA87BE00562534 /* MXMWaypointInfo.h */,
+				896F2FB62BAA87BE00562534 /* MXMWaypointInfo.m */,
 			);
 			path = RoutePainter;
 			sourceTree = "<group>";
@@ -336,7 +336,7 @@
 				89E134F429E95E6800D954D1 /* MXMRouteAdsorber.h in Headers */,
 				89E134F229E95E6800D954D1 /* CLFloor+Factory.h in Headers */,
 				89E134DD29E95E6800D954D1 /* MXMPainterPathDto.h in Headers */,
-				896F2FB72BAA87BE00562534 /* MXMRouteMarker.h in Headers */,
+				896F2FB72BAA87BE00562534 /* MXMWaypointInfo.h in Headers */,
 				89C699012B2AE59500F7DD5B /* MXMLocationEnhancer.h in Headers */,
 				89E134DA29E95E6800D954D1 /* MXMParagraph.h in Headers */,
 				89E134E429E95E6800D954D1 /* LocalBuildingProxy.h in Headers */,
@@ -537,7 +537,7 @@
 				89E134EF29E95E6800D954D1 /* MXMRouteShortener.m in Sources */,
 				89E134ED29E95E6800D954D1 /* LocalBuildingProxy.m in Sources */,
 				89E134D929E95E6800D954D1 /* MXMPainterPathDto.m in Sources */,
-				896F2FB82BAA87BE00562534 /* MXMRouteMarker.m in Sources */,
+				896F2FB82BAA87BE00562534 /* MXMWaypointInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

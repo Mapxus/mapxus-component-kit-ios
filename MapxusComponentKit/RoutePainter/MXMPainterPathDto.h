@@ -20,10 +20,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MXMPainterPathDto : NSObject
 
 /// Start point
-@property (nonatomic, strong, readonly) MXMIndoorPoint *startPoint;
+@property (nonatomic, strong, readonly) MXMIndoorPoint *startPoint DEPRECATED_MSG_ATTRIBUTE("`startPoint` is deprecated, please use `wayPoints`");
 
 /// End point
-@property (nonatomic, strong, readonly) MXMIndoorPoint *endPoint;
+@property (nonatomic, strong, readonly) MXMIndoorPoint *endPoint DEPRECATED_MSG_ATTRIBUTE("`endPoint` is deprecated, please use `wayPoints`");
 
 @property (nonatomic, strong, readonly) NSArray<MXMIndoorPoint *> *wayPoints;
 

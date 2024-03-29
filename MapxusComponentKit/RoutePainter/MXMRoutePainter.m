@@ -12,8 +12,6 @@
 #import "JXJsonFunctionDefine.h"
 
 static NSString *arrowIconString = @"arrowIcon";
-static NSString *startIconString = @"startIcon";
-static NSString *endIconString = @"endIcon";
 static NSString *elevatorUpIconString = @"elevatorUpIcon";
 static NSString *elevatorDownIconString = @"elevatorDownIcon";
 static NSString *escalatorUpIconString = @"escalatorUpIcon";
@@ -28,6 +26,8 @@ static NSString *wayPointIconString = @"wayPointIcon";
 
 @interface MXMRoutePainter ()
 @property (nonatomic, weak) MGLMapView *mapView;
+// 判断是否使用了新结构
+@property (nonatomic, assign) BOOL useNewVersionWaypointInfo;
 @end
 
 
@@ -45,6 +45,7 @@ static NSString *wayPointIconString = @"wayPointIcon";
     self.arrowSymbolSpacing = @30;
     [self addDefaultImage];
     self.isAddEndDash = YES;
+    self.isAddViaDash = YES;
     self.isAddStartDash = YES;
     self.hiddenTranslucentPaths = NO;
   }
@@ -55,11 +56,13 @@ static NSString *wayPointIconString = @"wayPointIcon";
 - (void)addDefaultImage
 {
   NSBundle *bundle = [NSBundle bundleForClass:[MXMRoutePainter class]];
-  MXMRouteMarker *start = [[MXMRouteMarker alloc] init];
+  
+  MXMWaypointInfo *start = [[MXMWaypointInfo alloc] init];
   start.icon = [UIImage imageNamed:@"start_marker" inBundle:bundle compatibleWithTraitCollection:nil];
-  MXMRouteMarker *end = [[MXMRouteMarker alloc] init];
+  MXMWaypointInfo *end = [[MXMWaypointInfo alloc] init];
   end.icon = [UIImage imageNamed:@"end_marker" inBundle:bundle compatibleWithTraitCollection:nil];
-  self.wayPointMarkers = @[start, end];
+  _waypointInfos = @[start, end]; // 不能使用set方法
+  
   self.arrowIcon = [UIImage imageNamed:@"right" inBundle:bundle compatibleWithTraitCollection:nil];
   self.startIcon = [UIImage imageNamed:@"start_marker" inBundle:bundle compatibleWithTraitCollection:nil];
   self.endIcon = [UIImage imageNamed:@"end_marker" inBundle:bundle compatibleWithTraitCollection:nil];
@@ -74,11 +77,45 @@ static NSString *wayPointIconString = @"wayPointIcon";
   self.buildingGateIcon = [UIImage imageNamed:@"gate_building" inBundle:bundle compatibleWithTraitCollection:nil];
 }
 
+- (void)setWaypointInfos:(NSArray<MXMWaypointInfo *> *)waypointInfos {
+  self.useNewVersionWaypointInfo = YES;
+  if (waypointInfos == nil) {
+    NSBundle *bundle = [NSBundle bundleForClass:[MXMRoutePainter class]];
+    MXMWaypointInfo *start = [[MXMWaypointInfo alloc] init];
+    start.icon = [UIImage imageNamed:@"start_marker" inBundle:bundle compatibleWithTraitCollection:nil];
+    MXMWaypointInfo *end = [[MXMWaypointInfo alloc] init];
+    end.icon = [UIImage imageNamed:@"end_marker" inBundle:bundle compatibleWithTraitCollection:nil];
+    _waypointInfos = @[start, end];
+  } else {
+    _waypointInfos = [waypointInfos copy];
+  }
+}
+
+- (NSString *)getWaypointKey:(MXMIndoorPoint *)point {
+  NSString *theKey;
+  if (point.buildingId) {
+    if (point.floorId) {
+      theKey = point.floorId;
+    } else {
+      theKey = [NSString stringWithFormat:@"%@-%@", point.buildingId, point.floor];
+    }
+  } else {
+    theKey = @"outdoor";
+  }
+  // 有相同的楼层，venueKey都会是一样的，所以在keys里随便找一个匹配的
+  for (NSString *k in self.dto.keys) {
+    if ([k containsString:theKey]) {
+      theKey = k;
+      break;
+    }
+  }
+  NSString *venueKey = self.dto.keyMapping[theKey];
+  return venueKey ? : @"outdoor";
+}
+
 - (void)putIconInMapView
 {
   [self.mapView.style setImage:self.arrowIcon forName:arrowIconString];
-  [self.mapView.style setImage:self.startIcon forName:startIconString];
-  [self.mapView.style setImage:self.endIcon forName:endIconString];
   [self.mapView.style setImage:self.elevatorUpIcon forName:elevatorUpIconString];
   [self.mapView.style setImage:self.elevatorDownIcon forName:elevatorDownIconString];
   [self.mapView.style setImage:self.escalatorUpIcon forName:escalatorUpIconString];
@@ -88,26 +125,35 @@ static NSString *wayPointIconString = @"wayPointIcon";
   [self.mapView.style setImage:self.stairsUpIcon forName:stairsUpIconString];
   [self.mapView.style setImage:self.stairsDownIcon forName:stairsDownIconString];
   [self.mapView.style setImage:self.buildingGateIcon forName:buildingGateIconString];
-  int i = 0;
-  for (MXMRouteMarker *marker in self.wayPointMarkers) {
-    if (!marker.icon) {continue;}
-    [self.mapView.style setImage:marker.icon forName:[wayPointIconString stringByAppendingFormat:@"%d", i]];
-    i++;
+  // 没有使用新结构，把旧结构赋值给新结构
+  if (!self.useNewVersionWaypointInfo) {
+    MXMWaypointInfo *start = [[MXMWaypointInfo alloc] init];
+    start.icon = self.startIcon;
+    MXMWaypointInfo *end = [[MXMWaypointInfo alloc] init];
+    end.icon = self.endIcon;
+    _waypointInfos = @[start, end]; // 不能使用set方法
+  }
+  // 使用新结构布置图片
+  for (int i=0; i<self.waypointInfos.count; i++) {
+    MXMWaypointInfo *info = self.waypointInfos[i];
+    if (!info.icon) {continue;}
+    [self.mapView.style setImage:info.icon forName:[wayPointIconString stringByAppendingFormat:@"%d", i]];
   }
 }
 
 - (void)paintRouteUsingPath:(MXMPath *)path wayPoints:(NSArray<MXMIndoorPoint *> *)list
 {
   [self putIconInMapView];
-  // 1.clears data before drawing
+  // ============================================================================
+  // 1. 添加图层
   
-  // 添加虚线段
+  // 添加虚线段数据
   MGLShapeSource *addLineSource = (MGLShapeSource *)[self.mapView.style sourceWithIdentifier:@"addLineSource"];
   if (addLineSource == nil) {
     addLineSource = [[MGLShapeSource alloc] initWithIdentifier:@"addLineSource" shape:nil options:nil];
     [self.mapView.style addSource:addLineSource];
   }
-  // 添加线渲染层
+  // 添加虚线段渲染层
   MGLLineStyleLayer *addLineLayer = (MGLLineStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-addLine-layer"];
   if (addLineLayer == nil) {
     addLineLayer = [[MGLLineStyleLayer alloc] initWithIdentifier:@"route-addLine-layer" source:addLineSource];
@@ -119,7 +165,7 @@ static NSString *wayPointIconString = @"wayPointIcon";
   }
   
   
-  // 添加线渲染层数据
+  // 添加线数据
   MGLShapeSource *lineSource = (MGLShapeSource *)[self.mapView.style sourceWithIdentifier:@"lineSource"];
   if (lineSource == nil) {
     lineSource = [[MGLShapeSource alloc] initWithIdentifier:@"lineSource" shape:nil options:nil];
@@ -150,7 +196,7 @@ static NSString *wayPointIconString = @"wayPointIcon";
   }
   
   
-  // 添加转折点渲染层数据
+  // 添加转折点数据
   MGLShapeSource *connectorSource = (MGLShapeSource *)[self.mapView.style sourceWithIdentifier:@"connectorSource"];
   if (connectorSource == nil) {
     connectorSource = [[MGLShapeSource alloc] initWithIdentifier:@"connectorSource" shape:nil options:nil];
@@ -167,13 +213,13 @@ static NSString *wayPointIconString = @"wayPointIcon";
   }
   
   
-  // 添加起点终点渲染层数据
+  // 添加途经点数据
   MGLShapeSource *startAndEndSource = (MGLShapeSource *)[self.mapView.style sourceWithIdentifier:@"startAndEndSource"];
   if (startAndEndSource == nil) {
     startAndEndSource = [[MGLShapeSource alloc] initWithIdentifier:@"startAndEndSource" shape:nil options:nil];
     [self.mapView.style addSource:startAndEndSource];
   }
-  // 添加起点终点渲染层
+  // 添加途经点渲染层
   MGLSymbolStyleLayer *startAndEndLayer = (MGLSymbolStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-start-and-end-layer"];
   if (startAndEndLayer == nil) {
     startAndEndLayer = [[MGLSymbolStyleLayer alloc] initWithIdentifier:@"route-start-and-end-layer" source:startAndEndSource];
@@ -183,50 +229,28 @@ static NSString *wayPointIconString = @"wayPointIcon";
     [self.mapView.style addLayer:startAndEndLayer];
   }
   
-  
-  // 2.Take the first path in the path group
+  // ============================================================================
+  // 2. 数据分析
   self.dto = [[MXMPainterPathDto alloc] initWithPath:path wayPoints:list];
   
   // ============================================================================
-  // 添加途经点
-  NSMutableArray *startAndEndFeatures = [NSMutableArray array];
+  // 3. 添加图层数据
   
+  // 添加途经点图标
+  NSMutableArray *startAndEndFeatures = [NSMutableArray array];
   int i = 0;
   for (MXMIndoorPoint *p in list) {
     NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
-    NSString *theKey;
-    if (p.buildingId) {
-      if (p.floorId) {
-        theKey = p.floorId;
-      } else {
-        theKey = [NSString stringWithFormat:@"%@-%@", p.buildingId, p.floor];
-      }
-    } else {
-      theKey = @"outdoor";
-    }
-    // 有相同的楼层，venueKey都会是一样的，所以在keys里随便找一个匹配的
-    for (NSString *k in self.dto.keys) {
-      if ([k containsString:theKey]) {
-        theKey = k;
-        break;
-      }
-    }
-    NSString *venueKey = self.dto.keyMapping[theKey];
-    if (venueKey) {
-      attributes[@"key"] = venueKey;
-    } else {
-      attributes[@"key"] = @"outdoor";
-    }
-    
+    attributes[@"key"] = [self getWaypointKey:p];
     if (i == 0) {
       attributes[@"iconName"] = [wayPointIconString stringByAppendingString:@"0"];
     } else if (i == list.count-1) {
-      attributes[@"iconName"] = [wayPointIconString stringByAppendingFormat:@"%lu", (unsigned long)(self.wayPointMarkers.count-1)];
+      attributes[@"iconName"] = [wayPointIconString stringByAppendingFormat:@"%lu", (unsigned long)(self.waypointInfos.count-1)];
     } else {
-      if (i < self.wayPointMarkers.count-1) {
+      if (i < self.waypointInfos.count-1) {
         attributes[@"iconName"] = [wayPointIconString stringByAppendingFormat:@"%d", i];
       } else {
-        attributes[@"iconName"] = [wayPointIconString stringByAppendingFormat:@"%lu", (unsigned long)(self.wayPointMarkers.count-1)];
+        attributes[@"iconName"] = [wayPointIconString stringByAppendingFormat:@"%lu", (unsigned long)(self.waypointInfos.count-1)];
       }
     }
     MGLPointFeature *startFeature = [[MGLPointFeature alloc] init];
@@ -235,24 +259,61 @@ static NSString *wayPointIconString = @"wayPointIcon";
     [startAndEndFeatures addObject:startFeature];
     i++;
   }
-  
   MGLShapeCollectionFeature *startAndEndShapeCollectionFeature = [MGLShapeCollectionFeature shapeCollectionWithShapes:startAndEndFeatures];
   startAndEndSource.shape = startAndEndShapeCollectionFeature;
-
+  
   
   // 添加路线
   NSMutableArray *lineFeatures = [NSMutableArray array];
   NSMutableArray *connectorFeatures = [NSMutableArray array];
   NSMutableArray *addLineFeatures = [NSMutableArray array];
-  // 添加路线
+  
+  // 起点虚线
+  if (self.isAddStartDash) {
+    NSArray *pointList = path.points.coordinates;
+    MXMGeoPoint *fristPoint = pointList.firstObject;
+    MXMIndoorPoint *startP = list.firstObject;
+    if (fristPoint) {
+      CLLocationCoordinate2D routeCoordinates[2];
+      routeCoordinates[0] = CLLocationCoordinate2DMake(startP.latitude, startP.longitude);
+      routeCoordinates[1] = CLLocationCoordinate2DMake(fristPoint.latitude, fristPoint.longitude);
+      
+      NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+      dic[@"key"] = [self getWaypointKey:startP];
+      MGLPolylineFeature *feature = [MGLPolylineFeature polylineWithCoordinates:routeCoordinates count:2];
+      feature.attributes = dic;
+      
+      [addLineFeatures addObject:feature];
+    }
+  }
+  // 添加终点虚线
+  if (self.isAddEndDash) {
+    NSArray *pointList = path.points.coordinates;
+    MXMGeoPoint *lastPoint = pointList.lastObject;
+    MXMIndoorPoint *endP = list.lastObject;
+    if (lastPoint) {
+      CLLocationCoordinate2D routeCoordinates[2];
+      routeCoordinates[0] = CLLocationCoordinate2DMake(lastPoint.latitude, lastPoint.longitude);
+      routeCoordinates[1] = CLLocationCoordinate2DMake(endP.latitude, endP.longitude);
+      
+      NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+      dic[@"key"] = [self getWaypointKey:endP];
+      MGLPolylineFeature *feature = [MGLPolylineFeature polylineWithCoordinates:routeCoordinates count:2];
+      feature.attributes = dic;
+      
+      [addLineFeatures addObject:feature];
+    }
+  }
+  
+  // 计算到达第几个waypoint点前
   NSUInteger waypointIndex = 0;
   for (MXMInstruction *ins in path.instructions) {
     if (ins.sign == MXMReachedVia || ins.sign == MXMFinish) {
       waypointIndex += 1;
     }
   }
-  // 计算到第几个waypoint点
   waypointIndex = list.count - waypointIndex;
+  // 分段循环
   for (NSString *paphKey in self.dto.keys) {
     MXMParagraph *paph = self.dto.paragraphs[paphKey];
     // 没有点可绘制
@@ -327,34 +388,8 @@ static NSString *wayPointIconString = @"wayPointIcon";
     
     [lineFeatures addObject:feature];
     
-    if (paph.startPointType == StartEndPoint && waypointIndex == 1 && self.isAddStartDash) {
-      NSArray *pointList = paph.points;
-      MXMGeoPoint *fristPoint = pointList.firstObject;
-      MXMIndoorPoint *startP = list.firstObject;
-      if (fristPoint) {
-        CLLocationCoordinate2D routeCoordinates[2];
-        routeCoordinates[0] = CLLocationCoordinate2DMake(startP.latitude, startP.longitude);
-        routeCoordinates[1] = CLLocationCoordinate2DMake(fristPoint.latitude, fristPoint.longitude);
-        
-        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-        if (paph.key) {
-          NSString *venueKey = self.dto.keyMapping[paph.key];
-          if (venueKey) {
-            dic[@"key"] = venueKey;
-          } else {
-            dic[@"key"] = @"outdoor";
-          }
-        } else {
-          dic[@"key"] = @"outdoor";
-        }
-        MGLPolylineFeature *feature = [MGLPolylineFeature polylineWithCoordinates:routeCoordinates count:2];
-        feature.attributes = dic;
-        
-        [addLineFeatures addObject:feature];
-      }
-    }
-    
-    if (paph.endPointType == StartEndPoint && self.isAddEndDash) { // 绘制虚线段
+    // 添加途经点虚线
+    if (paph.endPointType == StartEndPoint && waypointIndex < list.count-1 && self.isAddViaDash) {
       NSArray *pointList = paph.points;
       MXMGeoPoint *lastPoint = pointList.lastObject;
       MXMIndoorPoint *endP = list[waypointIndex];
@@ -379,15 +414,14 @@ static NSString *wayPointIconString = @"wayPointIcon";
         
         [addLineFeatures addObject:feature];
       }
-      
       waypointIndex += 1;
     }
-
+    
   }
   
   MGLShapeCollectionFeature *addLineShapeCollectionFeature = [MGLShapeCollectionFeature shapeCollectionWithShapes:addLineFeatures];
   addLineSource.shape = addLineShapeCollectionFeature;
-
+  
   MGLShapeCollectionFeature *lineShapeCollectionFeature = [MGLShapeCollectionFeature shapeCollectionWithShapes:lineFeatures];
   lineSource.shape = lineShapeCollectionFeature;
   
