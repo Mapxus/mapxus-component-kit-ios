@@ -27,7 +27,7 @@ PACKAGE_FILE='Package.swift'
 # changelog文件名
 CHANGELOG_FILE='CHANGELOG.md'
 # 库名
-TARGET_NAME='MapxusBaseSDK'
+TARGET_NAME='MapxusComponentKit'
 
 
 # 从changelog获取版本号
@@ -126,7 +126,7 @@ zip -r ${ZIP_FILE} * -x '*.podspec' 'Package.swift' '*/.*'
 ### 获取checksum
 checksum=$(swift package compute-checksum ${ZIP_FILE})
 ### 替换checksum
-perl -i -pe 'BEGIN { $/ = undef; } s/(binaryTarget\(\s*name:\s*"MapxusBaseSDK",.*?checksum:\s*)"[^"]*"/$1"'$checksum'"/sg' $PACKAGE_FILE
+perl -i -pe 'BEGIN { $/ = undef; } s/(binaryTarget\(\s*name:\s*"'$TARGET_NAME'",.*?checksum:\s*)"[^"]*"/$1"'$checksum'"/sg' $PACKAGE_FILE
 ### 替换package版本号
 sed -i '' "s/let version = \".*\"/let version = \"$VERSION\"/g" $PACKAGE_FILE
 ### 替换podspec版本号
