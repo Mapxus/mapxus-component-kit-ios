@@ -7,7 +7,7 @@
 //
 
 #import "MXMPainterPathDto+Private.h"
-#import "NSString+Compare.h"
+#import "JXJsonFunctionDefine.h"
 
 @implementation MXMPainterPathDto
 
@@ -58,9 +58,9 @@
     NSString *lastKey = self.mutableKeys.lastObject?:@"";
     // 当前 instruction 的预设 key
     NSString *currentKey;
-    if ([NSString isEmpty:ins.buildingId] ||
-        [NSString isEmpty:floor] ||
-        [NSString isEmpty:ins.venueId] ||
+    if (IsStrEmpty(ins.buildingId) ||
+        IsStrEmpty(floor) ||
+        IsStrEmpty(ins.venueId) ||
         ins.ordinal == nil) {
       currentKey = @"outdoor";
     } else {

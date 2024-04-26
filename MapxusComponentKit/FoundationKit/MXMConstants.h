@@ -8,4 +8,4 @@
 
 #import <Foundation/Foundation.h>
 
-FOUNDATION_EXPORT NSString *const MXMAPIHOSTURL; // api主机地址
+FOUNDATION_EXPORT NSString *const MXMAPIHOSTURL; // api host address

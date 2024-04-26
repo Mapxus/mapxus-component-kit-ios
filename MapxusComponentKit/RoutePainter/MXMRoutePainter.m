@@ -7,7 +7,7 @@
 //
 
 #import "MXMRoutePainter.h"
-#import "NSString+Compare.h"
+#import "JXJsonFunctionDefine.h"
 #import "MXMPainterPathDto+Private.h"
 #import "JXJsonFunctionDefine.h"
 
@@ -500,7 +500,7 @@ static NSString *wayPointIconString = @"wayPointIcon";
     transparency = 0;
   }
   NSString *key;
-  if ([NSString isEmpty:venueId] || ordinal == nil) {
+  if (IsStrEmpty(venueId) || ordinal == nil) {
     key = @"outdoor";
     // 线条变色
     MGLLineStyleLayer *lineLayer = (MGLLineStyleLayer *)[self.mapView.style layerWithIdentifier:@"route-line-layer"];

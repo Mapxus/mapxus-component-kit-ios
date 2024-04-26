@@ -33,8 +33,6 @@
 		89E134D329E95E6800D954D1 /* MXMHttpManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E134AD29E95E6700D954D1 /* MXMHttpManager.h */; };
 		89E134D429E95E6800D954D1 /* JXJsonFunctionDefine.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E134AE29E95E6700D954D1 /* JXJsonFunctionDefine.h */; };
 		89E134D529E95E6800D954D1 /* MXMLoggerService.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E134AF29E95E6700D954D1 /* MXMLoggerService.h */; };
-		89E134D629E95E6800D954D1 /* NSString+Compare.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E134B029E95E6700D954D1 /* NSString+Compare.h */; };
-		89E134D729E95E6800D954D1 /* MXMMapServices+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E134B129E95E6700D954D1 /* MXMMapServices+Private.h */; };
 		89E134D829E95E6800D954D1 /* MXMConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E134B229E95E6700D954D1 /* MXMConstants.h */; };
 		89E134D929E95E6800D954D1 /* MXMPainterPathDto.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E134B429E95E6700D954D1 /* MXMPainterPathDto.m */; };
 		89E134DA29E95E6800D954D1 /* MXMParagraph.h in Headers */ = {isa = PBXBuildFile; fileRef = 89E134B529E95E6700D954D1 /* MXMParagraph.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -97,8 +95,6 @@
 		89E134AD29E95E6700D954D1 /* MXMHttpManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXMHttpManager.h; sourceTree = "<group>"; };
 		89E134AE29E95E6700D954D1 /* JXJsonFunctionDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JXJsonFunctionDefine.h; sourceTree = "<group>"; };
 		89E134AF29E95E6700D954D1 /* MXMLoggerService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXMLoggerService.h; sourceTree = "<group>"; };
-		89E134B029E95E6700D954D1 /* NSString+Compare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Compare.h"; sourceTree = "<group>"; };
-		89E134B129E95E6700D954D1 /* MXMMapServices+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MXMMapServices+Private.h"; sourceTree = "<group>"; };
 		89E134B229E95E6700D954D1 /* MXMConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXMConstants.h; sourceTree = "<group>"; };
 		89E134B429E95E6700D954D1 /* MXMPainterPathDto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MXMPainterPathDto.m; sourceTree = "<group>"; };
 		89E134B529E95E6700D954D1 /* MXMParagraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXMParagraph.h; sourceTree = "<group>"; };
@@ -249,8 +245,6 @@
 				89E134AD29E95E6700D954D1 /* MXMHttpManager.h */,
 				89E134AE29E95E6700D954D1 /* JXJsonFunctionDefine.h */,
 				89E134AF29E95E6700D954D1 /* MXMLoggerService.h */,
-				89E134B029E95E6700D954D1 /* NSString+Compare.h */,
-				89E134B129E95E6700D954D1 /* MXMMapServices+Private.h */,
 				89E134B229E95E6700D954D1 /* MXMConstants.h */,
 			);
 			path = FoundationKit;
@@ -329,7 +323,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				89E134D729E95E6800D954D1 /* MXMMapServices+Private.h in Headers */,
 				89E134DF29E95E6800D954D1 /* MXMRoutePainter.h in Headers */,
 				89E134E629E95E6800D954D1 /* MXMNavigationPathDTO.h in Headers */,
 				89E134E229E95E6800D954D1 /* MXMRouteShortener.h in Headers */,
@@ -346,7 +339,6 @@
 				89E134F329E95E6800D954D1 /* MXMLineSegment.h in Headers */,
 				89E134DC29E95E6800D954D1 /* MXMPainterPathDto+Private.h in Headers */,
 				89E134EE29E95E6800D954D1 /* MXMRouteProjection.h in Headers */,
-				89E134D629E95E6800D954D1 /* NSString+Compare.h in Headers */,
 				89E134E529E95E6800D954D1 /* MXMNavigationPathDTO+Private.h in Headers */,
 				89E134D829E95E6800D954D1 /* MXMConstants.h in Headers */,
 				89E134A329E95E1200D954D1 /* MapxusComponentKit.h in Headers */,
