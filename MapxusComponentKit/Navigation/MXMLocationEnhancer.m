@@ -43,6 +43,7 @@ extern NSInteger historyFloor;
     CLLocation *loc = locations[i];
     if (loc.floor != nil) {
       historyFloor = loc.floor.level;
+      break;
     }
   }
 }

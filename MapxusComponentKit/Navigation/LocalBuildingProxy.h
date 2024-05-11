@@ -7,15 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <MapxusMapSDK/MapxusMapSDK.h>
+#import "MXMLocation.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^SearchResult)( MXMReverseGeoCodeSearchResult * _Nullable result, NSError * _Nullable error);
-
 @interface LocalBuildingProxy : NSObject
 
-- (void)searchLocalBuildingWithLocation:(CLLocation *)location completion:(SearchResult)completion;
+- (void)queryLocalBuildingByLocation:(CLLocation *)location completion:(void(^)(MXMLocation *result))completion;
 
 @end
 

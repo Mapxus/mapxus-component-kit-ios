@@ -25,6 +25,9 @@
 		896F2FB72BAA87BE00562534 /* MXMWaypointInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 896F2FB52BAA87BE00562534 /* MXMWaypointInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		896F2FB82BAA87BE00562534 /* MXMWaypointInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 896F2FB62BAA87BE00562534 /* MXMWaypointInfo.m */; };
 		898E9BFB2B205DE200345D0C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 898E9BFA2B205DE200345D0C /* PrivacyInfo.xcprivacy */; };
+		89AAF5A22BE8899300CB6B33 /* MXMLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 89AAF5A12BE8899300CB6B33 /* MXMLocation.m */; };
+		89AAF5A32BE8899300CB6B33 /* MXMLocation.h in Headers */ = {isa = PBXBuildFile; fileRef = 89AAF5A02BE8899300CB6B33 /* MXMLocation.h */; };
+		89AAF5A52BE8C38C00CB6B33 /* MGLPolygon+MXMFuction.h in Headers */ = {isa = PBXBuildFile; fileRef = 89AAF5A42BE8C38C00CB6B33 /* MGLPolygon+MXMFuction.h */; };
 		89C699012B2AE59500F7DD5B /* MXMLocationEnhancer.h in Headers */ = {isa = PBXBuildFile; fileRef = 89C698FF2B2AE59500F7DD5B /* MXMLocationEnhancer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		89C699022B2AE59500F7DD5B /* MXMLocationEnhancer.m in Sources */ = {isa = PBXBuildFile; fileRef = 89C699002B2AE59500F7DD5B /* MXMLocationEnhancer.m */; };
 		89E1349D29E95E1200D954D1 /* MapxusComponentKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E1349429E95E1200D954D1 /* MapxusComponentKit.framework */; };
@@ -86,6 +89,9 @@
 		896F2FB52BAA87BE00562534 /* MXMWaypointInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MXMWaypointInfo.h; sourceTree = "<group>"; };
 		896F2FB62BAA87BE00562534 /* MXMWaypointInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MXMWaypointInfo.m; sourceTree = "<group>"; };
 		898E9BFA2B205DE200345D0C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		89AAF5A02BE8899300CB6B33 /* MXMLocation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MXMLocation.h; sourceTree = "<group>"; };
+		89AAF5A12BE8899300CB6B33 /* MXMLocation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MXMLocation.m; sourceTree = "<group>"; };
+		89AAF5A42BE8C38C00CB6B33 /* MGLPolygon+MXMFuction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MGLPolygon+MXMFuction.h"; sourceTree = "<group>"; };
 		89C698FF2B2AE59500F7DD5B /* MXMLocationEnhancer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MXMLocationEnhancer.h; sourceTree = "<group>"; };
 		89C699002B2AE59500F7DD5B /* MXMLocationEnhancer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MXMLocationEnhancer.m; sourceTree = "<group>"; };
 		89E1349429E95E1200D954D1 /* MapxusComponentKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MapxusComponentKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -244,6 +250,7 @@
 			children = (
 				89E134AD29E95E6700D954D1 /* MXMHttpManager.h */,
 				89E134AE29E95E6700D954D1 /* JXJsonFunctionDefine.h */,
+				89AAF5A42BE8C38C00CB6B33 /* MGLPolygon+MXMFuction.h */,
 				89E134AF29E95E6700D954D1 /* MXMLoggerService.h */,
 				89E134B229E95E6700D954D1 /* MXMConstants.h */,
 			);
@@ -289,6 +296,8 @@
 				89E134C729E95E6800D954D1 /* MXMLineSegment.m */,
 				89E134C129E95E6800D954D1 /* LocalBuildingProxy.h */,
 				89E134CA29E95E6800D954D1 /* LocalBuildingProxy.m */,
+				89AAF5A02BE8899300CB6B33 /* MXMLocation.h */,
+				89AAF5A12BE8899300CB6B33 /* MXMLocation.m */,
 				89E134BF29E95E6800D954D1 /* MXMRouteShortener.h */,
 				89E134CC29E95E6800D954D1 /* MXMRouteShortener.m */,
 				89E134C629E95E6800D954D1 /* GeoFunctions.h */,
@@ -337,9 +346,11 @@
 				89E134E429E95E6800D954D1 /* LocalBuildingProxy.h in Headers */,
 				89E134D429E95E6800D954D1 /* JXJsonFunctionDefine.h in Headers */,
 				89E134F329E95E6800D954D1 /* MXMLineSegment.h in Headers */,
+				89AAF5A32BE8899300CB6B33 /* MXMLocation.h in Headers */,
 				89E134DC29E95E6800D954D1 /* MXMPainterPathDto+Private.h in Headers */,
 				89E134EE29E95E6800D954D1 /* MXMRouteProjection.h in Headers */,
 				89E134E529E95E6800D954D1 /* MXMNavigationPathDTO+Private.h in Headers */,
+				89AAF5A52BE8C38C00CB6B33 /* MGLPolygon+MXMFuction.h in Headers */,
 				89E134D829E95E6800D954D1 /* MXMConstants.h in Headers */,
 				89E134A329E95E1200D954D1 /* MapxusComponentKit.h in Headers */,
 				89E134D329E95E6800D954D1 /* MXMHttpManager.h in Headers */,
@@ -396,7 +407,9 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
+				CLASSPREFIX = MXM;
 				LastUpgradeCheck = 1430;
+				ORGANIZATIONNAME = "MAPHIVE TECHNOLOGY LIMITED.";
 				TargetAttributes = {
 					89E1349329E95E1200D954D1 = {
 						CreatedOnToolsVersion = 14.3;
@@ -520,6 +533,7 @@
 				89E134EB29E95E6800D954D1 /* MXMRouteAdsorber.m in Sources */,
 				89E134E329E95E6800D954D1 /* MXMRouteProjection.m in Sources */,
 				89E134E029E95E6800D954D1 /* MXMVisualFlagPainter.m in Sources */,
+				89AAF5A22BE8899300CB6B33 /* MXMLocation.m in Sources */,
 				89E134E729E95E6800D954D1 /* CLFloor+Factory.m in Sources */,
 				89E134DE29E95E6800D954D1 /* MXMParagraph.m in Sources */,
 				89E134F029E95E6800D954D1 /* GeoFunctions.m in Sources */,
