@@ -168,7 +168,11 @@ extern NSInteger historyFloor;
   [MXMHttpManager MXMGET:url parameters:dic success:^(NSDictionary *content) {
     completion(content);
   } failure:^(NSError *error) {
-    completion(nil);
+    if (error.code == 1000404) {
+      completion(@{});
+    } else {
+      completion(nil);
+    }
   }];
   
 }
