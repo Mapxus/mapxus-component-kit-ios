@@ -16,14 +16,19 @@ NS_ASSUME_NONNULL_BEGIN
 消息内容：实际的日志信息。
 */
 
-/**
- Holding a single instance of MXMLogger
- */
+/// This class is responsible for managing a single instance of MXMLogger.
 @interface MXMLoggerService : NSObject
 
-// Print log
+
+/// This class method is used to print a log message.
+///
+/// @param msg The message to be logged.
 + (void)logMsg:(NSString *)msg;
-// Log enable
+
+
+/// This class method is used to enable or disable logging.
+///
+/// @param enable A boolean value indicating whether logging should be enabled. If YES, logging is enabled; if NO, logging is disabled.
 + (void)enableLog:(BOOL)enable;
 
 @end

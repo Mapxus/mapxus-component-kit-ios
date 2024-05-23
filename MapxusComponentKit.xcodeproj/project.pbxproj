@@ -265,10 +265,10 @@
 				89E134B729E95E6700D954D1 /* MXMPainterPathDto+Private.h */,
 				89E134B829E95E6700D954D1 /* MXMPainterPathDto.h */,
 				89E134B429E95E6700D954D1 /* MXMPainterPathDto.m */,
-				89E134BA29E95E6700D954D1 /* MXMRoutePainter.h */,
-				89E134B629E95E6700D954D1 /* MXMRoutePainter.m */,
 				896F2FB52BAA87BE00562534 /* MXMWaypointInfo.h */,
 				896F2FB62BAA87BE00562534 /* MXMWaypointInfo.m */,
+				89E134BA29E95E6700D954D1 /* MXMRoutePainter.h */,
+				89E134B629E95E6700D954D1 /* MXMRoutePainter.m */,
 			);
 			path = RoutePainter;
 			sourceTree = "<group>";

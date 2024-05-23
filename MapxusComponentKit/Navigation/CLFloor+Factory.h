@@ -10,8 +10,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// This category extends the CLFloor class with a factory method.
 @interface CLFloor (Factory)
 
+
+/// This class method creates a new instance of CLFloor with a specified level.
+///
+/// @param level The level for the new CLFloor instance.
+/// @return A new instance of CLFloor with the specified level.
 + (CLFloor *)createFloorWihtLevel:(NSInteger)level;
 
 @end

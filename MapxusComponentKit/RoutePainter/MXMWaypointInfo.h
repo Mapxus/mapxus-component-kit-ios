@@ -9,9 +9,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// This class is used to store information about a waypoint.
 @interface MXMWaypointInfo : NSObject
 
-/// The icon which you want to set to the waypoint.
+
+/// The icon that you want to set for the waypoint.
 @property (nonatomic, strong, nullable) UIImage *icon;
 
 @end

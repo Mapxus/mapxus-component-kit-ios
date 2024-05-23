@@ -11,16 +11,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/**
- * Data for the navigation function
- */
+/// This class represents the data for the navigation function.
 @interface MXMNavigationPathDTO : NSObject
 
-/**
- * Converting route data into navigation data
- *
- * @param path Selected planning route
- */
+
+/// This method converts route data into navigation data.
+///
+/// @param path The selected planning route.
 - (instancetype)initWithPath:(MXMPath *)path;
 
 @end

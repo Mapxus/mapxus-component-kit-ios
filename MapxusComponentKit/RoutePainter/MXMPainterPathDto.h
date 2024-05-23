@@ -13,39 +13,48 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-
-/**
- * Planning the route collated data model
- */
+/// This class is used to collate data for route planning.
 @interface MXMPainterPathDto : NSObject
 
-/// Start point
-@property (nonatomic, strong, readonly) MXMIndoorPoint *startPoint DEPRECATED_MSG_ATTRIBUTE("`startPoint` is deprecated, please use `wayPoints`");
 
-/// End point
-@property (nonatomic, strong, readonly) MXMIndoorPoint *endPoint DEPRECATED_MSG_ATTRIBUTE("`endPoint` is deprecated, please use `wayPoints`");
+/// The starting point of the route. This property is deprecated, please use `wayPoints` instead.
+@property (nonatomic, strong, readonly) MXMIndoorPoint *startPoint DEPRECATED_MSG_ATTRIBUTE("Please use `waypoints` instead.");
 
-/// The Raw waypoints passed in during navigation searches.
+
+/// The ending point of the route. This property is deprecated, please use `wayPoints` instead.
+@property (nonatomic, strong, readonly) MXMIndoorPoint *endPoint DEPRECATED_MSG_ATTRIBUTE("Please use `waypoints` instead.");
+
+
+/// The raw waypoints that were passed in during navigation searches.
 @property (nonatomic, strong, readonly) NSArray<MXMIndoorPoint *> *waypoints;
 
-/**
- Key in planning order, where outdoor passages are separated by indoor passages by outdoor-1, outdoor-2 or buildingId-floor-1... to distinguish them.
- The indoor sections are grouped together by buildingId and floor.
- */
+
+/// The keys used in planning order. 
+///
+/// @discussion
+/// Outdoor passages are separated from indoor passages by outdoor-1, outdoor-2 or buildingId-floor-1... to distinguish them. The indoor sections are grouped
+/// together by buildingId and floor.
 @property (nonatomic, strong, readonly) NSArray<NSString*> *keys;
 
-/// Details of each paragraph
+
+/// The details of each paragraph.
 @property (nonatomic, strong, readonly) NSDictionary<NSString *, MXMParagraph *> *paragraphs;
 
-/**
- Initialisation functions
- @param path One of the path form planning interface  `-(void)MXMRouteSearch:`
- @param start Start point
- @param end End point
- @return MXMPainterPathDto object
- */
-- (instancetype)initWithPath:(MXMPath *)path startPoint:(MXMIndoorPoint *)start endPoint:(MXMIndoorPoint *)end;
 
+/// Initialisation function.
+///
+/// @param path One of the paths from the planning interface `- [ MXMSearchAPI MXMRouteSearch:]`.
+/// @param start The starting point.
+/// @param end The ending point.
+/// @return An MXMPainterPathDto object.
+- (instancetype)initWithPath:(MXMPath *)path startPoint:(MXMIndoorPoint *)start endPoint:(MXMIndoorPoint *)end DEPRECATED_MSG_ATTRIBUTE("Please use `- initWithPath:wayPoints:` instead.");
+
+
+/// Initialisation function.
+///
+/// @param path One of the paths from the planning interface `- [ MXMSearchAPI MXMRouteSearch:]`.
+/// @param points The waypoints.
+/// @return An MXMPainterPathDto object.
 - (instancetype)initWithPath:(MXMPath *)path wayPoints:(NSArray<MXMIndoorPoint *> *)points;
 
 @end
