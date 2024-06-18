@@ -6,14 +6,14 @@ PODS:
   - AFNetworking/Reachability (4.0.2)
   - AFNetworking/Security (4.0.2)
   - AFNetworking/Serialization (4.0.2)
-  - MapxusBaseSDK (6.8.0):
+  - MapxusBaseSDK (6.9.0):
     - AFNetworking/NSURLSession (~> 4.0.2)
     - AFNetworking/Reachability (~> 4.0.2)
     - AFNetworking/Security (~> 4.0.2)
     - AFNetworking/Serialization (~> 4.0.2)
     - YYModel (~> 1.0.5)
-  - MapxusMapSDK (6.8.0):
-    - MapxusBaseSDK (= 6.8.0)
+  - MapxusMapSDK (6.9.0):
+    - MapxusBaseSDK (= 6.9.0)
     - MapxusRenderSDK (= 5.13.0)
   - MapxusRenderSDK (5.13.0)
   - YYModel (1.0.5)
@@ -36,11 +36,11 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: 24bbe15bca5f5c108a34a2608c8efd9d548ee884
-  MapxusBaseSDK: 27675c87c604ef3254d2e7c06cf9cefc31909ff9
-  MapxusMapSDK: 0a27517b5cc82ec3ad1dc821a63fbf1fbff4bfe6
+  MapxusBaseSDK: f5cf851b7627ae2bc943efacc0dc72274f0c9dc4
+  MapxusMapSDK: b758f357292bbeead3bd822569de24aabc978c14
   MapxusRenderSDK: 9afa40a07888b84ffe8ccb03b53958fb9e670def
   YYModel: 035c452ebe1aca91282aa570739c55f3d5e1b16e
 
 PODFILE CHECKSUM: 074f6c74c5d8644efb5643f6c05dca67b76cca4d
 
-COCOAPODS: 1.15.0
+COCOAPODS: 1.15.2

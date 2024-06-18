@@ -1,7 +1,7 @@
 # CHANGELOG
 
-## v6.8.0 (2024-05-27)
+## v6.9.0 (2024-06-18)
 
-### 🚀 Optimization
+### 📝 Changes
 
-* Optimized the power consumption during the process of calculating adsorption points using `MXMRouteAdsorber`.
+* Synchronous version.
