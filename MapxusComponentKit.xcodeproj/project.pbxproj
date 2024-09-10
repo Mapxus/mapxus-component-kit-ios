@@ -85,6 +85,7 @@
 /* Begin PBXFileReference section */
 		0185DBC7C738203EC4511EF3 /* Pods-MapxusComponentKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapxusComponentKit.release.xcconfig"; path = "Target Support Files/Pods-MapxusComponentKit/Pods-MapxusComponentKit.release.xcconfig"; sourceTree = "<group>"; };
 		70BB58C9BA9570E848B2F88D /* Pods_MapxusComponentKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MapxusComponentKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		892FE0652C8E9E9000C6EB66 /* stem.prod.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = stem.prod.xcconfig; sourceTree = "<group>"; };
 		89446B562BB69E4B005B0D17 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		896F2FB52BAA87BE00562534 /* MXMWaypointInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MXMWaypointInfo.h; sourceTree = "<group>"; };
 		896F2FB62BAA87BE00562534 /* MXMWaypointInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MXMWaypointInfo.m; sourceTree = "<group>"; };
@@ -319,6 +320,7 @@
 				89E134FA29E95E8300D954D1 /* kawasaki.prod.xcconfig */,
 				89E134FD29E95E8300D954D1 /* mapxus.prod.xcconfig */,
 				89E134FE29E95E8300D954D1 /* landsd.prod.xcconfig */,
+				892FE0652C8E9E9000C6EB66 /* stem.prod.xcconfig */,
 				89E134FF29E95E8300D954D1 /* mapxus.test.xcconfig */,
 				89E1350029E95E8300D954D1 /* landsd.test.xcconfig */,
 			);
