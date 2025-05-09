@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
 
 
-  version = '7.4.0'
+  version = '7.5.0'
 
   s.name         = 'MapxusComponentKit'
   s.version      = version
@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.license      = { :type => 'BSD 3-Clause', :file => 'LICENSE' }
   s.author       = { 'Mapxus' => 'developer@maphive.io' }
 
-  s.platform     = :ios, '9.0'
+  s.platform     = :ios, '13.0'
 
   s.source       = { :http => "https://nexus3.mapxus.com/repository/ios-sdk/#{version.to_s}/mapxus-component-kit-ios.zip", :flatten => true }
 
