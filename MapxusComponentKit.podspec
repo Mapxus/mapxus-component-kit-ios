@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
 
 
-  version = '7.5.0'
+  version = '8.0.0'
 
   s.name         = 'MapxusComponentKit'
   s.version      = version
