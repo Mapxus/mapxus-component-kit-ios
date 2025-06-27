@@ -19,7 +19,7 @@ let package = Package(
     .binaryTarget(
       name: "MapxusComponentKit",
       url: "https://nexus3.mapxus.com/repository/ios-sdk/\(version)/mapxus-component-kit-ios.zip",
-      checksum: "e4569740f100a4d575840f6b0a987cc6bed3b77e8ff26a2769077e3841dd7808"
+      checksum: "8c1bb76cad402f710424f99902ddf5bd341d2f446d3c2e618ecc679a9ce3e770"
     )
   ]
 )
